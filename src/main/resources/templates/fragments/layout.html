@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lagn="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:fragment="headerFragment">
+    <meta property="wb:webmaster" content="479bc2a909a4b778" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <title>TAEJIN international</title>
+
+<!--    &lt;!&ndash; facebook &ndash;&gt;-->
+<!--    <meta property="og:type" content="website" />-->
+<!--    <meta property="og:title" content="<tiles:insertAttribute name="og_title" ignore="true"/>" />-->
+<!--    <meta property="og:url" content="<tiles:insertAttribute name="og_url" ignore="true"/>" />-->
+<!--    <meta property="og:description" content="<tiles:insertAttribute name="og_desc" ignore="true"/>" />-->
+<!--    <meta property="og:image" content="<tiles:insertAttribute name="og_image" ignore="true"/>" />-->
+
+<!--    &lt;!&ndash; twitter &ndash;&gt;-->
+<!--    <meta name="twitter:card" content="summary">-->
+<!--    <meta name="twitter:title" content="<tiles:insertAttribute name="og_title" ignore="true"/>">-->
+<!--    <meta name="twitter:url" content="<tiles:insertAttribute name="og_url" ignore="true"/>">-->
+<!--    <meta name="twitter:image" content="<tiles:insertAttribute name="og_image" ignore="true"/>">-->
+<!--    <meta name="twitter:description" content="<tiles:insertAttribute name="og_desc" ignore="true"/>">-->
+
+    <!-- image url -->
+    <link rel="image_src" href="http://tjinternational.kr/images/app/common/img_logo_top.png" />
+
+    <link rel="shortcut icon" href="/images/app/favicon/favicon.png" />
+
+    <link rel="stylesheet" type="text/css" href="/css/app/default.css" />
+    <link rel="stylesheet" type="text/css" href="/lib/jquery-ui/css/base/jquery-ui-1.10.4.custom.css" />
+    <link rel="stylesheet" type="text/css" href="/lib/jquery-extra/css/jquery.selectbox.css" />
+    <link rel="stylesheet" type="text/css" href="/lib/woothemes-FlexSlider-2.6.0-0/flexslider.css" />
+
+    <script type="text/javascript" src="/lib/jquery/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="/lib/jquery-ui/js/jquery-ui-1.10.4.custom.js"></script>
+    <script type="text/javascript" src="/lib/jquery-extra/jquery.selectbox-0.2.js"></script>
+    <script type="text/javascript" src="/lib/jquery-extra/jcarousel.responsive.js"></script>
+    <script type="text/javascript" src="/lib/jquery-extra/jquery.jcarousel.min.js"></script>
+    <script type="text/javascript" src="/lib/jquery-extra/jquery.cycle2.min.js"></script>
+    <script type="text/javascript" src="/lib/jquery-extra/jquery.jcarousel-autoscroll.js"></script>
+    <script type="text/javascript" src="/lib/jquery-extra/jquery-migrate-1.3.0.js"></script>
+    <script type="text/javascript" src="/lib/moment/moment.js"></script>
+    <script type="text/javascript" src="/lib/moment/moment-with-locales.js"></script>
+    <script type="text/javascript" src="/lib/woothemes-FlexSlider-2.6.0-0/jquery.flexslider-min.js"></script>
+    <script type="text/javascript" src="/js/app/common/common.js"></script>
+    <script type="text/javascript" src="/js/app/common/iframeheight.js"></script>
+    <script type="text/javascript" src="/js/app/common/headerActiveUi.js"></script>
+    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=886262723&debug=true" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div id="skipArea">
+    <a href="#container">본문 바로가기</a>
+    <a href="#localMenuBox">상단메뉴 바로가기</a>
+</div>
+<div id="wrap">
+    <th:block th:replace="fragment/header :: headerFragment"></th:block>
+</div>
+</body>
+</html>

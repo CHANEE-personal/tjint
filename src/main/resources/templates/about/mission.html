@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout"
+      layout:decorator="layout/default_layout">
+<head th:replace="/fragments/layout.html :: headerFragment"/>
+</head>
+<body>
+<div th:replace="/fragments/header.html :: headerFragment"/>
+<section>
+    <div id="container" class="container about">
+        <div id="content" class="content">
+            <div class="page_location">
+                <strong class="blind">현재위치</strong>
+                <span class="home"><a href="#wrap">HOME</a></span> <span><a href="#wrap">ABOUT TJ</a></span> <span>미션 &amp; 비전</span>
+            </div><!-- //page_location -->
+            <div class="content_header">
+                <h1>미션 &amp; 비전</h1>
+            </div><!-- //content_header -->
+            <section>
+                <div class="missionBox">
+                    <dl class="history_detail blind">
+                        <dt>MISSION</dt>
+                        <dd>우리는 전통과 혁신이 어우러진 창조의 아름다움과 문화적 풍요로움을 제공하여 더 나은 세상을 만든다.</dd>
+                        <dt>VISSION</dt>
+                        <dd>혁신적인 글로컬 라이프스타일 기업연합</dd>
+                        <dd>Innovative Glocal Lifestyle Alliance Group</dd>
+                        <dt>CORE VALUE</dt>
+                        <dd>고객지향, 대내외 협력, 창조적혁신, 열정 및 주인의식</dd>
+                    </dl>
+                </div>
+            </section>
+        </div><!-- //content -->
+    </div>
+</section>
+<div th:replace="/fragments/footer.html :: footerFragment"/>
+</body>
+</html>

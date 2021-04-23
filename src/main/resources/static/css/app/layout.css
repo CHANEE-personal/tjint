@@ -1,0 +1,125 @@
+@charset "utf-8";
+
+/*****************************************************************
+e-Rize
+Author : 박기한(Park Gihan)
+Publisher : e-Rise
+*****************************************************************/
+
+/* layout */
+#wrap {position:relative;}
+
+/* header */
+#header {position:fixed; left:50%; top:0; z-index:2; margin-left:-600px; background:#fff;}
+#header.fixed {}
+#header.fixed .header_family,
+#header.fixed .header_inner > h1 {display:none;}
+#header.fixed .dimmed {top:50px;}
+
+.header_inner {width:1200px; margin:0 auto; background:#fff;}
+.header_inner:after {display:block; clear:both; content:'';}
+.header_inner > h1 {margin:28px 0 31px; text-align:center;}
+
+/* localMenu */
+.localMenuBox {position:relative; background:#323232; font-family:'맑은고딕', 'Malgun Gothic', AppleGothic; margin: 0; padding: 0;}
+.localMenuBox .blind {position:absolute; left:-999em;}
+.localMenuBox .localMenu:after {display:block; clear:both; content:''; margin: 0; padding: 0;}
+.localMenuBox .localMenu > li {display:inline; margin: 0; padding: 0;}
+.localMenuBox .localMenu > li > a {display:inline-block; height:50px; padding:0; text-indent:-9999px; margin: 0; padding: 0;}
+
+.localMenuBox .localMenu > li.gnbm01 > a {background:url(/images/app/new_2017/menu/gnb_on_01.png) no-repeat; width: 280px; height: 50px;  margin: 0; padding: 0;}
+.localMenuBox .localMenu > li.gnbm02 > a {background:url(/images/app/new_2017/menu/gnb_on_02.png) no-repeat; width: 280px; height: 50px;  margin: 0; padding: 0;}
+.localMenuBox .localMenu > li.gnbm03 > a {background:url(/images/app/new_2017/menu/gnb_on_03.png) no-repeat; width: 280px; height: 50px;  margin: 0; padding: 0;}
+.localMenuBox .localMenu > li.gnbm04 > a {background:url(/images/app/new_2017/menu/gnb_on_04.png) no-repeat; width: 280px; height: 50px;  margin: 0; padding: 0;}
+
+.localMenuBox .localMenu > li:hover.gnbm01 > a {background:url(/images/app/new_2017/menu/gnb_off_01.png) no-repeat; width: 280px; height: 50px;  margin: 0; padding: 0;} 
+.localMenuBox .localMenu > li:hover.gnbm02 > a {background:url(/images/app/new_2017/menu/gnb_off_02.png) no-repeat; width: 280px; height: 50px;  margin: 0; padding: 0;} 
+.localMenuBox .localMenu > li:hover.gnbm03 > a {background:url(/images/app/new_2017/menu/gnb_off_03.png) no-repeat; width: 280px; height: 50px;  margin: 0; padding: 0;} 
+.localMenuBox .localMenu > li:hover.gnbm04 > a {background:url(/images/app/new_2017/menu/gnb_off_04.png) no-repeat; width: 280px; height: 50px;  margin: 0; padding: 0;} 
+
+.localMenuBox .localMenu .localMenuSub {display:none; position:absolute; top:50px; z-index:999; height:40px;}
+.localMenuBox .localMenu .localMenuSub li {float:left; padding:0 16px;}
+.localMenuBox .localMenu .localMenuSub li:first-child {}
+.localMenuBox .localMenu .localMenuSub li > a {display:block; color:#fff; font-size:12px; line-height:40px; text-align:center;}
+.localMenuBox .localMenu .localMenuSub li:hover > a,
+.localMenuBox .localMenu .localMenuSub li.on > a {color:#b09a79;}
+
+/* 2depth 위치 */
+.localMenuBox .localMenu .localMenuSub.gnbs01 {left:0px;}
+.localMenuBox .localMenu .localMenuSub.gnbs02 {left:330px;}
+.localMenuBox .localMenu .localMenuSub.gnbs03 {left:550px;}
+.localMenuBox .localMenu .localMenuSub.gnbs04 {left:730px;}
+
+.localMenuBox .localMenu > li.on .localMenuSub {display:block;}
+
+/* dimmed */
+.dimmed {display:none; position:absolute; left:50%; top:139px; z-index:998; width:1200px; min-width:1042px; height:40px; margin-left:-600px; background:#272727; transition: all .3s; -webkit-transition: all .3s;}
+.dimmed.on {display:block;}
+
+/* container */
+.container {position:relative; min-width:1200px; margin:146px 0 0 0; padding:172px 0 60px 0;}
+.container.fixed {margin-top:0px;}
+.container.main {padding-top:0; background:#fff;}
+.container.about {background:url(/images/app/new_2017/sub_header/sub_visual_1ABOUTTJ.png) no-repeat 50% 0;}
+.container.biz {background:url(/images/app/new_2017/sub_header/sub_visual_2BUSINESS-PORTFOLIO.png) no-repeat 50% 0;}
+.container.news {background:url(/images/app/new_2017/sub_header/sub_visual_3RECENT-NEWS.png) no-repeat 50% 0;}
+.container.rec {background:url(/images/app/new_2017/sub_header/sub_visual_3RECRUIT.png) no-repeat 50% 0;}
+.container.part {background:url(/images/app/new_2017/sub_header/sub_visual_4_PARTNERSHIP&CONTACT.png) no-repeat 50% 0;}
+
+.container.brand {background:url(/images/app/brand/img_top_visual.jpg) no-repeat 50% 0;}
+.container.ir {background:url(/images/app/ir/img_top_visual.jpg) no-repeat 50% 0;}
+.container.pr {background:url(/images/app/pr/img_top_visual.jpg) no-repeat 50% 0;}
+.container.recruit {background:url(/images/app/recruit/img_top_visual.jpg) no-repeat 50% 0;}
+.container.error {margin-top:0;}
+
+.content {position:relative; width:912px; min-height:500px; margin:0 auto; padding:62px 39px; background:#fff;}
+
+/* page_location */
+.page_location {position:absolute; left:39px; top:44px; color:#666; font-size:14px;}
+.page_location .blind {position:absolute; left:-9999em;}
+.page_location span {display:inline-block; position:relative; padding:0 4px 0 12px;}
+.page_location span.home {padding-right:4px; padding-left:19px;}
+.page_location span:before {display:block; position:absolute; left:0; top:50%; width:5px; height:9px; margin-top:-5px; background:url(/images/app/common/sp_common_bullet.png) no-repeat -245px 0; content:'';}
+.page_location span.home:before {width:12px; height:11px; background-position:0 -175px;}
+.page_location span a {cursor:default;}
+
+/* footer */
+#footer {position:relative; background:#fff;}
+.footer_inner {position:relative; width:1200px; margin:0 auto; padding:50px 0 100px; border-top:1px solid #7f7f7f;}
+.footer_inner:after {display:block; clear:both; content:'';}
+.footer_inner .copyright {float:left; color:#000; font-size:10px; line-height:23px;}
+.footer_inner .copyright em {color:#333;}
+.footer_inner .selectBox {float:right;}
+
+/* Admin Layout */
+#wrap_admin {position:relative; min-width:1100px; background:#fafafa url(/images/app/admin/img_top_visual.jpg) no-repeat 50% 0;}
+
+#header_admin {width:1110px; margin:0 auto;}
+#header_admin h1 {padding:16px 0;}
+.header_inner_admin {width:1110px; margin:0 auto; padding:30px 0 0 0; background:#fff;}
+
+.localMenuBoxAdmin {position:relative; width:1070px; height:45px; margin:0 auto; background:#a7a9ac;}
+.localMenuBoxAdmin .blind {position:absolute; left:-9999em;}
+.localMenuBoxAdmin .localMenu{}
+.localMenuBoxAdmin .localMenu:after {display:block; clear:both; content:'';}
+.localMenuBoxAdmin .localMenu > li {float:left;}
+.localMenuBoxAdmin .localMenu > li > a {display:block; min-width:186px; height:45px; background:#a7a9ac; color:#fff; font-size:16px; font-weight:bold; line-height:45px; text-align:center;}
+.localMenuBoxAdmin .localMenu > li:hover > a,
+.localMenuBoxAdmin .localMenu > li.on > a {background:#927f63;}
+
+.localMenuBoxAdmin .localMenu .localMenuSubAdmin {display:none; position:absolute; top:45px; z-index:2; min-width:186px; border-top:1px solid #fff; background:#e8e8e8;}
+.localMenuBoxAdmin .localMenu .localMenuSubAdmin li > a {display:block; color:#333; font-size:16px; font-weight:bold; line-height:42px; text-align:center;}
+.localMenuBoxAdmin .localMenu .localMenuSubAdmin li:hover > a,
+.localMenuBoxAdmin .localMenu .localMenuSubAdmin li.on > a {text-decoration:underline;}
+
+.localMenuBoxAdmin .localMenu > li:hover .localMenuSubAdmin {display:block;}
+
+.localMenuBoxAdmin .btn_area {position:absolute; right:10px; top:8px; margin:0;}
+
+.container_admin {position:relative; min-width:1110px; margin:0 0 50px 0;}
+.content_admin {position:relative; width:1030px; min-height:500px; margin:0 auto; padding:47px 40px 50px 40px; background:#fff;}
+
+#footer_admin {position:relative; background:#fff;}
+.footer_inner_admin {position:relative; width:1110px; margin:0 auto; padding:80px 0; text-align:center;}
+.footer_inner_admin .copyright {color:#999; font-size:11px; line-height:23px;}
+.footer_inner_admin .copyright em {color:#333;}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<footer th:fragment="footerFragment">
+    <div id="footer">
+        <div class="footer_inner">
+            <p class="copyright">COPYRIGHT&copy; <span id="footer_year_span"></span>. <em>TAEJIN INT.</em> ALL RIGHTS RESERVED.</p>
+            <div class="selectBox type01">
+                <select onchange="window.open(value, '_blank');" name="familyType" id="familyType" title="관련사이트 선택란">
+                    <option disabled selected>FAMILY SITE</option>
+                    <option value="http://www.louisquatorze.com">LOUIS QUATORZE</option>
+                    <option value="http://www.louisclub.com/lcIndex.do">LOUIS CLUB</option>
+                    <option value="http://www.platform-l.org">PLATFORM-L</option>
+                    <option value="http://www.travelmate.co.kr/">TRAVEL MATE</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    $('#footer_year_span').html(moment().local().format('YYYY'));
+</script>
+</html>

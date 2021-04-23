@@ -1,0 +1,223 @@
+mainBanBox@charset "utf-8";
+
+/*****************************************************************
+e-Rize
+Author : 박기한(Park Gihan)
+Publisher : e-Rise
+*****************************************************************/
+
+/* main */
+.mainVisualBox {width:1200px; min-height:385px; margin:0 auto; background:url(/images/app/main/img_main_visual.jpg) no-repeat 0 0;}
+.mainVisualBox .titBox {position:relative; text-align:left;}
+.mainVisualBox .titBox .tit {position:relative; z-index:1; padding:97px 0 0 194px;}
+.mainVisualBox .titBox .tit_txt {position:relative; z-index:1; padding:6px 0 0 194px; color:#000; font-size:16px; line-height:34px; letter-spacing:-0.100em;}
+
+/* 2017 add */
+.mainVisualBox_2017 {width:1200px; min-height:385px; margin:0 auto;}
+.mainVisualBox_2017 .rollingbanner {position:relative; width:100%; background-color:#fff;}
+.mainVisualBox_2017 .rollingbanner .jcarousel {overflow:hidden; position:relative; }
+.mainVisualBox_2017 .rollingbanner .jcarousel ul {position:relative; list-style:none; width:20000em;margin: 0;padding: 0;}
+.mainVisualBox_2017 .rollingbanner .jcarousel li {float:left;width: 1200px !important;}
+
+.mainVisualBox_2017 .rollingbanner .jcarousel-pagination {position:absolute; left:50%; top:350px; z-index:2; margin:0; -webkit-transform:translate(-50%, 0); -ms-transform:translate(-50%, 0); transform:translate(-50%, 0);}
+.mainVisualBox_2017 .rollingbanner .jcarousel-pagination a {display:inline-block; width:10px; height:10px; margin:0 7px 0 0; border-radius:10px; background:#fff; color:#000; font-size:11px; line-height:11px; text-indent:-999em; text-decoration:none; -webkit-box-shadow:0 0 2px #000; -moz-box-shadow:0 0 2px #000; box-shadow:0 0 2px #000;}
+.mainVisualBox_2017 .rollingbanner .jcarousel-pagination a.active {background:#000; color:#fff; -webkit-box-shadow: 0 0 2px #F0EFE7; -moz-box-shadow: 0 0 2px #F0EFE7; box-shadow: 0 0 2px #F0EFE7; opacity:1;}
+
+
+.mainBanBox {overflow:hidden; width:1200px; margin:10px auto 0;}
+.mainBanBox .bannerBox {float:left; width:399px; margin:0 0 0 1px;}
+.mainBanBox .bannerBox:first-child {margin-left:0;}
+.mainBanBox .bannerBox > a {display:block;}
+.mainBanBox .bannerBox p {margin:4px 0 0 0; padding:0 20px 0 0; color:#000; word-wrap:break-word;}
+
+//.mainBanBox .bannerBox.first a:before {display:block; width:399px; height:200px;  content:'';}
+//.mainBanBox .bannerBox.first h2{height:11px; margin:10px 0 0; background:url(/images/app/main/h_introduction.gif) no-repeat;}
+
+//.mainBanBox .bannerBox.mid a:before {display:block; width:399px; height:200px;  content:'';}
+//.mainBanBox .bannerBox.mid h2{height:11px; margin:10px 0 0; background:url(/images/app/main/h_brand.gif) no-repeat;}
+
+//.mainBanBox .bannerBox.last a:before {display:block; width:400px; height:200px;  content:'';}
+//.mainBanBox .bannerBox.last h2{height:11px; margin:10px 0 0; background:url(/images/app/main/h_news.gif) no-repeat;}
+
+.mainBanBox .rollingbanner {position:relative; width:399px; background-color:#fff;}
+.mainBanBox .rollingbanner .tit {position:absolute; left:0; top:210px; z-index:1; width:100%; height:11px; background:url(/images/app/main/h_brand.gif) no-repeat;}
+.mainBanBox .rollingbanner .jcarousel {overflow:hidden; position:relative; width:100%;}
+.mainBanBox .rollingbanner .jcarousel ul {overflow:hidden; position:relative; width:20000em;}
+.mainBanBox .rollingbanner .jcarousel li {float:left; width:399px;}
+.mainBanBox .rollingbanner .jcarousel li .txt {margin-top:24px;}
+.mainBanBox .rollingbanner .jcarousel-pagination {position:absolute; left:50%; top:170px; z-index:2; margin:0; -webkit-transform:translate(-50%, 0); -ms-transform:translate(-50%, 0); transform:translate(-50%, 0);}
+.mainBanBox .rollingbanner .jcarousel-pagination a {display:inline-block; width:10px; height:10px; margin:0 7px 0 0; border-radius:10px; background:#fff; color:#000; font-size:11px; line-height:11px; text-indent:-999em; text-decoration:none; -webkit-box-shadow:0 0 2px #000; -moz-box-shadow:0 0 2px #000; box-shadow:0 0 2px #000;}
+.mainBanBox .rollingbanner .jcarousel-pagination a.active {background:#000; color:#fff; -webkit-box-shadow: 0 0 2px #F0EFE7; -moz-box-shadow: 0 0 2px #F0EFE7; box-shadow: 0 0 2px #F0EFE7; opacity:1;}
+
+.cycle-slideshow { z-index: 0;}
+/* pager */
+.cycle-pager { 
+    text-align: center; width: 100%; z-index: 500; position: absolute; bottom: 10px; overflow: hidden;
+}
+.cycle-pager span { 
+    font-family: arial; font-size: 50px; width: 16px; height: 16px; 
+    display: inline-block; color: #fff; cursor: pointer; 
+}
+.cycle-pager span.cycle-pager-active { color: #333;}
+.cycle-pager > * { cursor: pointer;}
+
+/* about */
+.overviewBox {min-height:380px; margin:25px 0 0 0; background:url(/images/app/about/bg_overview.jpg) no-repeat;}
+.overviewBox .overviewList {width:544px; margin:0 0 0 368px; border-bottom:1px solid #dedcdb;}
+.overviewBox .overviewList li {border-top:1px solid #dedcdb;}
+.overviewBox .overviewList li:first-child {border-top:2px solid #dedcdb;}
+.overviewBox .overviewList dl {overflow:hidden; position:relative;}
+.overviewBox .overviewList dt.tit_outer {position:absolute; left:0; top:0; z-index:1; width:180px; height:100%;}
+.overviewBox .overviewList dt.tit_outer .tit_inner {display:table; width:100%; height:100%; background:#f5f5f5;}
+.overviewBox .overviewList dt.tit_outer .tit_inner .tit {display:table-cell; text-align:left; vertical-align:middle; color:#333; font-size:15px; font-weight:bold; line-height:20px; text-indent:35px;}
+.overviewBox .overviewList dd {padding:15px 0 15px 220px; color:#666; font-size:15px; line-height:20px;}
+
+.statusBox {}
+.statusBox .statusList {overflow:hidden;}
+.statusBox .statusList li {position:relative; min-height:91px; margin:50px 0 0 0; padding:0 0 0 320px;}
+.statusBox .statusList li:first-child {margin-top:26px;}
+.statusBox .statusList li:before {display:block; position:absolute; left:0; top:0; z-index:1; width:295px; height:91px; background:url(/images/app/about/bg_status_flag.jpg) no-repeat; content:'';}
+.statusBox .statusList li.li01:before {background-position:0 0;}
+.statusBox .statusList li.li02:before {background-position:0 -141px;}
+.statusBox .statusList li.li03:before {background-position:0 -281px;}
+.statusBox .statusList dt {padding:45px 0 0; color:#333; font-size:18px; font-weight:bold; line-height:24px;}
+.statusBox .statusList dd {color:#666; font-size:15px; line-height:24px;}
+
+.ceoBox {}
+//.ceoBox .ceo_sign {position:relative; top:50px; color:#333; font-size:15px; font-weight:bold; line-height:27px;}
+//.ceoBox .ceo_sign:after {display:block; position:absolute; left:175px; top:0; width:214px; height:50px; background:url(/images/app/about/bg_ceo_sign.jpg) no-repeat; content:'';}
+/* 2017 add */
+.ceoBox .paragraphBox .txt {font-size:13pt;}
+.ceoBox .ceo_sign {position:relative; top:50px; color:#333; font-size:18pt; font-weight:bold; line-height:27px;}
+.ceoBox .ceo_sign:after {display:block; position:absolute; left:175px; top:0; width:214px; height:50px;  content:'';}
+
+//.historyBox {min-height:888px; margin:35px 0 0 0; background:url(/images/app/about/bg_history_content.jpg) no-repeat;}
+/* 2017 add */
+.historyBox {min-height:1100px; margin:35px 0 0 0; background:url(/images/app/new_2017/about/bg_history_content.png) no-repeat;}
+.missionBox {min-height:804px; margin:35px 0 0 0; background:url(/images/app/new_2017/about/bg_mission_content.png) no-repeat;}
+
+
+.locationBox {}
+.locationBox .locationList {margin:20px 0 0;}
+.locationBox .locationList:after {display:block; clear:both; content:'';}
+.locationBox .locationList > li {float:left; width:50%;}
+.locationBox .locationList dl {overflow:hidden;}
+.locationBox .locationList dl > * {float:left;}
+.locationBox .locationList dt {clear:both; width:122px; color:#121212; font-size:18px; font-weight:bold;}
+.locationBox .locationList dd {color:#666; font-size:15px; line-height:24px;}
+.locationBox .locationList dd .blind {position:absolute; left:0;}
+.locationBox .locationList span[class*="busLabel"] {display:inline-block; width:24px; height:14px; margin:0 14px 0 0; background:url(/images/app/common/sp_common_bullet.png) no-repeat; text-indent:-9999em; vertical-align:middle;}
+.locationBox .locationList span.busLabel01 {background-position:-54px -151px;}
+.locationBox .locationList span.busLabel02 {background-position:-88px -151px;}
+.locationBox .locationList span.busLabel03 {background-position:-122px -151px;}
+.locationBox .locationList span.busLabel04 {background-position:-156px -151px;}
+.locationBox .locationList span.busLabel05 {background-position:-190px -151px;}
+
+.locationBox .locationList span[class*="subwayLabel"] {display:inline-block; width:17px; height:17px; margin:3px 5px 0 15px; background:url(/images/app/common/sp_common_bullet.png) no-repeat; text-indent:-9999em; vertical-align:top;}
+.locationBox .locationList span.subwayLabel01 {margin-left:0; background-position:0 -148px;}
+.locationBox .locationList span.subwayLabel02 {background-position:-27px -148px;}
+
+.mapBox {position:relative; height:319px; border:1px solid #e1e1e1;}
+.mapBox .htcbtnSm {position:absolute; right:10px; bottom:10px; z-index:1;}
+
+.ethicBox {width:690px;}
+.ethic_contact {overflow:hidden; margin:15px 0 0 0;}
+.ethic_contact > * {float:left; color:#666; font-size:15px;}
+.ethic_contact dt {clear:both;}
+.ethic_contact dd {margin:0 0 0 4px;}
+
+/* Brand */
+.brandBoxList {}
+.brandBoxList > li {border-top:1px dashed #cacaca;}
+.brandBoxList li:first-child {border-top:0 none;}
+
+.brandBox {position:relative;}
+.brandBox .brandBoxInner {padding:30px 0;}
+.brandBox .brandBoxInner:after {display:block; clear:both; content:'';}
+
+.brandBox .brandTxtBox {float:left;}
+//.brandBox .brandTxtBox .brandTxtBoxInner {overflow-x:hidden; overflow-y:auto; position:relative; width:430px; height:381px; max-height:381px;}
+.brandBox .brandTxtBox .brandTxtBoxInner {position:relative; width:430px; }
+
+/* 2017 add */
+/* 2019.03.22 - DB에서 불러오는 태그 데이터랑 중복이 되어서 주석 처리함 -   .brandBox .brandTxtBox .brandTxtBoxInner strong {font-size:16pt; color: #800000;} */
+.brandBox .brandTxtBox .brandTxtBoxInner p.description {font-size:14pt; font-weight:bold; color: #121212; margin-top: 15px;}
+.brandBox .brandTxtBox .brandTxtBoxInner p.comment {font-size:12pt; color: #666666; margin-top: 15px;}
+.brandBox .brandTxtBox .brandTxtBoxInner p.comment_sub {font-size:12pt; color: #666666; margin-top: 10px;}
+
+.brandBox .brandTxtBoxInner .tit_box h2 {font-size:24px;}
+.brandBox .brandImgBox {float:right; position:relative;}
+.brandBox .repImg {min-width:454px; max-width:454px; min-height:292px; max-height:292px;}
+.brandBox .thumbBox {overflow:hidden; position:relative; z-index:1; width:368px; margin:18px auto 0;}
+.brandBox .thumbBox ul {overflow:hidden; position:relative;}
+.brandBox .thumbBox li {float:left; width:112px; max-width:112px; height:72px; max-height:72px; margin:0 0 0 16px; background:url(/images/app/brand/img_brand_default.jpg) no-repeat;}
+.brandBox .thumbBox li:first-child {margin-left:0;}
+.brandBox .thumbBox li img {width:100%;}
+.brandBox .btnBox {overflow:hidden; position:absolute; left:0; top:309px; width:100%;}
+.brandBox .btnBox a {display:block; width:28px; height:72px; background:url(/images/app/common/sp_common_bullet.png) no-repeat;}
+.brandBox .btnBox a.prev {float:left; background-position:-277px 0;}
+.brandBox .btnBox a.next {float:right; background-position:-307px 0;}
+
+.brandBox .snsBox {float:right; max-width:454px;}
+.brandBox .snsBox .snsList li {width:30px; max-width:30px; height:30px; max-height:30px;}
+.brandBox .snsBox .snsList li img {width:100%;}
+
+.tabBox {position:relative; margin:23px 0 0 2px;}
+.tabBox .tabList {}
+.tabBox .tabList:after {display:block; clear:both; content:'';}
+.tabBox li {float:left; margin:1px;}
+.tabBox li a {display:block; overflow:hidden; width:180px; height:45px; background:#a7a9ac; color:#fff; font-size:15px; font-weight:bold; line-height:45px; text-align:center; text-transform:uppercase; text-overflow:ellipsis; -o-text-overflow:ellipsis; white-space:nowrap;}
+.tabBox li.on a,
+.tabBox li:hover a {background:#927f63;}
+/* pr */
+.socialBox {width:648px; height:187px; margin:45px auto 0; background:url(/images/app/pr/bg_social_list.jpg) no-repeat;}
+.socialBox .socialList {overflow:hidden;}
+.socialBox .socialList li {float:left; width:162px; height:187px; margin:0 0 0 81px; color:#fff; font-size:24px; line-height:187px; text-align:center;}
+.socialBox .socialList li:first-child {margin-left:0;}
+.socialBox .socialList li.type01 p {padding:67px 0 0 0; line-height:28px;}
+
+.socialBox.type01 {background-position:0 -187px;}
+
+/* recruit */
+.talent_box {min-height:823px; background:url(/images/app/recruit/bg_talent_list.jpg) no-repeat 0 100%;}
+
+.hrpolicy_box {margin:75px 0 0 0;}
+.hrpolicy_box .hr_list {margin:25px 0 0 0;}
+.hrpolicy_box .hr_list > li {position:relative; min-height:128px; margin:0 0 30px 0; padding:0 0 0 160px;}
+.hrpolicy_box .hr_list > li:before {display:block; position:absolute; left:0; top:0; width:128px; height:128px; background:url(/images/app/recruit/bg_hr_list_icon.jpg) no-repeat; content:'';}
+.hrpolicy_box .hr_list > li.li01:before {background-position:0 0;}
+.hrpolicy_box .hr_list > li.li02:before {background-position:0 -158px;}
+.hrpolicy_box .hr_list > li.li03:before {background-position:0 -316px;}
+.hrpolicy_box .hr_list .tit {padding:21px 0 5px 0; color:#333; font-size:24px; font-weight:bold;}
+
+/* admin */
+.loginLogo {padding:70px 0; text-align:center;}
+.loginBox {width:526px; height:526px; margin:0 auto; background:#fff; box-shadow:2px 3px 5px rgba(38,41,42,0.15);}
+.loginBox .tit_box {padding:70px 0 0 0; text-align:center;}
+.loginBox .tit_box:before {display:block; width:127px; height:127px; margin:0 auto 20px; background:url(/images/app/admin/bg_login.gif) no-repeat; content:'';}
+.loginBox .tit_box h2 {color:#333; font-size:32px; font-weight:normal; letter-spacing:0;}
+.loginBox .tit_box .tit_txt {margin:0 0 0 0; color:#666; font-size:16px; line-height:20px; letter-spacing:0px;}
+.loginBox .form_box {width:362px; margin:20px auto 0;}
+.loginBox .form_table > li {border-top:0 none;}
+.loginBox .form_table .inner {padding-left:0;}
+.loginBox .form_box .btn_area {margin-top:5px;}
+.loginBox .form_box .btn_area .htcbtnxLg {width:362px;}
+.loginBox .certification {position:relative; margin:25px 0 0; text-align:center;}
+.loginBox .certification p {color:#999; font-size:12px;}
+.loginBox .certification p:before {display:inline-block; position:relative; right:4px; top:2px; width:14px; height:14px; background:url(/images/app/common/sp_common_bullet.png) no-repeat -108px -175px; content:'';}
+
+/* error */
+.error_content {text-align:center;}
+.error_content .tit {color:#555; font-size:22px; line-height:30px; letter-spacing:-1px;}
+.error_content .tit:before {display:block; width:121px; height:110px; margin:0 auto 50px; background:url(/images/app/error/bg_error_icon.png) no-repeat; content:'';}
+.error_content .discBox {position:relative; width:440px; margin:30px auto; padding:8px 0; border:1px solid #e3e3e3; background:#fff; color:#008fbc; font-size:14px; line-height:18px; text-align:center;}
+.error_content .btn_area:before {display:block; width:790px; height:1px; margin:50px auto; background:#ddd; content:'';}
+
+/* partner box */
+.partnerBox .brandTxtBox {float:left; margin-bottom: 20px;}
+.partnerBox .brandTxtBox .brandTxtBoxInner {position:relative; width:458px; }
+.partnerBox .partnerImgBox {float:right; position:relative;}
+
+/* comment */
+.msgBox { margin-top: 10px !important; margin-bottom: 5px !important;}
+.msgBox .commenRed { color: red; }
