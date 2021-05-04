@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout"
+      layout:decorator="layout/default_layout">
+<head th:replace="/fragments/layout.html :: headerFragment"/>
+</head>
+<body>
+<div th:replace="/fragments/header.html :: headerFragment"/>
+<section>
+    <div id="container" class="container about">
+        <div id="content" class="content">
+            <div class="page_location">
+                <strong class="blind">현재위치</strong>
+                <span class="home"><a href="#wrap">HOME</a></span> <span><a href="#wrap">ABOUT TJ</a></span> <span>TJ 히스토리</span>
+            </div><!-- //page_location -->
+            <div class="content_header">
+                <h1>TJ 히스토리</h1>
+            </div><!-- //content_header -->
+            <section>
+                <div class="historyBox">
+                    <ul class="historyList blind">
+                        <li>
+                            <h3 class="tit">2014-</h3>
+                            <p class="tit_txt">제2의 도약</p>
+                            <!-- 제2의 도약-->
+                            <dl class="history_detail">
+                                <dt>2017</dt>
+                                <dd>TREVEL MATE 투자 및 관계사 편입</dd>
+                                <dt>2016</dt>
+                                <dd>Platform-L 개관 및 태진문화재단 설립 ROSE&CO 신규법인 JOINT VENTURE 형태 설립</dd>
+                                <dt>2015</dt>
+                                <dd>LX Investment 설립</dd>
+                                <dt>2014</dt>
+                                <dd>Louis Club 남성편집샵 런칭</dd>
+                            </dl>
+                        </li>
+                        <li>
+                            <h3 class="tit">2005-2013</h3>
+                            <p class="tit_txt">브랜드 이수 후 고성장 및 순차적 해외시장 진입</p>
+                            <dl class="history_detail">
+                                <dt>2012</dt>
+                                <dd>(중국법인) 상해상무유한공사 설립</dd>
+                                <dt>2009</dt>
+                                <dd>(프랑스법인) Creation 14설립 파리컬렉션 출시 및 플래그쉽 매장 오픈</dd>
+                                <dt>2008</dt>
+                                <dd>(수입유통) 美 KATE SPADE </dd>
+                                <dt>2007</dt>
+                                <dd>(홍콩법인) TJ International Asia LTD 설립</dd>
+                                <dt>2005</dt>
+                                <dd>(브랜드 인수) CDV사 지분 100% 취득 (투자유치) HK 사모펀드 GEMS 투자유치</dd>
+                            </dl>
+                        </li>
+                        <li>
+                            <h3 class="tit">1989-2004</h3>
+                            <p class="tit_txt">LOUIS QUATORZE 국내도입</p>
+                            <dl class="history_detail">
+                                <dt>2004</dt>
+                                <dd>DANIEL PICHON 플라워 사업 전개</dd>
+                                <dt>2003</dt>
+                                <dd>라이선스 사업전개 (스카프 등)</dd>
+                                <dt>2002</dt>
+                                <dd>서울 청담 프래그쉽 매장 오픈</dd>
+                                <dt>1990</dt>
+                                <dd>서울 압구정동 플래그쉽 매장 오픈</dd>
+                                <dt>1989</dt>
+                                <dd>株式會社 太進인터내쇼날 설립</dd>
+                            </dl>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+        </div><!-- //content -->
+    </div>
+</section>
+<div th:replace="/fragments/footer.html :: footerFragment"/>
+</body>
+</html>

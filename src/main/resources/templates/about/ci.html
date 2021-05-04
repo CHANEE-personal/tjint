@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net/nz/thymeleaf/layout"
+      layout:decorator="layout/default_layout">
+<head th:replace="/fragments/layout.html :: headerFragment"/>
+</head>
+<body>
+<div th:replace="/fragments/header.html :: headerFragment"/>
+<section>
+    <div id="container" class="container about">
+        <div id="content" class="content">
+            <div class="page_location">
+                <strong class="blind">현재위치</strong>
+                <span class="home"><a href="#wrap">HOME</a></span> <span><a href="#wrap">ABOUT TJ</a></span> <span>CI</span>
+            </div><!-- //page_location -->
+            <div class="content_header">
+                <h1>TJ CORPORATE IDENTITY</h1>
+            </div><!-- //content_header -->
+            <section>
+                <div class="ciBox">
+                    <img src="/images/app/new_2017/about/ci_contenti.png">
+                </div>
+            </section>
+        </div><!-- //content -->
+    </div>
+</section>
+<div th:replace="/fragments/footer.html :: footerFragment"/>
+</body>
+</html>
