@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="headerFragment">
+    <div id="header_admin">
+        <h1><img src="/images/app/admin/img_logo_top.png" alt="TAEJIN international"></h1>
+        <!-- header_inner -->
+        <div class="header_inner_admin">
+            <div id="localMenuBoxAdmin" class="localMenuBoxAdmin"><!-- localMenuBox -->
+                <h2 class="blind">메인메뉴</h2>
+                <ul id="localMenu" class="localMenu">
+                    <li><a href="/business/brandList.do">BUSINESS 관리</a>
+                        <div class="localMenuSubAdmin gnbs01">
+                            <h3 class="blind">BUSINESS 메뉴 목록</h3>
+                            <ul>
+                                <li><a href="/business/brandList.do" class="depth2">브랜드 관리</a></li>
+                                <li><a href="/business/categoryList.do">분야 관리</a></li>
+                                <li><a href="/business/snsList.do">SNS 관리</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <!-- <li><a href="/ir/noticeMgmtList.do">공지사항 관리</a></li> -->
+                    <li><a href="/news/newsMgmtList.do">NEWS 관리</a></li>
+                    <li><a href="/recruit/recruitMgmtList.do">채용공고 관리</a></li>
+                </ul>
+                <div class="btn_area"><a href="/admin/logout.do" class="htcbtnSm type_log"><span>로그아웃</span></a></div>
+            </div>
+        </div>
+        <!-- //header_inner -->
+    </div>
+</header>
+</html>

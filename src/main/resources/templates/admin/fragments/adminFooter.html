@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<footer th:fragment="footerFragment">
+    <div id="footer_admin">
+        <div class="footer_inner_admin">
+            <p class="copyright">COPYRIGHT&copy; <span id="adminFooter_year_span"></span>. <em>TAEJIN INT.</em> ALL RIGHTS RESERVED.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    $('#adminFooter_year_span').html(moment().local().format('YYYY'));
+</script>
+</html>

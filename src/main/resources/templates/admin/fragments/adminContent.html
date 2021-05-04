@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<section th:fragment="contentFragment">
+    <div id="container_admin" class="container_admin">
+        <section><!-- 로그인 -->
+            <h1 class="loginLogo">
+                <a href="#wrap">
+                    <img src="/images/app/admin/img_logo_login.png" alt="TAEJIN international">
+                </a>
+            </h1>
+            <div class="loginBox">
+                <div class="tit_box">
+                    <h2>ADMINISTRATOR</h2>
+                    <p class="tit_txt">태진인터내셔날 관리자 페이지입니다.</p>
+                </div><!-- //tit_box -->
+                <div class="form_box">
+                    <h3 class="blind">로그인 정보 입력</h3>
+                    <ul class="form_table type03">
+                        <li>
+                            <p class="tit blind"><label for="userId">아이디</label></p>
+                            <div class="inner"><input type="text" name="userId" id="userId" class="input360" placeholder="아이디를 입력하세요"></div>
+                        </li>
+                        <li>
+                            <p class="tit blind"><label for="userPass">비밀번호</label></p>
+                            <div class="inner"><input type="password" name="userPass" id="userPass" class="input360" placeholder="비밀번호를 입력하세요" onkeypress="fn_pw_enter(event);"></div>
+                        </li>
+                    </ul>
+                    <div class="btn_area">
+                        <button type="submit" class="htcbtnxLg" onclick="fn_admin_login();"><span>로그인</span></button>
+                    </div>
+                </div><!-- //form_box -->
+                <div class="certification">
+                    <p>로그인이 되지 않거나, 아이디와 비밀번호를 잊어버리셨을 경우에는 관리자에게 문의하세요.</p>
+                </div>
+            </div><!-- //login_area -->
+        </section>
+    </div>
+</section>
+</html>
