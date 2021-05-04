@@ -11,5 +11,4 @@ public interface AdminLoginService {
 
     UserInfoVo selectAdminSeq(final UserInfoVo p0) throws Exception;
 
-    String selectJudgeType(final UserInfoVo p0) throws Exception;
 }

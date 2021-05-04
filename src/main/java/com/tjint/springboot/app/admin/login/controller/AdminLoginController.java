@@ -1,6 +1,6 @@
 package com.tjint.springboot.app.admin.login.controller;
 
-import com.tjint.springboot.app.admin.login.service.*;
+import com.tjint.springboot.app.admin.login.service.AdminLoginService;
 import com.tjint.springboot.common.UserInfoVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

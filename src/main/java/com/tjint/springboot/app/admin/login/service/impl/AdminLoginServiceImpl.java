@@ -4,7 +4,7 @@ import com.tjint.springboot.common.UserInfoVo;
 import com.tjint.springboot.common.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import com.tjint.springboot.app.admin.login.service.*;
+import com.tjint.springboot.app.admin.login.service.AdminLoginService;
 import javax.servlet.http.HttpServletRequest;
 
 @Service("AdminLoginService")
@@ -31,7 +31,4 @@ public class AdminLoginServiceImpl implements AdminLoginService{
         return this.adminDAO.selectAdminSeq(searchVO);
     }
 
-    public String selectJudgeType(final UserInfoVo searchVO) throws Exception {
-        return this.adminDAO.selectJudgeType(searchVO);
-    }
 }

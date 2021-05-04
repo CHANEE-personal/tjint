@@ -1,0 +1,13 @@
+package com.tjint.springboot.app.api.admin.service.impl;
+
+import com.tjint.springboot.common.UserInfoVo;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+@Mapper
+public interface AdminLoginApiMapper {
+    List<UserInfoVo> getUserList() throws Exception;
+}
