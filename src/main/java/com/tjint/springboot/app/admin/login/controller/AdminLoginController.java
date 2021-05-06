@@ -33,7 +33,7 @@ public class AdminLoginController {
         response.getWriter().print(resultValue);
     }
 
-    @GetMapping({ "/admin/logout" })
+    @GetMapping(value = "/admin/logout")
     public String adminLogOut(final HttpServletRequest request) throws Exception {
         request.getSession().invalidate();
         return "redirect:/admin/login";
