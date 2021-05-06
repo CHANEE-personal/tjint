@@ -29,6 +29,8 @@ public class AdminLoginController {
 
     @PostMapping(value = "/admin/login/adminLogin")
     public void adminLogin(@ModelAttribute("searchVO") final UserInfoVo searchVO, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        System.out.println("===userId===");
+        System.out.println(searchVO.getUserId());
         final String resultValue = adminLoginService.adminLogin(searchVO, request);
         response.getWriter().print(resultValue);
     }
