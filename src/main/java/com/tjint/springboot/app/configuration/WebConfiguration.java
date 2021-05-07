@@ -16,7 +16,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.sql.DataSource;
 
 @Configuration
-@MapperScan(value={"com.tjint.springboot.mapper"})
 public class WebConfiguration implements WebMvcConfigurer {
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS =
             {"classpath:/static/", "classpath:/public/", "classpath:/", "classpath:/resources/", "classpath:/META-INF/resources/"

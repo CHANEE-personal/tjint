@@ -5,20 +5,19 @@ import com.tjint.springboot.common.UserInfoVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/admin")
 public class AdminLoginController {
 
     private final AdminLoginService adminLoginService;
 
-    @GetMapping(value="/admin/login")
+    @GetMapping(value="/login")
     public String adminLoginForm(final Model model, final HttpServletRequest request) {
         final UserInfoVo loginVO = (UserInfoVo)request.getSession().getAttribute("adminVO");
         if (loginVO != null) {
@@ -27,15 +26,13 @@ public class AdminLoginController {
         return "admin/login/adminLogin";
     }
 
-    @PostMapping(value = "/admin/login/adminLogin")
-    public void adminLogin(@ModelAttribute("searchVO") final UserInfoVo searchVO, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-        System.out.println("===userId===");
-        System.out.println(searchVO.getUserId());
-        final String resultValue = adminLoginService.adminLogin(searchVO, request);
+    @PostMapping(value = "/login/adminLogin")
+    public void adminLogin(final UserInfoVo userInfoVo, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        final String resultValue = adminLoginService.adminLogin(userInfoVo, request);
         response.getWriter().print(resultValue);
     }
 
-    @GetMapping(value = "/admin/logout")
+    @GetMapping(value = "/logout")
     public String adminLogOut(final HttpServletRequest request) throws Exception {
         request.getSession().invalidate();
         return "redirect:/admin/login";
