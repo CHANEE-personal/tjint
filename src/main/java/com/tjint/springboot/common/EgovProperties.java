@@ -1,13 +1,12 @@
 package com.tjint.springboot.common;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
+import com.tjint.springboot.egovframework.com.common.EgovWebUtil;
+import com.tjint.springboot.egovframework.com.common.util.EgovResourceCloseHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.util.*;
 
 
 public class EgovProperties {
@@ -66,7 +65,6 @@ public class EgovProperties {
         finally {
             EgovResourceCloseHelper.close(new Closeable[] { fis });
         }
-        return value;
     }
 
     public static String getPathProperty(final String fileName, final String key) {

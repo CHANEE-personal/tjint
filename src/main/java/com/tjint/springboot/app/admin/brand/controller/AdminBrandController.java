@@ -1,6 +1,7 @@
 package com.tjint.springboot.app.admin.brand.controller;
 
 import com.tjint.springboot.app.admin.brand.service.AdminBrandService;
+import com.tjint.springboot.app.admin.brand.service.SnsInfoVo;
 import com.tjint.springboot.common.BrandInfoVo;
 import com.tjint.springboot.common.CodeVo;
 import com.tjint.springboot.common.EgovProperties;
