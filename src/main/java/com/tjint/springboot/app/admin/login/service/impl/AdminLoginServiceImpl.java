@@ -13,22 +13,22 @@ public class AdminLoginServiceImpl implements AdminLoginService{
 
     private final AdminLoginMapper adminDAO;
 
-    public String adminLogin(final UserInfoVo searchVO, final HttpServletRequest request) throws Exception {
-        final String db_pw = StringUtils.nullStrToStr(this.adminDAO.adminLogin(searchVO));
+    public String adminLogin(final UserInfoVo userInfoVo, final HttpServletRequest request) throws Exception {
+        final String db_pw = StringUtils.nullStrToStr(this.adminDAO.adminLogin(userInfoVo));
         String result = "";
-        if (!db_pw.equals(searchVO.getPassword())) {
+        if (!db_pw.equals(userInfoVo.getPassword())) {
             result = "N";
         }
         else {
-            final UserInfoVo userVO = selectAdminSeq(searchVO);
+            final UserInfoVo userVO = selectAdminSeq(userInfoVo);
             request.getSession().setAttribute("adminVO", (Object)userVO);
             result = "Y";
         }
         return result;
     }
 
-    public UserInfoVo selectAdminSeq(final UserInfoVo searchVO) throws Exception {
-        return this.adminDAO.selectAdminSeq(searchVO);
+    public UserInfoVo selectAdminSeq(final UserInfoVo userInfoVo) throws Exception {
+        return this.adminDAO.selectAdminSeq(userInfoVo);
     }
 
 }
