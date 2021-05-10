@@ -162,7 +162,24 @@
             <classifier>jdk15</classifier>
         </dependency>
 
+        <dependency>
+            <groupId>egovframework.rte</groupId>
+            <artifactId>egovframework.rte.ptl.mvc</artifactId>
+            <version>3.8.0</version>
+        </dependency>
     </dependencies>
+        <repositories>
+            <repository>
+                <id>egovframe</id>
+                <url>http://maven.egovframe.kr:8080/maven/</url>
+                <releases>
+                    <enabled>true</enabled>
+                </releases>
+                <snapshots>
+                    <enabled>false</enabled>
+                </snapshots>
+            </repository>
+        </repositories>
 
     <build>
         <plugins>
