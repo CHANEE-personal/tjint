@@ -1,10 +1,6 @@
 package com.tjint.springboot.common;
 
-<<<<<<< HEAD
 public class BaseTableInfoVo extends CommonVo {
-=======
-public class BaseTableInfoVo extends CommonVo{
->>>>>>> 2c3c25514ba256b1dc7fa5b8189d596dede1b3f8
     private static final long serialVersionUID = 1L;
     private String visible;
     private Integer creator;

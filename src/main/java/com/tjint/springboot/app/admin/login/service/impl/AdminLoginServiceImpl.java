@@ -21,7 +21,7 @@ public class AdminLoginServiceImpl implements AdminLoginService{
         }
         else {
             final UserInfoVo userVO = selectAdminSeq(userInfoVo);
-            request.getSession().setAttribute("adminVO", (Object)userVO);
+            request.getSession().setAttribute("adminVO", userVO);
             result = "Y";
         }
         return result;

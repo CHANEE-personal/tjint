@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<section th:fragment="brandContentFragment">
+    <div id="container_admin" class="container_admin">
+        <div id="content_admin" class="content_admin">
+            <div class="content_header type01">
+                <h1></h1>
+                <p class="tit_txt"></p>
+                <div class="page_location">
+                    <strong class="blind"></strong>
+                    <span class="home"><a href="#wrap">HOME</a></span> <span><a href="#wrap">BUSINESS </a></span> <span></span>
+                </div><!-- //page_location -->
+            </div><!-- //content_header -->
+            <section>
+                <div class="searchBox type02">
+                    <form name="frm" id="frm" method="get" action="/business/brandList.do">
+                        <h2 class="blind"></h2>
+                        <div class="inner">
+                            <div class="selectBox">
+                                <select name="categoryCd" id="searchType" title="">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                            <input type="text" name="searchKeyword" id="searchInput" title=" placeholder=" maxlength="255" onkeypress="press(event);" value="${searchVO.searchKeyword}">
+                            <button type="submit" class="icoBtn_search"><span class="blind"></span></button>
+                        </div>
+                    </form>
+                </div>
+                <div class="list_box type01">
+                    <table class="bbs_list">
+                        <caption>| </caption>
+                        <colgroup>
+                            <col style="width:8%;">
+                            <col style="width:15%;">
+                            <col style="width:auto;">
+                            <col span="2" style="width:10%;">
+                            <col style="width:8%;">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th scope="row"></th>
+                            <th scope="row"></th>
+                            <th scope="row"></th>
+                            <th scope="row"></th>
+                            <th scope="row"></th>
+                            <th scope="row"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div><!-- //list_box -->
+
+                <div class="btn_area type01">
+                    <a href="/business/brandRegistPage.do" class="htcbtnMd"><span></span></a>
+                </div>
+            </section>
+        </div><!-- //content -->
+    </div>
+</section>
+
+</html>
