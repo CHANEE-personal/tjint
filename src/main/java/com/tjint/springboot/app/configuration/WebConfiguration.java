@@ -2,6 +2,8 @@ package com.tjint.springboot.app.configuration;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -16,6 +18,10 @@ import javax.sql.DataSource;
 
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
+
+    @Autowired
+    ApplicationContext applicationContext;
+
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS =
             {"classpath:/static/", "classpath:/public/", "classpath:/", "classpath:/resources/", "classpath:/META-INF/resources/"
                     , "classpath:/META-INF/resources/webjars/"};
@@ -43,8 +49,11 @@ public class WebConfiguration implements WebMvcConfigurer {
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception{
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
+
         Resource[] arrResource = new PathMatchingResourcePatternResolver()
                 .getResources("classpath:mapper/**/*.xml");
+
+        sqlSessionFactoryBean.setConfigLocation(applicationContext.getResource("classpath:config/mybatis-config.xml"));
         sqlSessionFactoryBean.setMapperLocations(arrResource);
         sqlSessionFactoryBean.getObject().getConfiguration().setMapUnderscoreToCamelCase(true);
         return sqlSessionFactoryBean.getObject();

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <typeAliases>
+        <!-- adminVo -->
+        <typeAlias type="com.tjint.springboot.app.admin.brand.service.SnsInfoVo" alias="snsInfoVo"/>
+        <typeAlias type="com.tjint.springboot.app.admin.brand.service.BrandVo" alias="brandVo"/>
+        <!-- commonVo -->
+        <typeAlias type="com.tjint.springboot.common.SearchDefaultVo" alias="searchDefaultVo"/>
+        <typeAlias type="com.tjint.springboot.common.BaseTableInfoVo" alias="baseTableInfoVo"/>
+        <typeAlias type="com.tjint.springboot.common.UserInfoVo" alias="userInfoVo"/>
+        <typeAlias type="com.tjint.springboot.common.BrandInfoVo" alias="brandInfoVo"/>
+        <typeAlias type="com.tjint.springboot.common.CodeVo" alias="codeVo"/>
+        <typeAlias type="com.tjint.springboot.common.CommonVo" alias="commonVo"/>
+        <typeAlias type="com.tjint.springboot.common.MetaVo" alias="metaVo"/>
+    </typeAliases>
+
+</configuration>

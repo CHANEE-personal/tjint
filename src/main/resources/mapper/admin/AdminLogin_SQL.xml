@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tjint.springboot.app.admin.login.service.impl.AdminLoginMapper">
 
-     <select id="adminLogin" parameterType="com.tjint.springboot.common.UserInfoVo" resultType="String">
+     <select id="adminLogin" parameterType="userInfoVo" resultType="String">
         /*[AdminLogin_SQL.xml].[adminLogin] */
         <![CDATA[
            SELECT PASSWORD
@@ -11,7 +11,7 @@
         ]]>
     </select>
 
-    <select id="selectAdminSeq" parameterType="com.tjint.springboot.common.UserInfoVo" resultType="com.tjint.springboot.common.UserInfoVo">
+    <select id="selectAdminSeq" parameterType="userInfoVo" resultType="userInfoVo">
         /*[AdminLogin_SQL.xml].[selectAdminSeq] */
         <![CDATA[
            SELECT
