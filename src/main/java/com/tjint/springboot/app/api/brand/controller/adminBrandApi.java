@@ -30,11 +30,31 @@ public class adminBrandApi {
             @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
-    @GetMapping(value = "/brandList/{searchKeyword}")
-    public List<BrandInfoVo> getBrandList(@PathVariable @ApiParam(value = "검색 키워드") String searchKeyword) throws Exception {
+    @GetMapping(value = "/brandList")
+    public List<BrandInfoVo> getBrandList() throws Exception {
 
         Map<String, Object> searchMap = new HashMap<String, Object>();
-        searchMap.put("searchKeyword", searchKeyword);
+
+        List<BrandInfoVo> brandInfoList = this.adminBrandApiService.getBrandList(searchMap);
+
+        return brandInfoList;
+    }
+
+    @ApiOperation(value = "브랜드 조회", notes = "브랜드를 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공", response = Map.class),
+            @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
+            @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
+    })
+    @GetMapping(value = "/brandList/{searchKeyword}")
+    public List<BrandInfoVo> getBrandSearchList(@PathVariable @ApiParam(value = "검색 키워드") String searchKeyword) throws Exception {
+
+        Map<String, Object> searchMap = new HashMap<String, Object>();
+        if(!"".equals(searchKeyword)) {
+            searchMap.put("searchKeyword", searchKeyword);
+        }else {
+            searchMap.put("searchKeyword", "");
+        }
 
         List<BrandInfoVo> brandInfoList = this.adminBrandApiService.getBrandList(searchMap);
 
