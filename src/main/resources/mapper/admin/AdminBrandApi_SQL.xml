@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tjint.springboot.app.api.brand.service.impl.AdminBrandApiMapper">
-    <select id="getBrandList" parameterType="brandInfoVo" resultType="brandInfoVo">
+    <select id="getBrandList" parameterType="java.util.HashMap" resultType="brandInfoVo">
         /* [AdminBrand_SQL.xml].[getBrandList] */
         SELECT
         a.brand_seq           as brandSeq
@@ -82,7 +82,7 @@
         WHERE brand_seq = #{brandSeq}
     </update>
 
-    <insert id="addBrand" parameterType="brandVo" useGeneratedKeys="true" keyProperty="brandSeq">
+    <insert id="addBrandInfo" parameterType="brandVo" useGeneratedKeys="true" keyProperty="brandSeq">
         /* [AdminBrand_SQL.xml].[addBrand] */
         INSERT INTO app_board_brand
         (

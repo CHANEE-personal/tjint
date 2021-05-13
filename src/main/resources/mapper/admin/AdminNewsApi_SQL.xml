@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjint.springboot.app.api.news.service.impl.AdminNewsApiMapper">
+
+    <select id="getNewsList" parameterType="newsVo" resultType="newsVo">
+        /*[AdminPrMgmt_SQL.xml].[selectNewsList] */
+        <![CDATA[
+           SELECT
+              news_seq,
+              news_title,
+              news_description,
+              visible,
+              creator,
+              (SELECT name from app_user_info where user_seq = creator) as creatorNm,
+              DATE_FORMAT(create_time, '%Y.%m.%d') as create_time,
+              updater,
+              (SELECT name from app_user_info where user_seq = updater) as updaterNm,
+              DATE_FORMAT(update_time, '%Y.%m.%d') as update_time
+           FROM
+              app_board_news
+           WHERE visible != 'D'
+        ]]>
+        <choose>
+            <when test="searchCondition == 0">
+                <![CDATA[ AND news_title LIKE CONCAT ('%', #{searchKeyword},'%')         ]]>
+            </when>
+            <when test="searchCondition == 1">
+                <![CDATA[ AND news_description LIKE CONCAT ('%', #{searchKeyword},'%')         ]]>
+            </when>
+        </choose>
+        <![CDATA[
+            ORDER BY news_seq DESC
+        ]]>
+    </select>
+
+    <select id="selectNewsDetail" parameterType="newsVo" resultType="newsVo">
+        /*[AdminPrMgmt_SQL.xml].[selectNewsDetail] */
+        <![CDATA[
+        SELECT
+            news_seq,
+            news_title,
+            news_description,
+            A.visible,
+            A.creator,
+            A.create_time,
+            A.updater,
+            A.update_time,
+            B.image_file_id as imageFileId,
+            C.FILE_NAME as fileName,
+            C.FILE_PATH as filePath
+        FROM
+            app_board_news A
+                left OUTER JOIN
+            (select * from app_image_file_info where board_type_cd = 'brdt002' AND visible = 'Y') B
+            ON A.news_seq = B.board_seq
+                left outer join
+            J_ATTACHFILE C
+            on B.image_file_id = C.file_id
+        WHERE  news_seq = #{newsSeq}
+        ]]>
+
+    </select>
+
+    <select id="selectNewsListCnt" parameterType="newsVo" resultType="Integer">
+        /*[AdminPrMgmt_SQL.xml].[selectNewsListCnt] */
+        <![CDATA[
+            SELECT
+                COUNT(*) AS TOT
+            FROM
+                app_board_news
+            where visible != 'D'
+        ]]>
+        <choose>
+            <when test="searchCondition == 0">
+                <![CDATA[ AND news_title LIKE CONCAT ('%', #{searchKeyword},'%')         ]]>
+            </when>
+            <when test="searchCondition == 1">
+                <![CDATA[ AND news_description LIKE CONCAT ('%', #{searchKeyword},'%')         ]]>
+            </when>
+        </choose>
+    </select>
+
+
+    <insert id="insertNews" parameterType="newsVo" useGeneratedKeys="true" keyProperty="newsSeq">
+        /* [AdminPrMgmt_SQL.xml].[insertNews] */
+        INSERT INTO app_board_news
+        (
+            news_title
+        , news_description
+        , visible
+        , creator
+        , create_time
+        , updater
+        , update_time
+        )
+        VALUES
+        (
+            #{newsTitle}
+        , #{newsDescription}
+        , #{visible}
+        , #{creator}
+        , now()
+        , #{creator}
+        , now()
+        )
+    </insert>
+
+    <update id="updateNews" parameterType="newsVo">
+        /* [AdminPrMgmt_SQL.xml].[updateNews] */
+        UPDATE app_board_news
+        SET
+        <if test="newsTitle != null and newsTitle != ''">news_title = #{newsTitle},</if>
+        <if test="newsDescription != null and newsDescription != ''">news_description = #{newsDescription},</if>
+        <if test="visible != null and visible != ''">visible = #{visible},</if>
+        <if test="updater != null and updater != ''">updater = #{updater},</if>
+        update_time = NOW()
+        WHERE news_seq = #{newsSeq}
+    </update>
+
+    <update id="deleteNews" parameterType="newsVo">
+        /* [AdminPrMgmt_SQL.xml].[deleteNews] */
+        UPDATE app_board_news
+        SET
+        visible = 'D',
+        <if test="updater != null and updater != ''">updater = #{updater},</if>
+        update_time = NOW()
+        WHERE news_seq = #{newsSeq}
+    </update>
+
+</mapper>

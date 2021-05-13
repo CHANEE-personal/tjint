@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-<section>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<section th:fragment="brandContentFragment">
     <div id="container_admin" class="container_admin">
         <div id="content_admin" class="content_admin">
             <div class="content_header type01">
@@ -13,18 +13,16 @@
             </div><!-- //content_header -->
             <section>
                 <div class="searchBox type02">
-                    <form name="frm" id="frm" method="get" action="/business/brandList.do">
+                    <form name="frm" id="frm" method="get" action="/api/brand/brandList">
                         <h2 class="blind"></h2>
                         <div class="inner">
                             <div class="selectBox">
-                                <select name="categoryCd" id="searchType" title=">
+                                <select name="categoryCd" id="searchType" title="">
                                     <option value=""></option>
-                                <c:forEach var="code" items="${codeList}">
-                                    <option  <c:if test="${searchVO.categoryCd == code.codeId }">selected="selected"</c:if> value="${code.codeId}"><c:out value="${code.codeName}"/></option>
-                                </c:forEach>
                                 </select>
                             </div>
-                            <input type="text" name="searchKeyword" id="searchInput" title=" placeholder=" maxlength="255" onkeypress="press(event);" value="${searchVO.searchKeyword}">
+                            <input type="text" name="searchKeyword" id="searchInput" title=" placeholder=" maxlength="255" onkeypress="press(event);"
+                                   th:value="${searchVO.searchKeyword}">
                             <button type="submit" class="icoBtn_search"><span class="blind"></span></button>
                         </div>
                     </form>
@@ -50,39 +48,41 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="result" items="${brandList}">
-                            <tr>
-                                <td><c:out value="${result.brandSeq}"/></td>
-                                <td class="txt_left"><c:out value="${result.categoryName }"/></td>
-                                <td class="txt_left"><p class="ellipsis"><a href="/business/brandUpdatePage.do?brandSeq=${result.brandSeq }"><c:out value="${result.brandName }"/></a></p></td>
-                                <td><c:out value="${result.creatorNm }"/></td>
-                                <td><c:out value="${result.createTime }"/></td>
-                                <td><c:out value="${result.visible }"/></td>
+                            <tr th:each="brandList : ${brandList}">
+                                <td th:text="${brandList.brandSeq}"></td>
+                                <td th:text="${brandList.categoryName}"></td>
+                                <td th:text="${brandList.brandName}">
+                                    <p class="ellipsis">
+                                        <a href="/business/brandUpdatePage?brandSeq=${result.brandSeq }"></a>
+                                    </p>
+                                </td>
+                                <td th:text="${brandList.creatorNm}"></td>
+                                <td th:text="${brandList.createTime}"></td>
+                                <td th:text="${brandList.visible}"></td>
                             </tr>
-                        </c:forEach>
                         </tbody>
                     </table>
                 </div><!-- //list_box -->
-                <c:if test="${paginationInfo.totalRecordCount == 0}">
-                    <c:choose>
-                        <c:when test="${searchVO.searchKeyword == '' && searchVO.categoryCd== '' }">
-                            <div class="data_none"><!-- -->
-                                <p></p>
-                            </div>
-                        </c:when>
-                        <c:otherwise>
-                            <div class="search_none"><!-- -->
-                                <p></p>
-                            </div>
-                        </c:otherwise>
-                    </c:choose>
-                </c:if>
+<!--                <c:if test="${paginationInfo.totalRecordCount == 0}">-->
+<!--                    <c:choose>-->
+<!--                        <c:when test="${searchVO.searchKeyword == '' && searchVO.categoryCd== '' }">-->
+<!--                            <div class="data_none">&lt;!&ndash; &ndash;&gt;-->
+<!--                                <p></p>-->
+<!--                            </div>-->
+<!--                        </c:when>-->
+<!--                        <c:otherwise>-->
+<!--                            <div class="search_none">&lt;!&ndash; &ndash;&gt;-->
+<!--                                <p></p>-->
+<!--                            </div>-->
+<!--                        </c:otherwise>-->
+<!--                    </c:choose>-->
+<!--                </c:if>-->
                 <div class="btn_area type01">
                     <a href="/business/brandRegistPage.do" class="htcbtnMd"><span></span></a>
                 </div>
-                <div class="pagenation">
-                    <ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="fn_select_linkPage" />
-                </div><!-- //pagenation -->
+<!--                <div class="pagenation">-->
+<!--                    <ui:pagination paginationInfo="${paginationInfo}" type="image" jsFunction="fn_select_linkPage" />-->
+<!--                </div>&lt;!&ndash; //pagenation &ndash;&gt;-->
             </section>
         </div><!-- //content -->
     </div>

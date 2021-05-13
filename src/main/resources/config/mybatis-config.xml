@@ -9,6 +9,7 @@
         <!-- adminVo -->
         <typeAlias type="com.tjint.springboot.app.admin.brand.service.SnsInfoVo" alias="snsInfoVo"/>
         <typeAlias type="com.tjint.springboot.app.admin.brand.service.BrandVo" alias="brandVo"/>
+        <typeAlias type="com.tjint.springboot.app.admin.news.service.NewsVo" alias="newsVo"/>
         <!-- commonVo -->
         <typeAlias type="com.tjint.springboot.common.SearchDefaultVo" alias="searchDefaultVo"/>
         <typeAlias type="com.tjint.springboot.common.BaseTableInfoVo" alias="baseTableInfoVo"/>
