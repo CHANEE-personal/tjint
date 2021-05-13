@@ -10,18 +10,24 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RequestMapping(value = "/api/auth")
 @RestController
 @RequiredArgsConstructor
-@Api(tags = {"1","회원관련 API"})
+@Api(tags = "회원관련 API")
 public class adminLoginApi {
 
+    private final AuthenticationManager authenticationManager;
     private final MyUserDetailsService userDetailsService;
     private final JwtUtil jwtTokenUtil;
     private final AdminLoginApiService adminLoginApiService;
@@ -48,10 +54,9 @@ public class adminLoginApi {
 
     @ApiOperation(value = "JWT 토근 발급", notes = "JWT 토근 발급")
     @PostMapping(value = "/authenticate")
-    @ResponseBody
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {
-
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getId(), authenticationRequest.getPassword()));
         } catch (BadCredentialsException e) {
             throw new Exception("Incorrect userid or password", e);
         }
