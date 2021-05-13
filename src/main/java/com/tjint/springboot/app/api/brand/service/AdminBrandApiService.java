@@ -13,5 +13,8 @@ public interface AdminBrandApiService {
     public List<BrandInfoVo> getBrandList(Map<String, Object> searchMap) throws Exception;
 
     /** 브랜드 등록 **/
-    public String addBrandInfo(BrandInfoVo brandInfoVo, HttpServletRequest request) throws Exception;
+    public String addBrandInfo(Map<String, Object> brandMap, HttpServletRequest request) throws Exception;
+
+    /** 브랜드 삭제 **/
+    public String modifyBrand(BrandInfoVo brandInfoVo) throws Exception;
 }

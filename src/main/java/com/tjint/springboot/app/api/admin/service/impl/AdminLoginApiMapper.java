@@ -10,4 +10,8 @@ import java.util.List;
 @Mapper
 public interface AdminLoginApiMapper {
     List<UserInfoVo> getUserList() throws Exception;
+
+    String getUserId(String id) throws Exception;
+
+    String adminLogin(String id) throws Exception;
 }

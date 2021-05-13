@@ -2,6 +2,7 @@ package com.tjint.springboot.app.api.brand.controller;
 
 import com.tjint.springboot.app.api.brand.service.AdminBrandApiService;
 import com.tjint.springboot.common.BrandInfoVo;
+import com.tjint.springboot.common.utils.StringUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class adminBrandApi {
     @GetMapping(value = "/brandList")
     public List<BrandInfoVo> getBrandList() throws Exception {
 
-        Map<String, Object> searchMap = new HashMap<String, Object>();
+        Map<String, Object> searchMap = new HashMap<>();
 
         List<BrandInfoVo> brandInfoList = this.adminBrandApiService.getBrandList(searchMap);
 
@@ -46,12 +47,9 @@ public class adminBrandApi {
     @GetMapping(value = "/brandList/{searchKeyword}")
     public List<BrandInfoVo> getBrandSearchList(@PathVariable @ApiParam(value = "검색 키워드") String searchKeyword) throws Exception {
 
-        Map<String, Object> searchMap = new HashMap<String, Object>();
-        if(!"".equals(searchKeyword)) {
-            searchMap.put("searchKeyword", searchKeyword);
-        }else {
-            searchMap.put("searchKeyword", "");
-        }
+        Map<String, Object> searchMap = new HashMap<>();
+
+        searchMap.put("searchKeyword", StringUtil.getString(searchKeyword,""));
 
         List<BrandInfoVo> brandInfoList = this.adminBrandApiService.getBrandList(searchMap);
 
@@ -65,10 +63,21 @@ public class adminBrandApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @PutMapping(value = "/addBrand")
-    public void addBrand(BrandInfoVo brandInfoVo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void addBrand(@PathVariable @ApiParam(value = "브랜드명") String brandName,
+                         @PathVariable @ApiParam(value = "분야") String categoryCd,
+                         @PathVariable @ApiParam(value = "브랜드소개") String brandDescription,
+                         @PathVariable @ApiParam(value = "노출여부") String visible,
+                         HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Map<String, Object> brandMap = new HashMap<>();
+        brandMap.put("brand_name", brandName);
+        brandMap.put("categoryCd", categoryCd);
+        brandMap.put("brandDescription", brandDescription);
+        brandMap.put("visible", visible);
+
         String returnValue = "Y";
         try {
-            returnValue = this.adminBrandApiService.addBrandInfo(brandInfoVo, request);
+            returnValue = this.adminBrandApiService.addBrandInfo(brandMap, request);
         } catch (Exception e) {
             returnValue = "fileError";
         }
@@ -81,9 +90,17 @@ public class adminBrandApi {
             @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
-    @DeleteMapping(value = "/deleteBrand")
-    public void deleteBrand(BrandInfoVo brandInfoVo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @DeleteMapping(value = "/deleteBrand/{brandSeq}")
+    public void deleteBrand(@PathVariable @ApiParam(value = "브랜드코드", required = true) Integer brandSeq,
+                            HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        BrandInfoVo brandInfoVo = new BrandInfoVo();
+        brandInfoVo.setVisible("D");
+        brandInfoVo.setBrandSeq(brandSeq);
+
+        this.adminBrandApiService.modifyBrand(brandInfoVo);
+
+        response.getWriter().print("Y");
     }
 
 }

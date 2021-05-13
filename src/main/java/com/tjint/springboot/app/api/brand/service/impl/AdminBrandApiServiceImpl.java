@@ -18,7 +18,11 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
         return adminBrandApiMapper.getBrandList(searchMap);
     }
 
-    public String addBrandInfo(BrandInfoVo brandInfoVo, HttpServletRequest request) throws Exception {
-        return adminBrandApiMapper.addBrandInfo(brandInfoVo, request);
+    public String addBrandInfo(Map<String, Object> brandMap, HttpServletRequest request) throws Exception {
+        return adminBrandApiMapper.addBrandInfo(brandMap, request);
+    }
+
+    public String modifyBrand(BrandInfoVo brandInfoVo) throws Exception {
+        return adminBrandApiMapper.modifyBrand(brandInfoVo);
     }
 }

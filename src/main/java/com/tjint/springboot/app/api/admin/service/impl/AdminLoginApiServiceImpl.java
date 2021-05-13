@@ -16,4 +16,12 @@ public class AdminLoginApiServiceImpl implements AdminLoginApiService {
     public List<UserInfoVo> getUserList() throws Exception {
         return adminLoginApiMapper.getUserList();
     }
+
+    public String getUserId(String id) throws Exception {
+        return adminLoginApiMapper.getUserId(id);
+    }
+
+    public String adminLogin(String id) throws Exception {
+        return adminLoginApiMapper.adminLogin(id);
+    }
 }

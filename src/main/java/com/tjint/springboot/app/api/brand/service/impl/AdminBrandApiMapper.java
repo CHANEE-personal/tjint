@@ -13,5 +13,7 @@ import java.util.Map;
 public interface AdminBrandApiMapper {
     List<BrandInfoVo> getBrandList(Map<String, Object> searchMap) throws Exception;
 
-    String addBrandInfo(BrandInfoVo brandInfoVo, HttpServletRequest request) throws Exception;
+    String addBrandInfo(Map<String, Object> brandMap, HttpServletRequest request) throws Exception;
+
+    String modifyBrand(BrandInfoVo brandInfoVo) throws Exception;
 }

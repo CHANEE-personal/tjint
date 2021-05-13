@@ -6,4 +6,10 @@
            SELECT user_id, password
            FROM app_user_info
     </select>
+
+    <select id="getUserId" resultType="String">
+        SELECT user_id
+        FROM app_user_info
+        WHERE user_id = #{id}
+    </select>
 </mapper>
