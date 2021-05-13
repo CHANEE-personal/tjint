@@ -4,10 +4,7 @@ import com.tjint.springboot.app.api.brand.service.AdminBrandApiService;
 import com.tjint.springboot.common.BrandInfoVo;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,7 +64,7 @@ public class adminBrandApi {
             @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
-    @GetMapping(value = "/addBrand")
+    @PutMapping(value = "/addBrand")
     public void addBrand(BrandInfoVo brandInfoVo, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String returnValue = "Y";
         try {
@@ -76,6 +73,17 @@ public class adminBrandApi {
             returnValue = "fileError";
         }
         response.getWriter().print(returnValue);
+    }
+
+    @ApiOperation(value = "브랜드 삭제", notes = "브랜드를 삭제한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공", response = Map.class),
+            @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
+            @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
+    })
+    @DeleteMapping(value = "/deleteBrand")
+    public void deleteBrand(BrandInfoVo brandInfoVo, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
     }
 
 }
