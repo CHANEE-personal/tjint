@@ -8,12 +8,10 @@ import com.tjint.springboot.app.api.admin.service.AdminLoginApiService;
 import com.tjint.springboot.common.UserInfoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,16 +19,29 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Api(tags = "회원관련 API")
 @RequestMapping(value = "/api/auth")
 @RestController
-@RequiredArgsConstructor
-@Api(tags = "회원관련 API")
 public class adminLoginApi {
 
     private final AuthenticationManager authenticationManager;
     private final MyUserDetailsService userDetailsService;
     private final JwtUtil jwtTokenUtil;
     private final AdminLoginApiService adminLoginApiService;
+    private final PasswordEncoder passwordEncoder;
+
+    public adminLoginApi(AuthenticationManager authenticationManager,
+                         MyUserDetailsService userDetailsService,
+                         JwtUtil jwtTokenUtil,
+                         AdminLoginApiService adminLoginApiService,
+                         PasswordEncoder passwordEncoder) {
+        this.authenticationManager = authenticationManager;
+        this.userDetailsService = userDetailsService;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.adminLoginApiService = adminLoginApiService;
+        this.passwordEncoder = passwordEncoder;
+    }
+
 
     @ApiOperation(value = "회원 조회", notes = "회원을 조회한다.")
     @PostMapping(value = "/adminUser")
@@ -40,26 +51,18 @@ public class adminLoginApi {
         return userInfoList;
     }
 
-//    @ApiOperation(value = "JWT 토근 발급", notes = "JWT 토근 발급")
-//    @PostMapping(value = "/adminLogin")
-//    public String adminLogin(@ApiParam(value = "ID", required = true) String id,
-//                             @ApiParam(value = "PASSWORD", required = true) String password) throws Exception {
-//
-//        authenticationRequest.setId(id);
-//        authenticationRequest.setPassword(password);
-//
-//        String result = StringUtil.getString(authentication.createAuthenticationToken(authenticationRequest),"");
-//        return result;
-//    }
-
     @ApiOperation(value = "JWT 토근 발급", notes = "JWT 토근 발급")
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getId(), authenticationRequest.getPassword()));
-        } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect userid or password", e);
-        }
+//        try {
+//            if(passwordEncoder.matches(authenticationRequest.getPassword(),passwordEncoder.encode(authenticationRequest.getPassword()))) {
+//                Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getId(),
+//                        passwordEncoder.encode(authenticationRequest.getPassword())));
+//                SecurityContextHolder.getContext().setAuthentication(authentication);
+//            }
+//        } catch (BadCredentialsException e) {
+//            throw new Exception("Incorrect userid or password", e);
+//        }
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getId());
         final String jwt = jwtTokenUtil.generateToken(userDetails);
