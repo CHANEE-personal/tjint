@@ -1,20 +1,20 @@
 package com.tjint.springboot.app.admin.jwt;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 @Getter
 @Setter
-public class AuthenticationRequest {
+@NoArgsConstructor
+@AllArgsConstructor
+public class AuthenticationRequest implements Serializable {
+
+    private static final long serialVersionUID = 5926468583005150707L;
     private String id;
     private String password;
 
-    public AuthenticationRequest() {
-
-    }
-
-    public AuthenticationRequest(String id, String password) {
-        this.id = id;
-        this.password = password;
-    }
 }

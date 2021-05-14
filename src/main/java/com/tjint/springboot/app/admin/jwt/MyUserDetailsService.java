@@ -15,8 +15,8 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
 
         // 아이디 일치하는지 확인
-        if("admin01".equals(id)) {
-           return new User("admin01", "84b22888fe565d41c7a296b12e2518bf5633bf307a2cce85d27ccf935d49d69b", new ArrayList<>());
+        if("admin03".equals(id)) {
+           return new User("admin03", "$2a$10$yyrWhaXOXeCu/m05eWyI5OXZxqhTc.kRBqmD/Smg97c1MpXXcyeKy", new ArrayList<>());
         }else {
             throw new UsernameNotFoundException("User not found with userid : " + id);
         }
