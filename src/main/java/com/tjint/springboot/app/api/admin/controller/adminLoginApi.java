@@ -57,24 +57,8 @@ public class adminLoginApi {
     @ApiOperation(value = "JWT 토근 발급", notes = "JWT 토근 발급")
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-//        try {
-//            if(passwordEncoder.matches(authenticationRequest.getPassword(),passwordEncoder.encode(authenticationRequest.getPassword()))) {
-//                Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getId(),
-//                        passwordEncoder.encode(authenticationRequest.getPassword())));
-//                SecurityContextHolder.getContext().setAuthentication(authentication);
-//            }
-//        } catch (BadCredentialsException e) {
-//            throw new Exception("Incorrect userid or password", e);
-//        }
 
-
-//        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getId());
-//        final String jwt = jwtTokenUtil.generateToken(userDetails);
-//        return ResponseEntity.ok(new AuthenticationResponse(jwt));
-        System.out.println("===userId===");
-        System.out.println(authenticationRequest.getId());
-        System.out.println(passwordEncoder.encode(authenticationRequest.getPassword()));
-        authenticate(authenticationRequest.getId(), passwordEncoder.encode(authenticationRequest.getPassword()));
+//        authenticate(authenticationRequest.getId(), authenticationRequest.getPassword());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getId());
         final String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new AuthenticationResponse(token));
@@ -82,8 +66,6 @@ public class adminLoginApi {
 
     private void authenticate(String id, String password) throws Exception {
         try {
-            System.out.println("===UserName===");
-            System.out.println(new UsernamePasswordAuthenticationToken(id,password));
             final UserDetails userDetails = userDetailsService.loadUserByUsername(id);
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDetails,password));
         } catch (DisabledException e) {
