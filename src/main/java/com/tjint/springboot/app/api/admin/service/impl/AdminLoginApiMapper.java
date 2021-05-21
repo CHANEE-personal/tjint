@@ -14,4 +14,8 @@ public interface AdminLoginApiMapper {
     String getUserId(String id) throws Exception;
 
     String adminLogin(String id) throws Exception;
+
+    String adminLogin(final UserInfoVo p0) throws Exception;
+
+    UserInfoVo selectAdminSeq(final UserInfoVo p0) throws Exception;
 }

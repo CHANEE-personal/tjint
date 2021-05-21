@@ -9,15 +9,17 @@ import com.tjint.springboot.common.UserInfoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import net.sf.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Api(tags = "회원관련 API")
@@ -31,20 +33,6 @@ public class adminLoginApi {
     private final MyUserDetailsService userDetailsService;
     private final JwtUtil jwtTokenUtil;
     private final AdminLoginApiService adminLoginApiService;
-    private final PasswordEncoder passwordEncoder;
-
-//    public adminLoginApi(AuthenticationManager authenticationManager,
-//                         MyUserDetailsService userDetailsService,
-//                         JwtUtil jwtTokenUtil,
-//                         AdminLoginApiService adminLoginApiService,
-//                         PasswordEncoder passwordEncoder) {
-//        this.authenticationManager = authenticationManager;
-//        this.userDetailsService = userDetailsService;
-//        this.jwtTokenUtil = jwtTokenUtil;
-//        this.adminLoginApiService = adminLoginApiService;
-//        this.passwordEncoder = passwordEncoder;
-//    }
-
 
     @ApiOperation(value = "회원 조회", notes = "회원을 조회한다.")
     @PostMapping(value = "/adminUser")
@@ -54,10 +42,30 @@ public class adminLoginApi {
         return userInfoList;
     }
 
+    @ApiOperation(value = "회원 로그인 처리", notes = "회원 로그인을 처리한다.")
+    @PostMapping(value = "/adminLogin")
+    public JSONObject adminLogin(@RequestBody AuthenticationRequest authenticationRequest, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        UserInfoVo userInfoVo = new UserInfoVo();
+        userInfoVo.setUserId(authenticationRequest.getId());
+        userInfoVo.setPassword(authenticationRequest.getPassword());
+        final String resultValue = adminLoginApiService.adminLogin(userInfoVo, request);
+
+        JSONObject jsonObject = new JSONObject();
+        if("Y".equals(resultValue)) {
+            jsonObject.put("loginYn", resultValue);
+            jsonObject.put("userId", userInfoVo.getUserId());
+            jsonObject.put("token", createAuthenticationToken(authenticationRequest));
+        }
+
+        return jsonObject;
+    }
+
     @ApiOperation(value = "JWT 토근 발급", notes = "JWT 토근 발급")
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
 
+        System.out.println("===authen===");
+        System.out.println(authenticationRequest.getId());
 //        authenticate(authenticationRequest.getId(), authenticationRequest.getPassword());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getId());
         final String token = jwtTokenUtil.generateToken(userDetails);

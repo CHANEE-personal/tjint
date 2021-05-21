@@ -12,4 +12,25 @@
         FROM app_user_info
         WHERE user_id = #{id}
     </select>
+
+    <select id="adminLogin" parameterType="userInfoVo" resultType="String">
+        /*[AdminLogin_SQL.xml].[adminLogin] */
+        <![CDATA[
+        SELECT PASSWORD
+        FROM app_user_info
+        WHERE USER_ID = #{userId}
+        ]]>
+    </select>
+
+    <select id="selectAdminSeq" parameterType="userInfoVo" resultType="userInfoVo">
+        /*[AdminLogin_SQL.xml].[selectAdminSeq] */
+        <![CDATA[
+        SELECT
+            USER_SEQ as userSeq, name
+        FROM
+            app_user_info
+        WHERE
+            USER_ID = #{userId}
+        ]]>
+    </select>
 </mapper>
