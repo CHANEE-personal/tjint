@@ -45,16 +45,10 @@ public class adminLoginApi {
     @ApiOperation(value = "회원 로그인 처리", notes = "회원 로그인을 처리한다.")
     @PostMapping(value = "/adminLogin")
     public JSONObject adminLogin(@RequestBody AuthenticationRequest authenticationRequest, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-        System.out.println("===userId===");
-        System.out.println(authenticationRequest);
-        System.out.println(authenticationRequest.getUserId());
         UserInfoVo userInfoVo = new UserInfoVo();
         userInfoVo.setUserId(authenticationRequest.getUserId());
         userInfoVo.setPassword(authenticationRequest.getPassword());
         final String resultValue = adminLoginApiService.adminLogin(userInfoVo, request);
-
-        System.out.println("===resultValue===");
-        System.out.println(resultValue);
 
         JSONObject jsonObject = new JSONObject();
         if("Y".equals(resultValue)) {

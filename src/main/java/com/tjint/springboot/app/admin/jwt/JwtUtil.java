@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
 import java.util.Date;
@@ -52,6 +53,21 @@ public class JwtUtil {
         Key keys = new SecretKeySpec(keyBytes, signatureAlgorithm.getJcaName());
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)).signWith(signatureAlgorithm, keys).compact();
+    }
+
+//    /** jwt 검증 **/
+//    public Claims getClaims(String token) {
+//        try {
+//            byte[] keyBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
+//            return Jwts.parser().setSigningKey(keyBytes).parseClaimsJws(token).getBody();
+//        } catch (JwtException e) {
+//            e.printStackTrace();
+//            throw e;
+//        }
+//    }
+
+    public String resolveToken(HttpServletRequest servletRequest) {
+        return servletRequest.getHeader("Authorization");
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
