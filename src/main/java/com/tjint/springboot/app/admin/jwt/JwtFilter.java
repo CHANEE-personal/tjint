@@ -33,7 +33,7 @@ public class JwtFilter extends GenericFilterBean {
         String authorizationHeader = jwtUtil.resolveToken((HttpServletRequest) servletRequest);
         String token = null;
         String userName = null;
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Authorization")) {
             token = authorizationHeader.substring(7);
             userName = jwtUtil.extractUserName(token);
         }
