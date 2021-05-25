@@ -55,19 +55,8 @@ public class JwtUtil {
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)).signWith(signatureAlgorithm, keys).compact();
     }
 
-//    /** jwt 검증 **/
-//    public Claims getClaims(String token) {
-//        try {
-//            byte[] keyBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
-//            return Jwts.parser().setSigningKey(keyBytes).parseClaimsJws(token).getBody();
-//        } catch (JwtException e) {
-//            e.printStackTrace();
-//            throw e;
-//        }
-//    }
-
     public String resolveToken(HttpServletRequest servletRequest) {
-        return servletRequest.getHeader("Authorization");
+        return servletRequest.getHeader("authentication");
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {

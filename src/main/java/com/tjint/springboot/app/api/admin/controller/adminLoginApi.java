@@ -8,6 +8,7 @@ import com.tjint.springboot.app.api.admin.service.AdminLoginApiService;
 import com.tjint.springboot.common.UserInfoVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import net.sf.json.JSONObject;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,11 +46,17 @@ public class adminLoginApi {
 
     @ApiOperation(value = "회원 로그인 처리", notes = "회원 로그인을 처리한다.")
     @PostMapping(value = "/adminLogin")
-    public JSONObject adminLogin(@RequestBody AuthenticationRequest authenticationRequest, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    public JSONObject adminLogin(@RequestParam(value = "아이디") String userId
+                                , @RequestParam(value = "패스워드") @ApiParam(type="string", format="password") String password, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+        AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+
         UserInfoVo userInfoVo = new UserInfoVo();
-        userInfoVo.setUserId(authenticationRequest.getUserId());
-        userInfoVo.setPassword(authenticationRequest.getPassword());
+        userInfoVo.setUserId(userId);
+        userInfoVo.setPassword(password);
         final String resultValue = adminLoginApiService.adminLogin(userInfoVo, request);
+
+        authenticationRequest.setUserId(userId);
+        authenticationRequest.setPassword(password);
 
         JSONObject jsonObject = new JSONObject();
         if("Y".equals(resultValue)) {
@@ -60,11 +68,12 @@ public class adminLoginApi {
         return jsonObject;
     }
 
+    @ApiIgnore
     @ApiOperation(value = "JWT 토근 발급", notes = "JWT 토근 발급")
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
 
-//        authenticate(authenticationRequest.getId(), authenticationRequest.getPassword());
+//        authenticate(authenticationRequest.getUserId(), authenticationRequest.getPassword());
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUserId());
         final String token = jwtTokenUtil.generateToken(userDetails);
         return ResponseEntity.ok(new AuthenticationResponse(token));
@@ -73,7 +82,7 @@ public class adminLoginApi {
     private void authenticate(String id, String password) throws Exception {
         try {
             final UserDetails userDetails = userDetailsService.loadUserByUsername(id);
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDetails,password));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(id,password));
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
