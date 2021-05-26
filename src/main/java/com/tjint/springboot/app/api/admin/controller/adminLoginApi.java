@@ -6,9 +6,8 @@ import com.tjint.springboot.app.admin.jwt.JwtUtil;
 import com.tjint.springboot.app.admin.jwt.MyUserDetailsService;
 import com.tjint.springboot.app.api.admin.service.AdminLoginApiService;
 import com.tjint.springboot.common.UserInfoVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import com.tjint.springboot.common.paging.Page;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import net.sf.json.JSONObject;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +17,15 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.rmi.ServerError;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Api(tags = "회원관련 API")
 @RequestMapping(value = "/api/auth")
@@ -37,14 +40,30 @@ public class adminLoginApi {
     private final AdminLoginApiService adminLoginApiService;
 
     @ApiOperation(value = "회원 조회", notes = "회원을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공", response = Map.class),
+            @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
+            @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
+    })
     @PostMapping(value = "/adminUser")
-    public List<UserInfoVo> getUserList() throws Exception {
-        List<UserInfoVo> userInfoList = this.adminLoginApiService.getUserList();
+    public List<UserInfoVo> getUserList(Page page) throws Exception {
+
+        // 페이지 정보
+        Map<String, Object> userMap = new HashMap<>();
+        userMap.put("page", page.getPage());
+        userMap.put("size", page.getSize());
+
+        List<UserInfoVo> userInfoList = this.adminLoginApiService.getUserList(userMap);
 
         return userInfoList;
     }
 
     @ApiOperation(value = "회원 로그인 처리", notes = "회원 로그인을 처리한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공", response = Map.class),
+            @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
+            @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
+    })
     @PostMapping(value = "/adminLogin")
     public JSONObject adminLogin(@RequestParam(value = "아이디") String userId
                                 , @RequestParam(value = "패스워드") @ApiParam(type="string", format="password") String password, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
@@ -53,6 +72,7 @@ public class adminLoginApi {
         UserInfoVo userInfoVo = new UserInfoVo();
         userInfoVo.setUserId(userId);
         userInfoVo.setPassword(password);
+
         final String resultValue = adminLoginApiService.adminLogin(userInfoVo, request);
 
         authenticationRequest.setUserId(userId);

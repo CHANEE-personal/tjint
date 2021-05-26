@@ -5,7 +5,6 @@ import com.tjint.springboot.common.BrandInfoVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +17,8 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
         return adminBrandApiMapper.getBrandList(searchMap);
     }
 
-    public String addBrandInfo(Map<String, Object> brandMap, HttpServletRequest request) throws Exception {
-        return adminBrandApiMapper.addBrandInfo(brandMap, request);
+    public Integer addBrandInfo(Map<String, Object> brandMap) throws Exception {
+        return adminBrandApiMapper.addBrandInfo(brandMap);
     }
 
     public String modifyBrand(BrandInfoVo brandInfoVo) throws Exception {

@@ -5,11 +5,12 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Mapper
 public interface AdminLoginApiMapper {
-    List<UserInfoVo> getUserList() throws Exception;
+    List<UserInfoVo> getUserList(Map<String, Object> userMap) throws Exception;
 
     String getUserId(String id) throws Exception;
 

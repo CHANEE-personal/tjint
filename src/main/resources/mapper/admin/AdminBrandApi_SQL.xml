@@ -41,8 +41,9 @@
                 AND a.brand_name LIKE CONCAT ('%', #{searchKeyword},'%')
             </if>
         </where>
-
+        AND brand_seq <![CDATA[<=]]> #{page}
         ORDER BY brand_seq DESC
+        LIMIT #{size}
     </select>
 
     <select id="getBrandListCnt" parameterType="brandInfoVo" resultType="Integer">
@@ -82,7 +83,7 @@
         WHERE brand_seq = #{brandSeq}
     </update>
 
-    <insert id="addBrandInfo" parameterType="java.util.HashMap" useGeneratedKeys="true" keyProperty="brandSeq">
+    <insert id="addBrandInfo" parameterType="hashMap">
         /* [AdminBrand_SQL.xml].[addBrand] */
         INSERT INTO app_board_brand
         (
@@ -97,7 +98,7 @@
         )
         VALUES
         (
-            #{categoryCd}
+        #{categoryCd}
         , #{brandName}
         , #{brandDescription}
         , #{visible}

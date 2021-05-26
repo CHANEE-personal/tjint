@@ -4,7 +4,7 @@ import com.tjint.springboot.common.BrandInfoVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +13,8 @@ import java.util.Map;
 public interface AdminBrandApiMapper {
     List<BrandInfoVo> getBrandList(Map<String, Object> searchMap) throws Exception;
 
-    String addBrandInfo(Map<String, Object> brandMap, HttpServletRequest request) throws Exception;
+    @Transactional
+    Integer addBrandInfo(Map<String, Object> brandMap) throws Exception;
 
     String modifyBrand(BrandInfoVo brandInfoVo) throws Exception;
 }

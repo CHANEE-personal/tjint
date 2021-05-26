@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Service("AdminLoginApiService")
 @RequiredArgsConstructor
@@ -17,8 +18,8 @@ public class AdminLoginApiServiceImpl implements AdminLoginApiService {
     private final AdminLoginApiMapper adminLoginApiMapper;
     private final PasswordEncoder passwordEncoder;
 
-    public List<UserInfoVo> getUserList() throws Exception {
-        return adminLoginApiMapper.getUserList();
+    public List<UserInfoVo> getUserList(Map<String, Object> userMap) throws Exception {
+        return adminLoginApiMapper.getUserList(userMap);
     }
 
     public String getUserId(String id) throws Exception {
