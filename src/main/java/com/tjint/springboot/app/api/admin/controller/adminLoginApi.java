@@ -65,18 +65,13 @@ public class adminLoginApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @PostMapping(value = "/adminLogin")
-    public JSONObject adminLogin(@RequestParam(value = "아이디") String userId
-                                , @RequestParam(value = "패스워드") @ApiParam(type="string", format="password") String password, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
-        AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+    public JSONObject adminLogin(@RequestBody AuthenticationRequest authenticationRequest, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
         UserInfoVo userInfoVo = new UserInfoVo();
-        userInfoVo.setUserId(userId);
-        userInfoVo.setPassword(password);
+        userInfoVo.setUserId(authenticationRequest.getUserId());
+        userInfoVo.setPassword(authenticationRequest.getPassword());
 
         final String resultValue = adminLoginApiService.adminLogin(userInfoVo, request);
-
-        authenticationRequest.setUserId(userId);
-        authenticationRequest.setPassword(password);
 
         JSONObject jsonObject = new JSONObject();
         if("Y".equals(resultValue)) {

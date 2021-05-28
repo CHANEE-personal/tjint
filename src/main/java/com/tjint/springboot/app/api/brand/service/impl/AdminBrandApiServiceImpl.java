@@ -13,12 +13,20 @@ import java.util.Map;
 public class AdminBrandApiServiceImpl implements AdminBrandApiService {
     private final AdminBrandApiMapper adminBrandApiMapper;
 
+    public Integer getBrandListCnt(Map<String, Object> searchMap) throws Exception {
+        return adminBrandApiMapper.getBrandListCnt(searchMap);
+    }
+
     public List<BrandInfoVo> getBrandList(Map<String, Object> searchMap) throws Exception {
         return adminBrandApiMapper.getBrandList(searchMap);
     }
 
-    public Integer addBrandInfo(Map<String, Object> brandMap) throws Exception {
-        return adminBrandApiMapper.addBrandInfo(brandMap);
+    public Map<String, Object> getBrandInfo(BrandInfoVo brandInfoVo) throws Exception {
+        return adminBrandApiMapper.getBrandInfo(brandInfoVo);
+    }
+
+    public Integer addBrand(BrandInfoVo brandInfoVo) throws Exception {
+        return adminBrandApiMapper.addBrand(brandInfoVo);
     }
 
     public String modifyBrand(BrandInfoVo brandInfoVo) throws Exception {

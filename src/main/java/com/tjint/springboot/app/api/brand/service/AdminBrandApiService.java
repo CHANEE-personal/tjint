@@ -8,11 +8,16 @@ import java.util.Map;
 
 @Service
 public interface AdminBrandApiService {
+    public Integer getBrandListCnt(Map<String, Object> searchMap) throws Exception;
+
     /** 브랜드 리스트 검색 **/
     public List<BrandInfoVo> getBrandList(Map<String, Object> searchMap) throws Exception;
 
+    /** 브랜드 상세 **/
+    public Map<String, Object> getBrandInfo(BrandInfoVo brandInfoVo) throws Exception;
+
     /** 브랜드 등록 **/
-    public Integer addBrandInfo(Map<String, Object> brandMap) throws Exception;
+    public Integer addBrand(BrandInfoVo brandInfoVo) throws Exception;
 
     /** 브랜드 삭제 **/
     public String modifyBrand(BrandInfoVo brandInfoVo) throws Exception;

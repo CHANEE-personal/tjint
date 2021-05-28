@@ -11,10 +11,15 @@ import java.util.Map;
 @Repository
 @Mapper
 public interface AdminBrandApiMapper {
+
+    Integer getBrandListCnt(Map<String, Object> searchMap) throws Exception;
+
     List<BrandInfoVo> getBrandList(Map<String, Object> searchMap) throws Exception;
 
     @Transactional
-    Integer addBrandInfo(Map<String, Object> brandMap) throws Exception;
+    Integer addBrand(BrandInfoVo brandInfoVo) throws Exception;
 
     String modifyBrand(BrandInfoVo brandInfoVo) throws Exception;
+
+    Map<String, Object> getBrandInfo(BrandInfoVo brandInfoVo) throws Exception;
 }

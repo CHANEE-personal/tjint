@@ -37,12 +37,40 @@ public class adminBrandApi {
         Map<String, Object> searchMap = new HashMap<>();
 
         searchMap.put("searchKeyword", StringUtil.getString(searchKeyword,""));
-        searchMap.put("page", page.getPage());
-        searchMap.put("size", page.getSize());
+        searchMap.put("startPage", page.getStartPage());
 
-        List<BrandInfoVo> brandInfoList = this.adminBrandApiService.getBrandList(searchMap);
+        Integer brandListCnt = this.adminBrandApiService.getBrandListCnt(searchMap);
+        List<BrandInfoVo> brandInfoList = null;
+
+        if(brandListCnt > 0) {
+            brandInfoList = this.adminBrandApiService.getBrandList(searchMap);
+        }
 
         return brandInfoList;
+    }
+
+    /**
+     * @package : com.tjint.springboot.app.admin.brand.controller
+     * @method : brandInfo
+     * @date : 12/05/2021 5:33 오후
+     * @author : chanee
+     * @version : 1.0.0
+     * @modifyed : 브랜드 상세
+     **/
+    @ApiOperation(value = "브랜드 상세", notes = "브랜드를 상세페이지")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
+            @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
+            @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
+    })
+    @GetMapping(value = "/brandInfo/{brandSeq}")
+    public Map<String, Object> brandInfo(@RequestParam(value = "브랜드 IDX", required = false) Integer brandSeq) throws Exception {
+
+        BrandInfoVo brandInfoVo = new BrandInfoVo();
+        brandInfoVo.setBrandSeq(brandSeq);
+        Map<String, Object> brandMap = this.adminBrandApiService.getBrandInfo(brandInfoVo);
+
+        return brandMap;
     }
 
     @ApiOperation(value = "브랜드 등록", notes = "브랜드를 등록한다.")
@@ -52,20 +80,8 @@ public class adminBrandApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @PostMapping(value = "/addBrand")
-    public void addBrand(@RequestParam(value = "브랜드명") String brandName,
-                         @RequestParam(value = "분야") String categoryCd,
-                         @RequestParam(value = "브랜드소개") String brandDescription,
-                         @RequestParam(value = "노출여부") String visible) throws Exception {
-
-        Map<String, Object> brandMap = new HashMap<String, Object>();
-        brandMap.put("brandName", brandName);
-        brandMap.put("categoryCd", categoryCd);
-        brandMap.put("brandDescription", brandDescription);
-        brandMap.put("visible", visible);
-        brandMap.put("updater", 1);
-
-        this.adminBrandApiService.addBrandInfo(brandMap);
-
+    public void addBrand(BrandInfoVo brandInfoVo) throws Exception {
+        this.adminBrandApiService.addBrand(brandInfoVo);
     }
 
     @ApiOperation(value = "브랜드 수정", notes = "브랜드를 수정한다.")
@@ -74,13 +90,12 @@ public class adminBrandApi {
             @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
-    @PutMapping(value = "/updateBrand/{brandSeq}")
-    public void updateBrand(@RequestParam(value = "브랜드명") String brandName,
-                            @RequestParam(value = "분야") String categoryCd,
-                            @RequestParam(value = "브랜드소개") String brandDescription,
-                            @RequestParam(value = "노출여부") String visible) throws Exception {
 
+    @PutMapping(value = "/updateBrand/{brandSeq}")
+    public void updateBrand(BrandInfoVo brandInfoVo) throws Exception {
+        this.adminBrandApiService.modifyBrand(brandInfoVo);
     }
+
     @ApiOperation(value = "브랜드 삭제", notes = "브랜드를 삭제한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "브랜드 삭제성공", response = Map.class),

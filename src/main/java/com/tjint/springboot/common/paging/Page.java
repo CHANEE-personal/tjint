@@ -15,4 +15,7 @@ public class Page {
     @ApiModelProperty(value = "페이지 크기", allowableValues = "range[0,100]")
     private Integer size;
 
+    public int getStartPage() {
+        return (page - 1) * size;
+    }
 }

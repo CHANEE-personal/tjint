@@ -8,16 +8,67 @@ import com.tjint.springboot.common.urlLink.service.UrlLinkVo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
+/**
+ * @package : com.tjint.springboot.app.admin.brand.service.impl
+ * @method : AdminBrandMapper
+ * @date : 12/05/2021 5:33 오후
+ * @author : chanee
+ * @version : 1.0.0
+ * @modifyed : 브랜드관리
+ **/
 @Mapper
 public interface AdminBrandMapper {
-    List<BrandInfoVo> getBrandList(BrandInfoVo paramBrandInfoVo);
+    /**
+     * @package : com.tjint.springboot.app.admin.brand.service.impl
+     * @method : getBrandListCnt
+     * @date : 12/05/2021 5:33 오후
+     * @author : chanee
+     * @version : 1.0.0
+     * @modifyed : 브랜드갯수
+     **/
+    int getBrandListCnt(Map<String, Object> searchMap);
 
-    int getBrandListCnt(BrandInfoVo paramBrandInfoVo);
+    /**
+     * @package : com.tjint.springboot.app.admin.brand.service.impl
+     * @method : getBrandList
+     * @date : 12/05/2021 5:33 오후
+     * @author : chanee
+     * @version : 1.0.0
+     * @modifyed : 브랜드리스트
+     **/
+    List<BrandInfoVo> getBrandList(Map<String, Object> searchMap);
 
-    void modifyBrand(BrandInfoVo paramBrandInfoVo);
+    /**
+     * @package : com.tjint.springboot.app.admin.brand.service.impl
+     * @method : modifyBrand
+     * @date : 12/05/2021 5:33 오후
+     * @author : chanee
+     * @version : 1.0.0
+     * @modifyed : 브랜드수정
+     **/
+    int modifyBrand(BrandInfoVo paramBrandInfoVo);
 
-    void addBrand(BrandInfoVo paramBrandInfoVo);
+    /**
+     * @package : com.tjint.springboot.app.admin.brand.service.impl
+     * @method : addBrand
+     * @date : 12/05/2021 5:33 오후
+     * @author : chanee
+     * @version : 1.0.0
+     * @modifyed : 브랜드등록
+     **/
+    int addBrand(BrandInfoVo paramBrandInfoVo);
+
+    /**
+     * @package : com.tjint.springboot.app.admin.brand.service.impl
+     * @method : getBrandInfo
+     * @date : 12/05/2021 5:33 오후
+     * @author : chanee
+     * @version : 1.0.0
+     * @modifyed : 브랜드상세
+     **/
+    Map<String, Object> getBrandInfo(BrandInfoVo brandInfoVo);
 
     String selectLatestFileId();
 

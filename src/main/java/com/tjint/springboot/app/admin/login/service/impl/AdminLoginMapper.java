@@ -1,13 +1,20 @@
 package com.tjint.springboot.app.admin.login.service.impl;
 
-import com.tjint.springboot.common.UserInfoVo;
+import com.tjint.springboot.common.BrandInfoVo;
 import org.apache.ibatis.annotations.Mapper;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface AdminLoginMapper {
-    String adminLogin(final UserInfoVo p0) throws Exception;
+    Integer getBrandListCnt(Map<String, Object> searchMap) throws Exception;
 
-    UserInfoVo selectAdminSeq(final UserInfoVo p0) throws Exception;
+    List<BrandInfoVo> getBrandList(Map<String, Object> searchMap) throws Exception;
 
-    String selectJudgeType(final UserInfoVo p0) throws Exception;
+    @Transactional
+    Integer addBrandInfo(Map<String, Object> brandMap) throws Exception;
+
+    String modifyBrand(BrandInfoVo brandInfoVo) throws Exception;
 }

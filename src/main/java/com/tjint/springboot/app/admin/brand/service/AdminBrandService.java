@@ -8,12 +8,25 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface AdminBrandService {
-    List<BrandInfoVo> getBrandList(BrandInfoVo paramBrandInfoVo);
 
-    int getBrandListCnt(BrandInfoVo paramBrandInfoVo);
+    /** 브랜드 갯수 **/
+    int getBrandListCnt(Map<String, Object> searchMap);
+
+    /** 브랜드 리스트 **/
+    List<BrandInfoVo> getBrandList(Map<String, Object> searchMap);
+
+    /** 브랜드 등록 **/
+    int addBrand(BrandInfoVo brandInfoVo) throws Exception;
+
+    /** 브랜드 수정 **/
+    int modifyBrand(BrandInfoVo paramBrandInfoVo);
+
+    /** 브랜드 상세 **/
+    Map<String, Object> getBrandInfo(BrandInfoVo brandInfoVo) throws Exception;
 
     String modifyBrandInfo(BrandInfoVo paramBrandInfoVo, HttpServletRequest paramHttpServletRequest) throws Exception;
 
@@ -33,7 +46,6 @@ public interface AdminBrandService {
 
     List<UrlLinkVo> getSnsLinkList(UrlLinkVo paramUrlLinkVo) throws Exception;
 
-    void modifyBrand(BrandInfoVo paramBrandInfoVo);
 
     void modifyImageFileInfo(ImageFileVo paramImageFileVo);
 

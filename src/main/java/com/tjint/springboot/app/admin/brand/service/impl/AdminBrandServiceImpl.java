@@ -14,29 +14,77 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 @Service("AdminBrandService")
 @RequiredArgsConstructor
 public class AdminBrandServiceImpl implements AdminBrandService {
 
-    private final AdminBrandMapper brandDAO;
-
-//    @Autowired
-//    private JFileService jFileService;
+    private final AdminBrandMapper adminBrandMapper;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
-
-    public List<BrandInfoVo> getBrandList(BrandInfoVo brandInfoVo) {
-        return this.brandDAO.getBrandList(brandInfoVo);
+    /**
+     * @package : com.tjint.springboot.app.admin.brand.service.impl
+     * @method : getBrandListCnt
+     * @date : 12/05/2021 5:33 오후
+     * @author : chanee
+     * @version : 1.0.0
+     * @modifyed : 브랜드갯수
+     **/
+    public int getBrandListCnt(Map<String, Object> searchMap) {
+        return this.adminBrandMapper.getBrandListCnt(searchMap);
     }
 
-    public String modifyBrandInfo(BrandInfoVo requestVo, HttpServletRequest request) throws Exception {
-        UserInfoVo loginVo = (UserInfoVo)request.getSession().getAttribute("adminVO");
-        requestVo.setUpdater(Integer.valueOf(loginVo.getUserSeq()));
-        modifyBrand(requestVo);
-        uploadImageFile(requestVo, request);
-        upsertUrlLink(requestVo, "M");
-        return "Y";
+    /**
+     * @package : com.tjint.springboot.app.admin.brand.service.impl
+     * @method : getBrandList
+     * @date : 12/05/2021 5:33 오후
+     * @author : chanee
+     * @version : 1.0.0
+     * @modifyed : 브랜드리스트
+     **/
+    public List<BrandInfoVo> getBrandList(Map<String, Object> searchMap) {
+        return this.adminBrandMapper.getBrandList(searchMap);
+    }
+
+    /**
+     * @package : com.tjint.springboot.app.admin.brand.serviceImpl
+     * @method : addBrand
+     * @date : 12/05/2021 5:33 오후
+     * @author : chanee
+     * @version : 1.0.0
+     * @modifyed : 브랜드등록
+     **/
+    public int addBrand(BrandInfoVo brandInfoVo) throws Exception {
+        return this.adminBrandMapper.addBrand(brandInfoVo);
+    }
+
+    /**
+     * @package : com.tjint.springboot.app.admin.brand.serviceImpl
+     * @method : brandInfo
+     * @date : 12/05/2021 5:33 오후
+     * @author : chanee
+     * @version : 1.0.0
+     * @modifyed : 브랜드상세
+     **/
+    public Map<String, Object> getBrandInfo(BrandInfoVo brandInfoVo) throws Exception {
+        return this.adminBrandMapper.getBrandInfo(brandInfoVo);
+    }
+
+    /**
+     * @package : com.tjint.springboot.app.admin.brand.serviceImpl
+     * @method : modifyBrand
+     * @date : 12/05/2021 5:33 오후
+     * @author : chanee
+     * @version : 1.0.0
+     * @modifyed : 브랜드수정
+     **/
+    public int modifyBrand(BrandInfoVo requestVo) {
+        return this.adminBrandMapper.modifyBrand(requestVo);
+    }
+
+    public String modifyBrandInfo(BrandInfoVo paramBrandInfoVo, HttpServletRequest paramHttpServletRequest) throws Exception {
+        return null;
     }
 
     public String addBrandInfo(BrandInfoVo requestVO, HttpServletRequest request) throws Exception {
@@ -50,14 +98,6 @@ public class AdminBrandServiceImpl implements AdminBrandService {
         return "Y";
     }
 
-    private void addBrand(BrandInfoVo requestVO) {
-        this.brandDAO.addBrand(requestVO);
-    }
-
-    public void modifyBrand(BrandInfoVo requestVo) {
-        this.brandDAO.modifyBrand(requestVo);
-    }
-
     private void addBrandImageDummy(BrandInfoVo requestVO) {
         ImageFileVo imageVO = new ImageFileVo();
         imageVO.setBoardTypeCd("brdt001");
@@ -68,11 +108,11 @@ public class AdminBrandServiceImpl implements AdminBrandService {
         imageVO.setImageFileSeq(Integer.valueOf(1));
         imageVO.setVisible("N");
         imageVO.setUpdater(requestVO.getUpdater());
-        this.brandDAO.addImageFileInfo(imageVO);
+        this.adminBrandMapper.addImageFileInfo(imageVO);
         for (int i = 1; i < 6; i++) {
             imageVO.setImageTypeCd("imgt002");
             imageVO.setSortOrder(Integer.valueOf(i));
-            this.brandDAO.addImageFileInfo(imageVO);
+            this.adminBrandMapper.addImageFileInfo(imageVO);
         }
     }
 
@@ -171,16 +211,16 @@ public class AdminBrandServiceImpl implements AdminBrandService {
 
     public void addUrlLink(UrlLinkVo urlLinkVo) {
         if (urlLinkVo.getLinkAddress() != null && !"".equals(urlLinkVo.getLinkAddress().trim()))
-            this.brandDAO.addUrlLink(urlLinkVo);
+            this.adminBrandMapper.addUrlLink(urlLinkVo);
     }
 
     public void modifyUrlLink(UrlLinkVo urlLinkVo) {
         if (urlLinkVo.getLinkAddress() != null && !"".equals(urlLinkVo.getLinkAddress().trim()))
-            this.brandDAO.modifyUrlLink(urlLinkVo);
+            this.adminBrandMapper.modifyUrlLink(urlLinkVo);
     }
 
     public List<SnsInfoVo> getCodeList(CodeVo codeVo) throws Exception {
-        List<SnsInfoVo> codeList = this.brandDAO.getCodeList(codeVo);
+        List<SnsInfoVo> codeList = this.adminBrandMapper.getCodeList(codeVo);
 //        if ("lnkt002".equals(codeVo.getParentCd()))
 //            for (SnsInfoVo link : codeList) {
 //                if (link.getFilePath() != null && !"".equals(link.getFilePath())) {
@@ -192,15 +232,15 @@ public class AdminBrandServiceImpl implements AdminBrandService {
     }
 
     public void modifyCode(CodeVo requestVO) {
-        this.brandDAO.modifyCode(requestVO);
+        this.adminBrandMapper.modifyCode(requestVO);
     }
 
     public void addSnsInfo(CodeVo codeVo, HttpServletRequest request) throws Exception {
         codeVo.setCodeValue("");
         codeVo.setCodeDesc(codeVo.getCodeName());
         codeVo.setParentCd("lnkt002");
-        this.brandDAO.addCode(codeVo);
-        String snsId = this.brandDAO.getLatestSnsId(codeVo);
+        this.adminBrandMapper.addCode(codeVo);
+        String snsId = this.adminBrandMapper.getLatestSnsId(codeVo);
         codeVo.setCodeId(snsId);
         uploadSnsImage(codeVo, request);
     }
@@ -247,7 +287,7 @@ public class AdminBrandServiceImpl implements AdminBrandService {
     }
 
     public List<UrlLinkVo> getSnsLinkList(UrlLinkVo linkVo) throws Exception {
-        List<UrlLinkVo> snsLinkList = this.brandDAO.getSnsLinkList(linkVo);
+        List<UrlLinkVo> snsLinkList = this.adminBrandMapper.getSnsLinkList(linkVo);
 //        for (UrlLinkVo link : snsLinkList) {
 //            if (link.getFilePath() != null && !"".equals(link.getFilePath())) {
 //                String filePath = ImageUtil.getImagePath(link.getFilePath());
@@ -258,14 +298,10 @@ public class AdminBrandServiceImpl implements AdminBrandService {
     }
 
     public void modifyImageFileInfo(ImageFileVo imageVo) {
-        this.brandDAO.modifyImageFileInfo(imageVo);
+        this.adminBrandMapper.modifyImageFileInfo(imageVo);
     }
 
     public int getCodeListCnt(CodeVo codeVo) {
-        return this.brandDAO.getCodeListCnt(codeVo);
-    }
-
-    public int getBrandListCnt(BrandInfoVo brandInfoVo) {
-        return this.brandDAO.getBrandListCnt(brandInfoVo);
+        return this.adminBrandMapper.getCodeListCnt(codeVo);
     }
 }

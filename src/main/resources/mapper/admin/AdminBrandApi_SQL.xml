@@ -4,6 +4,52 @@
     <select id="getBrandList" parameterType="java.util.HashMap" resultType="brandInfoVo">
         /* [AdminBrand_SQL.xml].[getBrandList] */
         SELECT
+        @ROWNUM := @ROWNUM + 1 AS RNUM
+        , a.brand_seq           as brandSeq
+        , a.category_cd       as categoryCd
+        , (select code_name from app_code where code_id = a.category_cd) categoryName
+        , a.menu_category_cd  as menuCategoryCd
+        , a.menu_category_nm  as menuCategoryNm
+        , a.brand_name        as brandName
+        , a.brand_description as brandDescription
+        , a.visible           as visible
+        , a.creator           as creator
+        , (SELECT name from app_user_info where user_seq = creator) as creatorNm
+        , DATE_FORMAT(a.create_time, '%Y.%m.%d')       as createTime
+        , a.updater           as updater
+        , (SELECT name from app_user_info where user_seq = updater) as updaterNm
+        , DATE_FORMAT(a.update_time, '%Y.%m.%d')       as updateTime
+        , b.image_file_info_seq as imageFileInfoSeq
+        , c.FILE_NAME         as imageFileName
+        , d.link_seq          as linkSeq
+        , d.link_address      as linkAddress
+        , d.visible           as brandLinkVisible
+        FROM ( SELECT @ROWNUM := 0) temp
+        ,app_board_brand a
+        LEFT OUTER JOIN app_image_file_info b ON a.brand_seq = b.board_seq
+        AND b.board_type_cd = 'brdt001'
+        AND b.image_type_cd = 'imgt001'
+        LEFT OUTER JOIN J_ATTACHFILE c ON b.image_file_id = c.FILE_ID
+        LEFT OUTER JOIN app_url_link_info d ON a.brand_seq = d.board_seq
+        AND d.board_type_cd = 'brdt001'
+        AND d.link_type_cd = 'lnkt001'
+        <where>
+            a.visible != 'D'
+            <if test="brandSeq != null and brandSeq != ''">AND a.brand_seq = #{brandSeq}</if>
+            <if test="categoryCd != null and categoryCd != ''">
+                AND a.category_cd = #{categoryCd}
+            </if>
+            <if test="searchKeyword != null and searchKeyword != ''">
+                AND a.brand_name LIKE CONCAT ('%', #{searchKeyword},'%')
+            </if>
+        </where>
+        ORDER BY brand_seq DESC
+        LIMIT #{startPage} #{size}
+    </select>
+
+    <select id="getBrandInfo" parameterType="brandInfoVo" resultType="java.util.HashMap">
+        /* [AdminBrand_SQL.xml].[getBrandInfo] */
+        SELECT
         a.brand_seq           as brandSeq
         , a.category_cd       as categoryCd
         , (select code_name from app_code where code_id = a.category_cd) categoryName
@@ -34,19 +80,10 @@
         <where>
             a.visible != 'D'
             <if test="brandSeq != null and brandSeq != ''">AND a.brand_seq = #{brandSeq}</if>
-            <if test="categoryCd != null and categoryCd != ''">
-                AND a.category_cd = #{categoryCd}
-            </if>
-            <if test="searchKeyword != null and searchKeyword != ''">
-                AND a.brand_name LIKE CONCAT ('%', #{searchKeyword},'%')
-            </if>
         </where>
-        AND brand_seq <![CDATA[<=]]> #{page}
-        ORDER BY brand_seq DESC
-        LIMIT #{size}
     </select>
 
-    <select id="getBrandListCnt" parameterType="brandInfoVo" resultType="Integer">
+    <select id="getBrandListCnt" parameterType="java.util.HashMap" resultType="Integer">
         /* [AdminBrand_SQL.xml].[getBrandList] */
         SELECT
         count(*) as total
@@ -88,6 +125,7 @@
         INSERT INTO app_board_brand
         (
             category_cd
+        , menuCategoryNm
         , brand_name
         , brand_description
         , visible
@@ -99,6 +137,7 @@
         VALUES
         (
         #{categoryCd}
+        , #{menuCategoryNm}
         , #{brandName}
         , #{brandDescription}
         , #{visible}
