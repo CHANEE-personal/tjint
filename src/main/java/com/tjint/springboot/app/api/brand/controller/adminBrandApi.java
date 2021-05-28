@@ -10,6 +10,7 @@ import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.rmi.ServerError;
 import java.util.HashMap;
@@ -25,6 +26,34 @@ public class adminBrandApi {
     private final JwtUtil jwtUtil;
     private final JwtDecoder jwtDecoder;
 
+    @ApiIgnore
+    @ApiOperation(value = "브랜드 조회", notes = "브랜드를 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
+            @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
+            @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
+    })
+    @GetMapping(value = "/brandList")
+    public List<BrandInfoVo> getBrandSearchList(Page page) throws Exception {
+
+        Map<String, Object> searchMap = new HashMap<>();
+
+        Integer pageCnt = StringUtil.getInt(page.getPage(),1);
+        Integer pageSize = StringUtil.getInt(page.getSize(),10);
+        page.setPage(pageCnt);
+        page.setSize(pageSize);
+        searchMap.put("startPage", page.getStartPage());
+
+        Integer brandListCnt = this.adminBrandApiService.getBrandListCnt(searchMap);
+        List<BrandInfoVo> brandInfoList = null;
+
+        if(brandListCnt > 0) {
+            brandInfoList = this.adminBrandApiService.getBrandList(searchMap);
+        }
+
+        return brandInfoList;
+    }
+
     @ApiOperation(value = "브랜드 조회", notes = "브랜드를 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
@@ -32,7 +61,7 @@ public class adminBrandApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @GetMapping(value = "/brandList/{searchKeyword}")
-    public List<BrandInfoVo> getBrandSearchList(@RequestParam(value = "검색 키워드", required = false) String searchKeyword, Page page) throws Exception {
+    public List<BrandInfoVo> getBrandSearchList(@PathVariable("searchKeyword") String searchKeyword, Page page) throws Exception {
 
         Map<String, Object> searchMap = new HashMap<>();
 

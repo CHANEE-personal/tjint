@@ -44,7 +44,11 @@
             </if>
         </where>
         ORDER BY brand_seq DESC
-        LIMIT #{startPage} #{size}
+        <where>
+            <if test="startPage != null and startPage != '' and size != null and size != ''">
+                LIMIT #{startPage} #{size}
+            </if>
+        </where>
     </select>
 
     <select id="getBrandInfo" parameterType="brandInfoVo" resultType="java.util.HashMap">

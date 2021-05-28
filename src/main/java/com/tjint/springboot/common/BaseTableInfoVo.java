@@ -1,5 +1,11 @@
 package com.tjint.springboot.common;
 
+import lombok.Getter;
+import lombok.Setter;
+
+
+@Getter
+@Setter
 public class BaseTableInfoVo extends CommonVo {
     private static final long serialVersionUID = 1L;
     private String visible;
