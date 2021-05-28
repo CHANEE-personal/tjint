@@ -66,11 +66,8 @@ public class adminBrandApi {
         Map<String, Object> searchMap = new HashMap<>();
 
         searchMap.put("searchKeyword", StringUtil.getString(searchKeyword,""));
-        System.out.println("===startPage===");
-        System.out.println(page.getStartPage());
-        System.out.println(page.getPage());
-        System.out.println(page.getSize());
-        searchMap.put("startPage", StringUtil.getInt(page.getStartPage(),0));
+
+        searchMap.put("startPage", page.getStartPage());
         searchMap.put("size", page.getSize());
 
         Integer brandListCnt = this.adminBrandApiService.getBrandListCnt(searchMap);
