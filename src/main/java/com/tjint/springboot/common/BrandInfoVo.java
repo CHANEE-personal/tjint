@@ -3,7 +3,11 @@ package com.tjint.springboot.common;
 import com.tjint.springboot.app.admin.brand.service.BrandVo;
 import com.tjint.springboot.common.imageFile.service.ImageFileVo;
 import com.tjint.springboot.common.urlLink.service.UrlLinkVo;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class BrandInfoVo extends BrandVo {
     private static final long serialVersionUID = 1L;
 

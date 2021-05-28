@@ -61,12 +61,17 @@ public class adminBrandApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @GetMapping(value = "/brandList/{searchKeyword}")
-    public List<BrandInfoVo> getBrandSearchList(@PathVariable("searchKeyword") String searchKeyword, Page page) throws Exception {
+    public List<BrandInfoVo> getBrandSearchList(@RequestParam(value = "검색 키워드", required = false) String searchKeyword, Page page) throws Exception {
 
         Map<String, Object> searchMap = new HashMap<>();
 
         searchMap.put("searchKeyword", StringUtil.getString(searchKeyword,""));
-        searchMap.put("startPage", page.getStartPage());
+        System.out.println("===startPage===");
+        System.out.println(page.getStartPage());
+        System.out.println(page.getPage());
+        System.out.println(page.getSize());
+        searchMap.put("startPage", StringUtil.getInt(page.getStartPage(),0));
+        searchMap.put("size", page.getSize());
 
         Integer brandListCnt = this.adminBrandApiService.getBrandListCnt(searchMap);
         List<BrandInfoVo> brandInfoList = null;
