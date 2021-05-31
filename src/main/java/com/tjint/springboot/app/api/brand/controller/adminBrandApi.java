@@ -3,11 +3,15 @@ package com.tjint.springboot.app.api.brand.controller;
 import com.tjint.springboot.app.admin.jwt.JwtDecoder;
 import com.tjint.springboot.app.admin.jwt.JwtUtil;
 import com.tjint.springboot.app.api.brand.service.AdminBrandApiService;
+import com.tjint.springboot.app.api.brand.service.NewBrandDTO;
 import com.tjint.springboot.common.BrandInfoVo;
 import com.tjint.springboot.common.paging.Page;
 import com.tjint.springboot.common.utils.StringUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import net.sf.json.JSON;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import springfox.documentation.annotations.ApiIgnore;
@@ -63,15 +67,13 @@ public class adminBrandApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @GetMapping(value = "/brandList/{searchKeyword}")
-    public List<BrandInfoVo> getBrandSearchList(@PathVariable(name="searchKeyword", required = false) String searchKeyword, Page page) throws Exception {
+    public JSON getBrandSearchList(@RequestParam(name="searchKeyword", required = false) String searchKeyword, Page page) throws Exception {
 
+        JSONObject jsonObject = new JSONObject();
         Map<String, Object> searchMap = new HashMap<>();
 
         searchMap.put("searchKeyword", StringUtil.getString(searchKeyword,""));
 
-        System.out.println("===startPage===");
-        System.out.println(StringUtil.getInt(page.getStartPage(),0));
-        System.out.println(page.getSize());
         searchMap.put("startPage", StringUtil.getInt(page.getStartPage(),0));
         searchMap.put("size", StringUtil.getInt(page.getSize(),10));
 
@@ -82,7 +84,16 @@ public class adminBrandApi {
             brandInfoList = this.adminBrandApiService.getBrandList(searchMap);
         }
 
-        return brandInfoList;
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.add(brandInfoList);
+
+        jsonObject.put("brandInfoListTotalCnt", brandInfoList.size());
+        jsonObject.put("pageSize", page.getSize());
+        jsonObject.put("pageNum", page.getPage());
+        jsonObject.put("perPageListCnt", StringUtil.getInt(Math.ceil(brandInfoList.size()/page.getSize()),0));
+        jsonObject.put("brandInfoList", brandInfoList);
+
+        return jsonObject;
     }
 
     /**
@@ -116,8 +127,8 @@ public class adminBrandApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @PostMapping(value = "/addBrand")
-    public void addBrand(BrandInfoVo brandInfoVo) throws Exception {
-        this.adminBrandApiService.addBrand(brandInfoVo);
+    public void addBrand(NewBrandDTO newBrandDTO) throws Exception {
+        this.adminBrandApiService.addBrand(newBrandDTO);
     }
 
     @ApiOperation(value = "브랜드 수정", notes = "브랜드를 수정한다.")

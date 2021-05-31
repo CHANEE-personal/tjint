@@ -1,5 +1,6 @@
 package com.tjint.springboot.app.api.brand.service.impl;
 
+import com.tjint.springboot.app.api.brand.service.NewBrandDTO;
 import com.tjint.springboot.common.BrandInfoVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -17,7 +18,7 @@ public interface AdminBrandApiMapper {
     List<BrandInfoVo> getBrandList(Map<String, Object> searchMap) throws Exception;
 
     @Transactional
-    Integer addBrand(BrandInfoVo brandInfoVo) throws Exception;
+    Integer addBrand(NewBrandDTO newBrandDTO) throws Exception;
 
     String modifyBrand(BrandInfoVo brandInfoVo) throws Exception;
 

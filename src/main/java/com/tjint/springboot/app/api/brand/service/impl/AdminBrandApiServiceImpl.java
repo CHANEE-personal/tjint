@@ -1,6 +1,7 @@
 package com.tjint.springboot.app.api.brand.service.impl;
 
 import com.tjint.springboot.app.api.brand.service.AdminBrandApiService;
+import com.tjint.springboot.app.api.brand.service.NewBrandDTO;
 import com.tjint.springboot.common.BrandInfoVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,8 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
         return adminBrandApiMapper.getBrandInfo(brandInfoVo);
     }
 
-    public Integer addBrand(BrandInfoVo brandInfoVo) throws Exception {
-        return adminBrandApiMapper.addBrand(brandInfoVo);
+    public Integer addBrand(NewBrandDTO newBrandDTO) throws Exception {
+        return adminBrandApiMapper.addBrand(newBrandDTO);
     }
 
     public String modifyBrand(BrandInfoVo brandInfoVo) throws Exception {

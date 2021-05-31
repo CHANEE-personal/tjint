@@ -17,7 +17,7 @@ public interface AdminBrandApiService {
     public Map<String, Object> getBrandInfo(BrandInfoVo brandInfoVo) throws Exception;
 
     /** 브랜드 등록 **/
-    public Integer addBrand(BrandInfoVo brandInfoVo) throws Exception;
+    public Integer addBrand(NewBrandDTO newBrandDTO) throws Exception;
 
     /** 브랜드 삭제 **/
     public String modifyBrand(BrandInfoVo brandInfoVo) throws Exception;
