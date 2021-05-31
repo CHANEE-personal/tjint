@@ -18,6 +18,9 @@
         <typeAlias type="com.tjint.springboot.common.CodeVo" alias="codeVo"/>
         <typeAlias type="com.tjint.springboot.common.CommonVo" alias="commonVo"/>
         <typeAlias type="com.tjint.springboot.common.MetaVo" alias="metaVo"/>
+        <!-- apiVo -->
+        <typeAlias type="com.tjint.springboot.app.api.brand.service.NewBrandDTO" alias="newBrandDto"/>
+        <typeAlias type="com.tjint.springboot.common.imageFile.NewImageDTO" alias="newImageDto"/>
     </typeAliases>
 
 </configuration>

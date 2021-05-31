@@ -120,7 +120,7 @@
         WHERE brand_seq = #{brandSeq}
     </update>
 
-    <insert id="addBrandInfo" parameterType="hashMap">
+    <insert id="addBrand" parameterType="newBrandDto">
         /* [AdminBrand_SQL.xml].[addBrand] */
         INSERT INTO app_board_brand
         (
@@ -153,37 +153,37 @@
         SELECT FILE_ID FROM J_ATTACHFILE ORDER BY REG_DATE DESC LIMIT 1
     </select>
 
-<!--    <insert id="addImageFileInfo" parameterType="app.cmm.imageFile.service.ImageFileVo">-->
-<!--        /* [AdminBrand_SQL.xml].[addImageFileInfo] */-->
-<!--        INSERT INTO app_image_file_info-->
-<!--        (-->
-<!--            board_type_cd-->
-<!--        , board_seq-->
-<!--        , image_type_cd-->
-<!--        , image_file_id-->
-<!--        , image_file_seq-->
-<!--        , sort_order-->
-<!--        , visible-->
-<!--        , creator-->
-<!--        , create_time-->
-<!--        , updater-->
-<!--        , update_time-->
-<!--        )-->
-<!--        VALUES-->
-<!--        (-->
-<!--            #{boardTypeCd}-->
-<!--        , #{boardSeq}-->
-<!--        , #{imageTypeCd}-->
-<!--        , #{imageFileId}-->
-<!--        , #{imageFileSeq}-->
-<!--        , #{sortOrder}-->
-<!--        , #{visible}-->
-<!--        , #{updater}-->
-<!--        , NOW()-->
-<!--        , #{updater}-->
-<!--        , NOW()-->
-<!--        )-->
-<!--    </insert>-->
+    <insert id="addImageFileInfo" parameterType="newImageDto">
+        /* [AdminBrand_SQL.xml].[addImageFileInfo] */
+        INSERT INTO app_image_file_info
+        (
+            board_type_cd
+        , board_seq
+        , image_type_cd
+        , image_file_id
+        , image_file_seq
+        , sort_order
+        , visible
+        , creator
+        , create_time
+        , updater
+        , update_time
+        )
+        VALUES
+        (
+            #{boardTypeCd}
+        , #{boardSeq}
+        , #{imageTypeCd}
+        , #{imageFileId}
+        , #{imageFileSeq}
+        , #{sortOrder}
+        , #{visible}
+        , #{updater}
+        , NOW()
+        , #{updater}
+        , NOW()
+        )
+    </insert>
 
 <!--    <update id="modifyImageFileInfo" parameterType="app.cmm.imageFile.service.ImageFileVo">-->
 <!--        /* [AdminBrand_SQL.xml].[modifyImageFileInfo] */-->

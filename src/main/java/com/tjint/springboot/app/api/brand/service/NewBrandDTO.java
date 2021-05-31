@@ -1,41 +1,36 @@
 package com.tjint.springboot.app.api.brand.service;
 
-import lombok.AllArgsConstructor;
+import com.tjint.springboot.common.imageFile.NewImageDTO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-public class NewBrandDTO {
+@ApiModel
+public class NewBrandDTO extends NewImageDTO {
 
-    @Getter
-    @Setter
-    @RequiredArgsConstructor
-    public class BrandDTO {
-        private Integer brandSeq;
-        private String categoryCd;
-        private String menuCategoryCd;
-        private String menuCategoryNm;
-        private String brandName;
-        private String brandDescription;
-        private String visible;
-        private Integer creator;
-        private String createTime;
-        private Integer updater;
-        private String updateTime;
-
-    }
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    public class ImageDTO {
-        private Integer imageFileInfoSeq;
-        private String boardTypeCd;
-        private String imageTypeCd;
-        private String imageFileId;
-        private Integer imageFileSeq;
-    }
+    @ApiModelProperty(required = true, value = "브랜드 IDX", hidden = true)
+    private Integer brandSeq;
+    @ApiModelProperty(required = true, value = "카테고리 value")
+    private String categoryCd;
+    @ApiModelProperty(required = true, value = "분야 카테고리 value")
+    private String menuCategoryCd;
+    @ApiModelProperty(required = true, value = "분야 카테고리 이름")
+    private String menuCategoryNm;
+    @ApiModelProperty(required = true, value = "브랜드 이름")
+    private String brandName;
+    @ApiModelProperty(required = true, value = "브랜드 설명")
+    private String brandDescription;
+    @ApiModelProperty(required = true, value = "노출 여부")
+    private String visible;
+    @ApiModelProperty(required = true, value = "등록자")
+    private Integer creator;
+    @ApiModelProperty(required = true, value = "등록시간")
+    private String createTime;
+    @ApiModelProperty(required = true, value = "수정자")
+    private Integer updater;
+    @ApiModelProperty(required = true, value = "수정일자")
+    private String updateTime;
 }
