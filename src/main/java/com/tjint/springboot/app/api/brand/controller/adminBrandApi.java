@@ -9,8 +9,6 @@ import com.tjint.springboot.common.paging.Page;
 import com.tjint.springboot.common.utils.StringUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import net.sf.json.JSON;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
@@ -38,8 +36,9 @@ public class adminBrandApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @GetMapping(value = "/brandList")
-    public List<BrandInfoVo> getBrandList(@RequestParam(value = "검색 키워드", required = false) String searchKeyword, Page page) throws Exception {
+    public JSONObject getBrandList(@RequestParam(value = "검색 키워드", required = false) String searchKeyword, Page page) throws Exception {
 
+        JSONObject jsonObject = new JSONObject();
         Map<String, Object> searchMap = new HashMap<>();
 
         Integer pageCnt = StringUtil.getInt(page.getPage(),1);
@@ -57,7 +56,16 @@ public class adminBrandApi {
             brandInfoList = this.adminBrandApiService.getBrandList(searchMap);
         }
 
-        return brandInfoList;
+        // 리스트 수
+        jsonObject.put("pageSize", page.getSize());
+        // 전체 페이지 수
+        jsonObject.put("perPageListCnt", Math.ceil((brandListCnt-1)/page.getSize()+1));
+        // 전체 아이템 수
+        jsonObject.put("brandInfoListTotalCnt", brandListCnt);
+
+        jsonObject.put("brandInfoList", brandInfoList);
+
+        return jsonObject;
     }
 
     @ApiOperation(value = "브랜드 조회", notes = "브랜드를 조회한다.")
@@ -67,7 +75,7 @@ public class adminBrandApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @GetMapping(value = "/brandList/{searchKeyword}")
-    public JSON getBrandSearchList(@RequestParam(name="searchKeyword", required = false) String searchKeyword, Page page) throws Exception {
+    public JSONObject getBrandSearchList(@RequestParam(name="searchKeyword", required = false) String searchKeyword, Page page) throws Exception {
 
         JSONObject jsonObject = new JSONObject();
         Map<String, Object> searchMap = new HashMap<>();
@@ -80,18 +88,18 @@ public class adminBrandApi {
         Integer brandListCnt = this.adminBrandApiService.getBrandListCnt(searchMap);
         List<BrandInfoVo> brandInfoList = null;
 
-        if(brandListCnt > 0) {
-            brandInfoList = this.adminBrandApiService.getBrandList(searchMap);
-        }
+//        if(brandListCnt > 0) {
+//            brandInfoList = this.adminBrandApiService.getBrandList(searchMap);
+//        }
 
-        JSONArray jsonArray = new JSONArray();
-        jsonArray.add(brandInfoList);
-
-        jsonObject.put("brandInfoListTotalCnt", brandInfoList.size());
+        // 리스트 수
         jsonObject.put("pageSize", page.getSize());
-        jsonObject.put("pageNum", page.getPage());
-        jsonObject.put("perPageListCnt", StringUtil.getInt(Math.ceil(brandInfoList.size()/page.getSize()),0));
-        jsonObject.put("brandInfoList", brandInfoList);
+        // 전체 페이지 수
+        jsonObject.put("perPageListCnt", Math.ceil((brandListCnt-1)/page.getSize()+1));
+        // 전체 아이템 수
+        jsonObject.put("brandInfoListTotalCnt", brandListCnt);
+
+//        jsonObject.put("brandInfoList", brandInfoList);
 
         return jsonObject;
     }
