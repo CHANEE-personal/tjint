@@ -26,4 +26,10 @@ public class NewImageDTO {
 
     @ApiModelProperty(required = true, value = "이미지 경로")
     private String imageFilePath;
+
+    @ApiModelProperty(required = true, value = "노출 순서")
+    private Integer sortOrder;
+
+    @ApiModelProperty(required = true, value = "페이지 구분")
+    private String boardTypeCd;
 }

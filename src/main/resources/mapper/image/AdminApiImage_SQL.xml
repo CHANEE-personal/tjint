@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjint.springboot.common.imageFile.service.impl.ImageMapper">
+
+     <insert id="addImageFile" parameterType="NewImageDTO">
+         /* [AdminApiImage.xml].[addImageFileInfo] */
+         INSERT INTO app_image_file_info
+         (
+             board_type_cd
+         , board_seq
+         , image_type_cd
+         , image_file_id
+         , image_file_seq
+         , sort_order
+         , visible
+         , creator
+         , create_time
+         , updater
+         , update_time
+         )
+         VALUES
+         (
+             #{boardTypeCd}
+         , #{boardSeq}
+         , #{imageTypeCd}
+         , #{imageFileId}
+         , #{imageFileSeq}
+         , #{sortOrder}
+         , #{visible}
+         , #{updater}
+         , NOW()
+         , #{updater}
+         , NOW()
+         )
+     </insert>
+</mapper>

@@ -12,8 +12,10 @@ import lombok.RequiredArgsConstructor;
 import net.sf.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import java.rmi.ServerError;
 import java.util.HashMap;
 import java.util.List;
@@ -41,8 +43,6 @@ public class adminBrandApi {
         JSONObject jsonObject = new JSONObject();
         Map<String, Object> searchMap = new HashMap<>();
 
-        System.out.println("===searchKeyword===");
-        System.out.println(StringUtil.getString(searchKeyword,""));
         Integer pageCnt = StringUtil.getInt(page.getPage(),1);
         Integer pageSize = StringUtil.getInt(page.getSize(),10);
         page.setPage(pageCnt);
@@ -70,42 +70,6 @@ public class adminBrandApi {
         return jsonObject;
     }
 
-//    @ApiOperation(value = "브랜드 조회", notes = "브랜드를 조회한다.")
-//    @ApiResponses({
-//            @ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
-//            @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
-//            @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
-//    })
-//    @GetMapping(value = "/brandList/{searchKeyword}")
-//    public JSONObject getBrandSearchList(@RequestParam(name="searchKeyword", required = false) String searchKeyword, Page page) throws Exception {
-//
-//        JSONObject jsonObject = new JSONObject();
-//        Map<String, Object> searchMap = new HashMap<>();
-//
-//        searchMap.put("searchKeyword", StringUtil.getString(searchKeyword,""));
-//
-//        searchMap.put("startPage", StringUtil.getInt(page.getStartPage(),0));
-//        searchMap.put("size", StringUtil.getInt(page.getSize(),10));
-//
-//        Integer brandListCnt = this.adminBrandApiService.getBrandListCnt(searchMap);
-//        List<BrandInfoVo> brandInfoList = null;
-//
-//        if(brandListCnt > 0) {
-//            brandInfoList = this.adminBrandApiService.getBrandList(searchMap);
-//        }
-//
-//        // 리스트 수
-//        jsonObject.put("pageSize", page.getSize());
-//        // 전체 페이지 수
-//        jsonObject.put("perPageListCnt", Math.ceil((brandListCnt-1)/page.getSize()+1));
-//        // 전체 아이템 수
-//        jsonObject.put("brandInfoListTotalCnt", brandListCnt);
-//
-//        jsonObject.put("brandInfoList", brandInfoList);
-//
-//        return jsonObject;
-//    }
-//
     /**
      * @package : com.tjint.springboot.app.admin.brand.controller
      * @method : brandInfo
@@ -137,8 +101,8 @@ public class adminBrandApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @PostMapping(value = "/addBrand")
-    public void addBrand(NewBrandDTO newBrandDTO) throws Exception {
-        this.adminBrandApiService.addBrand(newBrandDTO);
+    public void addBrand(NewBrandDTO newBrandDTO, MultipartFile[] files, HttpServletRequest request) throws Exception {
+        this.adminBrandApiService.addBrand(newBrandDTO, files, request);
     }
 
     @ApiOperation(value = "브랜드 수정", notes = "브랜드를 수정한다.")
