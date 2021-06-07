@@ -3,7 +3,10 @@ package com.tjint.springboot.app.api.brand.service.impl;
 import com.tjint.springboot.app.api.brand.service.AdminBrandApiService;
 import com.tjint.springboot.app.api.brand.service.NewBrandDTO;
 import com.tjint.springboot.common.BrandInfoVo;
+import com.tjint.springboot.common.imageFile.NewImageDTO;
 import com.tjint.springboot.common.imageFile.service.ImageService;
+import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
+import com.tjint.springboot.common.urlLink.service.UrlLinkService;
 import com.tjint.springboot.common.utils.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,7 @@ import java.util.Map;
 public class AdminBrandApiServiceImpl implements AdminBrandApiService {
     private final AdminBrandApiMapper adminBrandApiMapper;
     private final ImageService imageService;
+    private final UrlLinkService urlLinkService;
 
     public Integer getBrandListCnt(Map<String, Object> searchMap) throws Exception {
         return adminBrandApiMapper.getBrandListCnt(searchMap);
@@ -44,19 +48,34 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
      * @return
      * @throws Exception
      */
-    public String addBrand(NewBrandDTO newBrandDTO, MultipartFile[] files, HttpServletRequest request) throws Exception {
+    public String addBrand(NewBrandDTO newBrandDTO,
+                           NewImageDTO newImageDTO,
+                           NewUrlLinkDTO newUrlLinkDTO,
+                           MultipartFile[] files, HttpServletRequest request) throws Exception {
 
+        String resultMsg = "";
         if (adminBrandApiMapper.addBrand(newBrandDTO) > 0) {
             // 이미지 파일 등록
-            if (StringUtil.getInt(imageService.addImageFile(newBrandDTO)) > 0) {
-                imageService.uploadImageFile(files, request);
-                return "Y";
+            if (StringUtil.getInt(imageService.addImageFile(newImageDTO)) > 0) {
+                // 이미지 파일 업로드
+                if (StringUtil.getInt(imageService.uploadImageFile(files, request), 0) > 0) {
+                    // URL 링크 등록
+                    if(StringUtil.getInt(urlLinkService.addUrlLink(newUrlLinkDTO),0) > 0) {
+                        resultMsg = "S00";      // 등록 성공
+                    } else {
+                        resultMsg = "F00";     // 등록 실패
+                    }
+                } else {
+                    resultMsg = "F01";     // 이미지 업로드 실패
+                }
             } else {
-                return "N";
+                resultMsg = "F01";      // 이미지 파일 정보 insert 실패
             }
         } else {
-            return "N";
+            return "F02";            // 브랜드 등록 실패
         }
+
+        return resultMsg;
     }
 
     /**

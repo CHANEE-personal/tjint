@@ -2,35 +2,56 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tjint.springboot.common.imageFile.service.impl.ImageMapper">
 
-     <insert id="addImageFile" parameterType="NewImageDTO">
-         /* [AdminApiImage.xml].[addImageFileInfo] */
-         INSERT INTO app_image_file_info
-         (
-             board_type_cd
-         , board_seq
-         , image_type_cd
-         , image_file_id
-         , image_file_seq
-         , sort_order
-         , visible
-         , creator
-         , create_time
-         , updater
-         , update_time
-         )
-         VALUES
-         (
-             #{boardTypeCd}
-         , #{boardSeq}
-         , #{imageTypeCd}
-         , #{imageFileId}
-         , #{imageFileSeq}
-         , #{sortOrder}
-         , #{visible}
-         , #{updater}
-         , NOW()
-         , #{updater}
-         , NOW()
-         )
-     </insert>
+    <insert id="addImageFile" parameterType="newImageDTO">
+        /* [AdminApiImage.xml].[addImageFileInfo] */
+        INSERT INTO app_image_file_info
+        ( board_type_cd
+        , board_seq
+        , image_type_cd
+        , image_file_id
+        , image_file_seq
+        , sort_order
+        , visible
+        , creator
+        , create_time
+        , updater
+        , update_time)
+        VALUES ( #{boardTypeCd}
+               , #{boardSeq}
+               , #{imageTypeCd}
+               , #{imageFileId}
+               , #{imageFileSeq}
+               , #{sortOrder}
+               , #{visible}
+               , #{updater}
+               , NOW()
+               , #{updater}
+               , NOW())
+    </insert>
+
+    <insert id="addAttachFile" parameterType="attachFileDto">
+        /* [AdminApiImage.xml].[addAttachFile] */
+        INSERT INTO app_image_file_info
+        (FILE_ID,
+         FILE_SEQ,
+         FILE_NAME,
+         FILE_SIZE,
+         FILE_MASK,
+         FILE_PATH,
+         DOWNLOAD_COUNT,
+         DOWNLOAD_EXPIRE_DATE,
+         DOWNLOAD_LIMIT_COUNT,
+         REG_DT,
+         DELETE_YN)
+        VALUES (#{fileId},
+                #{fileSeq},
+                #{fileName},
+                #{fileSize},
+                #{filePath},
+                #{downloadCnt},
+                #{downloadExpireDate},
+                #{downloadLimitCnt},
+                now(),
+                #{deletYn})
+    </insert>
 </mapper>

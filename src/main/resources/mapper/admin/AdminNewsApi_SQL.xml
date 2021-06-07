@@ -36,27 +36,25 @@
     <select id="selectNewsDetail" parameterType="newsVo" resultType="newsVo">
         /*[AdminPrMgmt_SQL.xml].[selectNewsDetail] */
         <![CDATA[
-        SELECT
-            news_seq,
-            news_title,
-            news_description,
-            A.visible,
-            A.creator,
-            A.create_time,
-            A.updater,
-            A.update_time,
-            B.image_file_id as imageFileId,
-            C.FILE_NAME as fileName,
-            C.FILE_PATH as filePath
-        FROM
-            app_board_news A
-                left OUTER JOIN
-            (select * from app_image_file_info where board_type_cd = 'brdt002' AND visible = 'Y') B
-            ON A.news_seq = B.board_seq
-                left outer join
-            J_ATTACHFILE C
-            on B.image_file_id = C.file_id
-        WHERE  news_seq = #{newsSeq}
+        SELECT news_seq,
+               news_title,
+               news_description,
+               A.visible,
+               A.creator,
+               A.create_time,
+               A.updater,
+               A.update_time,
+               B.image_file_id as imageFileId,
+               C.FILE_NAME     as fileName,
+               C.FILE_PATH     as filePath
+        FROM app_board_news A
+                 left OUTER JOIN
+             (select * from app_image_file_info where board_type_cd = 'brdt002' AND visible = 'Y') B
+             ON A.news_seq = B.board_seq
+                 left outer join
+             J_ATTACHFILE C
+             on B.image_file_id = C.file_id
+        WHERE news_seq = #{newsSeq}
         ]]>
 
     </select>
@@ -84,25 +82,20 @@
     <insert id="insertNews" parameterType="newsVo" useGeneratedKeys="true" keyProperty="newsSeq">
         /* [AdminPrMgmt_SQL.xml].[insertNews] */
         INSERT INTO app_board_news
-        (
-            news_title
+        ( news_title
         , news_description
         , visible
         , creator
         , create_time
         , updater
-        , update_time
-        )
-        VALUES
-        (
-            #{newsTitle}
-        , #{newsDescription}
-        , #{visible}
-        , #{creator}
-        , now()
-        , #{creator}
-        , now()
-        )
+        , update_time)
+        VALUES ( #{newsTitle}
+               , #{newsDescription}
+               , #{visible}
+               , #{creator}
+               , now()
+               , #{creator}
+               , now())
     </insert>
 
     <update id="updateNews" parameterType="newsVo">

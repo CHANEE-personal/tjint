@@ -47,7 +47,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception{
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
 
@@ -64,7 +64,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
         multipartResolver.setDefaultEncoding("UTF-8");  // 파일 인코딩 설정
-        multipartResolver.setMaxUploadSizePerFile(10*1024*1024);    // 파일당 업로드 크기 제한 (10MB)
+        multipartResolver.setMaxUploadSizePerFile(10 * 1024 * 1024);    // 파일당 업로드 크기 제한 (10MB)
 
         return multipartResolver;
     }

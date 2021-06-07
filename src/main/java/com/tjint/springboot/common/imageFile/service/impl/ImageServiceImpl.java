@@ -24,7 +24,8 @@ public class ImageServiceImpl implements ImageService {
     /**
      * 오늘 날짜
      **/
-    private final String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHMMSS"));
+    private final LocalDate nowDate = LocalDate.now();
+    private final String today = nowDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
     /**
      * 업로드 경로
@@ -108,6 +109,9 @@ public class ImageServiceImpl implements ImageService {
                 attachFileDTO.setFileName(file.getOriginalFilename());                   // 파일명
                 attachFileDTO.setFileSize(StringUtil.getInt(file.getSize(), 0));  // 파일Size
                 attachFileDTO.setFileMask(today);                                        // 파일Mask
+
+                // 이미지 정보 insert
+                imageMapper.addAttachFile(attachFileDTO);
 
             } catch (Exception e) {
                 throw new Exception();

@@ -5,7 +5,9 @@ import com.tjint.springboot.app.admin.jwt.JwtUtil;
 import com.tjint.springboot.app.api.brand.service.AdminBrandApiService;
 import com.tjint.springboot.app.api.brand.service.NewBrandDTO;
 import com.tjint.springboot.common.BrandInfoVo;
+import com.tjint.springboot.common.imageFile.NewImageDTO;
 import com.tjint.springboot.common.paging.Page;
+import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import com.tjint.springboot.common.utils.StringUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
@@ -85,7 +87,7 @@ public class adminBrandApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @GetMapping(value = "/brandInfo/{brandSeq}")
-    public Map<String, Object> brandInfo(@RequestParam(value = "브랜드 IDX", required = false) Integer brandSeq) throws Exception {
+    public Map<String, Object> brandInfo(@PathVariable("brandSeq") Integer brandSeq) throws Exception {
 
         BrandInfoVo brandInfoVo = new BrandInfoVo();
         brandInfoVo.setBrandSeq(brandSeq);
@@ -101,8 +103,11 @@ public class adminBrandApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @PostMapping(value = "/addBrand")
-    public void addBrand(NewBrandDTO newBrandDTO, MultipartFile[] files, HttpServletRequest request) throws Exception {
-        this.adminBrandApiService.addBrand(newBrandDTO, files, request);
+    public void addBrand(NewBrandDTO newBrandDTO,
+                         NewImageDTO newImageDTO,
+                         NewUrlLinkDTO newUrlLinkDTO,
+                         MultipartFile[] files, HttpServletRequest request) throws Exception {
+        this.adminBrandApiService.addBrand(newBrandDTO, newImageDTO, newUrlLinkDTO, files, request);
     }
 
     @ApiOperation(value = "브랜드 수정", notes = "브랜드를 수정한다.")

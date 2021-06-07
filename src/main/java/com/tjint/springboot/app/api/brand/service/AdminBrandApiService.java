@@ -1,6 +1,8 @@
 package com.tjint.springboot.app.api.brand.service;
 
 import com.tjint.springboot.common.BrandInfoVo;
+import com.tjint.springboot.common.imageFile.NewImageDTO;
+import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,7 +45,10 @@ public interface AdminBrandApiService {
      * @return
      * @throws Exception
      */
-    public String addBrand(NewBrandDTO newBrandDTO, MultipartFile[] files, HttpServletRequest request) throws Exception;
+    public String addBrand(NewBrandDTO newBrandDTO,
+                           NewImageDTO newImageDTO,
+                           NewUrlLinkDTO newUrlLinkDTO,
+                           MultipartFile[] files, HttpServletRequest request) throws Exception;
 
     /** 브랜드 삭제 **/
     public String modifyBrand(BrandInfoVo brandInfoVo) throws Exception;

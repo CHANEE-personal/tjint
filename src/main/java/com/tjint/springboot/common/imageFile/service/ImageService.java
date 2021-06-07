@@ -33,7 +33,7 @@ public interface ImageService {
      * 5. 작성일       : 2021. 06. 02.
      * </pre>
      *
-     * @param newImageDTO
+     * @param files
      * @param request
      * @return
      * @throws Exception

@@ -21,6 +21,7 @@
         <!-- apiVo -->
         <typeAlias type="com.tjint.springboot.app.api.brand.service.NewBrandDTO" alias="newBrandDto"/>
         <typeAlias type="com.tjint.springboot.common.imageFile.NewImageDTO" alias="newImageDto"/>
+        <typeAlias type="com.tjint.springboot.common.imageFile.AttachFileDTO" alias="attachFileDto"/>
     </typeAliases>
 
 </configuration>
