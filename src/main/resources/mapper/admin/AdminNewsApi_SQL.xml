@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tjint.springboot.app.api.news.service.impl.AdminNewsApiMapper">
 
-    <select id="getNewsList" parameterType="newsVo" resultType="newsVo">
+    <select id="getNewsList" parameterType="hashMap" resultType="hashMap">
         /*[AdminPrMgmt_SQL.xml].[selectNewsList] */
         <![CDATA[
            SELECT
@@ -59,7 +59,7 @@
 
     </select>
 
-    <select id="selectNewsListCnt" parameterType="newsVo" resultType="Integer">
+    <select id="getNewsListCnt" parameterType="hashMap" resultType="Integer">
         /*[AdminPrMgmt_SQL.xml].[selectNewsListCnt] */
         <![CDATA[
             SELECT

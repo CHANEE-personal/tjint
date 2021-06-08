@@ -15,7 +15,6 @@ import net.sf.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import java.rmi.ServerError;
@@ -32,7 +31,6 @@ public class adminBrandApi {
     private final JwtUtil jwtUtil;
     private final JwtDecoder jwtDecoder;
 
-    @ApiIgnore
     @ApiOperation(value = "브랜드 조회", notes = "브랜드를 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
@@ -40,7 +38,7 @@ public class adminBrandApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @GetMapping(value = "/brandList")
-    public JSONObject getBrandList(@RequestParam("searchKeyword") String searchKeyword, Page page) throws Exception {
+    public JSONObject getBrandList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, Page page) throws Exception {
 
         JSONObject jsonObject = new JSONObject();
         Map<String, Object> searchMap = new HashMap<>();

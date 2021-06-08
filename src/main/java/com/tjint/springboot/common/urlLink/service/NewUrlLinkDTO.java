@@ -12,6 +12,12 @@ public class NewUrlLinkDTO {
     @ApiModelProperty(required = true, value = "링크 IDX", hidden = true)
     private Integer linkSeq;
 
+    @ApiModelProperty(required = true, value = "페이지 구분")
+    private String boardTypeCd;
+
+    @ApiModelProperty(required = true, value = "브랜드 IDX")
+    private Integer brandSeq;
+
     @ApiModelProperty(required = true, value = "링크 분류")
     private String linkTypeCd;
 

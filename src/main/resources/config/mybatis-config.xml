@@ -22,6 +22,8 @@
         <typeAlias type="com.tjint.springboot.app.api.brand.service.NewBrandDTO" alias="newBrandDto"/>
         <typeAlias type="com.tjint.springboot.common.imageFile.NewImageDTO" alias="newImageDto"/>
         <typeAlias type="com.tjint.springboot.common.imageFile.AttachFileDTO" alias="attachFileDto"/>
+        <typeAlias type="com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO" alias="newUrlLinkDto"/>
+        <typeAlias type="com.tjint.springboot.app.api.news.service.NewNewsDTO" alias="newNewsDto"/>
     </typeAliases>
 
 </configuration>

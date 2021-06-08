@@ -62,7 +62,7 @@ public class ImageServiceImpl implements ImageService {
         // mainImage app_image_file_info 등록
         imageMapper.addImageFile(newImageDTO);
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 1; i < 6; i++) {
             newImageDTO.setImageTypeCd("imgt002");
             newImageDTO.setSortOrder(i);
             newImageDTO.setImageFileInfoSeq(1);
