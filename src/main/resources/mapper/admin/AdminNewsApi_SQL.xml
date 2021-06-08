@@ -30,6 +30,7 @@
         </choose>
         <![CDATA[
             ORDER BY news_seq DESC
+            LIMIT #{startPage}, #{size}
         ]]>
     </select>
 
