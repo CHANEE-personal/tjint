@@ -3,6 +3,7 @@ package com.tjint.springboot.app.api.news.service.impl;
 import com.tjint.springboot.app.api.news.service.NewNewsDTO;
 import org.apache.ibatis.annotations.Mapper;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,7 @@ import java.util.Map;
 public interface AdminNewsApiMapper {
     /**
      * <pre>
-     * 1. MethodName : getNewsList
+     * 1. MethodName : getNewsListCnt
      * 2. ClassName  : AdminNewsApiMapper.java
      * 3. Comment    : News 리스트 갯수
      * 4. 작성자       : CHO
@@ -22,6 +23,7 @@ public interface AdminNewsApiMapper {
      * @throws Exception
      */
     public Integer getNewsListCnt(Map<String, Object> searchMap) throws Exception;
+
     /**
      * <pre>
      * 1. MethodName : getNewsList
@@ -35,5 +37,21 @@ public interface AdminNewsApiMapper {
      * @return
      * @throws Exception
      */
-    List<NewNewsDTO> getNewsList(Map<String, Object> searchMap) throws Exception;
+    public List<NewNewsDTO> getNewsList(Map<String, Object> searchMap) throws Exception;
+
+    /**
+     * <pre>
+     * 1. MethodName : addNews
+     * 2. ClassName  : AdminNewsApiMapper.java
+     * 3. Comment    : News 등록
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 08.
+     * </pre>
+     *
+     * @param newNewsDTO
+     * @return
+     * @throws Exception
+     */
+    @Transactional
+    public Integer addNews(NewNewsDTO newNewsDTO) throws Exception;
 }

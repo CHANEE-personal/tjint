@@ -79,9 +79,9 @@
     </select>
 
 
-    <insert id="insertNews" parameterType="newsVo" useGeneratedKeys="true" keyProperty="newsSeq">
+    <insert id="addNews" parameterType="newNewsDto" useGeneratedKeys="true" keyProperty="newsSeq">
         /* [AdminPrMgmt_SQL.xml].[insertNews] */
-        INSERT INTO app_board_news
+        INSERT INTO app_board_news_test
         ( news_title
         , news_description
         , visible

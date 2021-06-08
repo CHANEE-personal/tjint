@@ -49,4 +49,21 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
     {
         return adminNewsApiMapper.getNewsList(searchMap);
     }
+
+    /**
+     * <pre>
+     * 1. MethodName : addNews
+     * 2. ClassName  : AdminNewsApiServiceImpl.java
+     * 3. Comment    : News 등록
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 08.
+     * </pre>
+     *
+     * @param newNewsDTO
+     * @return
+     * @throws Exception
+     */
+    public Integer addNews(NewNewsDTO newNewsDTO) throws Exception {
+        return this.adminNewsApiMapper.addNews(newNewsDTO);
+    }
 }
