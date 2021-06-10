@@ -2,9 +2,14 @@ package com.tjint.springboot.app.api.news.service.impl;
 
 import com.tjint.springboot.app.api.news.service.AdminNewsApiService;
 import com.tjint.springboot.app.api.news.service.NewNewsDTO;
+import com.tjint.springboot.common.imageFile.AttachFileDTO;
+import com.tjint.springboot.common.imageFile.NewImageDTO;
+import com.tjint.springboot.common.imageFile.service.impl.ImageMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +18,7 @@ import java.util.Map;
 public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 
     private final AdminNewsApiMapper adminNewsApiMapper;
+    private final ImageMapper imageMapper;
 
     /**
      * <pre>
@@ -63,7 +69,50 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
      * @return
      * @throws Exception
      */
-    public Integer addNews(NewNewsDTO newNewsDTO) throws Exception {
-        return this.adminNewsApiMapper.addNews(newNewsDTO);
+    public String addNews(NewNewsDTO newNewsDTO,
+                          NewImageDTO newImageDTO,
+                          AttachFileDTO attachFileDTO) throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        Calendar cl = Calendar.getInstance();
+        String strToday = sdf.format(cl.getTime());
+
+        String fileId = strToday.substring(4);
+        String fileMask = strToday+".jpg";
+
+        newNewsDTO.setCreator(1);
+        newNewsDTO.setUpdater(1);
+        newImageDTO.setSortOrder(1);
+        if(this.adminNewsApiMapper.addNews(newNewsDTO) > 0) {
+            // 이미지 파일 정보 등록
+            newImageDTO.setBoardTypeCd("brdt002");
+            newImageDTO.setImageTypeCd("imgt001");
+            newImageDTO.setBoardSeq(newNewsDTO.getNewsSeq());
+            newImageDTO.setImageFileId(strToday);
+            newImageDTO.setSortOrder(1);
+            newImageDTO.setCreator(1);
+            newImageDTO.setUpdater(1);
+            newImageDTO.setVisible("Y");
+            newImageDTO.setImageFileSeq(1);
+
+            if(this.imageMapper.addImageFile(newImageDTO) > 0) {
+                // 이미지 경로 및 정보 등록
+                attachFileDTO.setFileId(fileId);
+                attachFileDTO.setFileSeq(1);
+                attachFileDTO.setFileSize(355268);
+                attachFileDTO.setFileMask(fileMask);
+                attachFileDTO.setFilePath("/www/tjinternational_kr/www/file/image/"+fileMask);
+                attachFileDTO.setDownloadCnt(0);
+                if(this.imageMapper.addAttachFile(attachFileDTO) > 0) {
+                    return "Y";       // 등록 성공
+                } else {
+                    return "N";
+                }
+            } else {
+                return "N";       // 등록 실패
+            }
+
+        } else {
+            return "N";       // 등록 실패
+        }
     }
 }

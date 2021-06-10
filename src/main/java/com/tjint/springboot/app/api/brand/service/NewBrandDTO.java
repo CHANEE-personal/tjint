@@ -34,12 +34,12 @@ public class NewBrandDTO {
     @ApiModelProperty(required = true, value = "등록자")
     private Integer creator;
 
-    @ApiModelProperty(required = true, value = "등록시간")
+    @ApiModelProperty(required = true, value = "등록시간", hidden = true)
     private String createTime;
 
     @ApiModelProperty(required = true, value = "수정자")
     private Integer updater;
 
-    @ApiModelProperty(required = true, value = "수정일자")
+    @ApiModelProperty(required = true, value = "수정일자", hidden = true)
     private String updateTime;
 }

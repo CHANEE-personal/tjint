@@ -22,9 +22,9 @@ public class NewNewsDTO {
     @ApiModelProperty(required = true, value = "노출 여부")
     private String visible;
 
-    @ApiModelProperty(required = true, value = "등록자")
+    @ApiModelProperty(required = true, value = "등록자", hidden=true)
     private Integer creator;
 
-    @ApiModelProperty(required = true, value = "수정자")
+    @ApiModelProperty(required = true, value = "수정자", hidden=true)
     private Integer updater;
 }

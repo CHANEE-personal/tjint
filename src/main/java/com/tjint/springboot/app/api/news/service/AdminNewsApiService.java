@@ -1,5 +1,7 @@
 package com.tjint.springboot.app.api.news.service;
 
+import com.tjint.springboot.common.imageFile.AttachFileDTO;
+import com.tjint.springboot.common.imageFile.NewImageDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,5 +53,5 @@ public interface AdminNewsApiService {
      * @return
      * @throws Exception
      */
-    public Integer addNews(NewNewsDTO newNewsDTO) throws Exception;
+    public String addNews(NewNewsDTO newNewsDTO, NewImageDTO newImageDTO, AttachFileDTO attachFileDTO) throws Exception;
 }

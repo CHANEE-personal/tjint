@@ -53,7 +53,8 @@ public class ImageServiceImpl implements ImageService {
      * @return
      * @throws Exception
      */
-    public String addImageFile(NewImageDTO newImageDTO) throws Exception {
+    public Integer addImageFile(NewImageDTO newImageDTO) throws Exception {
+
         newImageDTO.setBoardTypeCd("brdt001");
         newImageDTO.setImageTypeCd("imgt001");
         newImageDTO.setSortOrder(1);
@@ -71,7 +72,7 @@ public class ImageServiceImpl implements ImageService {
             imageMapper.addImageFile(newImageDTO);
         }
 
-        return "Y";
+        return 1;
     }
 
     /**

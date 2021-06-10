@@ -4,7 +4,7 @@
 
     <insert id="addImageFile" parameterType="newImageDTO">
         /* [AdminApiImage.xml].[addImageFileInfo] */
-        INSERT INTO app_image_file_info
+        INSERT INTO app_image_file_info_test
         ( board_type_cd
         , board_seq
         , image_type_cd
@@ -31,7 +31,7 @@
 
     <insert id="addAttachFile" parameterType="attachFileDto">
         /* [AdminApiImage.xml].[addAttachFile] */
-        INSERT INTO app_image_file_info
+        INSERT INTO J_ATTACHFILE_TEST
         (FILE_ID,
          FILE_SEQ,
          FILE_NAME,
@@ -41,17 +41,18 @@
          DOWNLOAD_COUNT,
          DOWNLOAD_EXPIRE_DATE,
          DOWNLOAD_LIMIT_COUNT,
-         REG_DT,
+         REG_DATE,
          DELETE_YN)
         VALUES (#{fileId},
                 #{fileSeq},
                 #{fileName},
                 #{fileSize},
+                #{fileMask},
                 #{filePath},
                 #{downloadCnt},
                 #{downloadExpireDate},
                 #{downloadLimitCnt},
                 now(),
-                #{deletYn})
+                #{deleteYn})
     </insert>
 </mapper>

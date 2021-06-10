@@ -2,6 +2,8 @@ package com.tjint.springboot.app.api.news.controller;
 
 import com.tjint.springboot.app.api.news.service.AdminNewsApiService;
 import com.tjint.springboot.app.api.news.service.NewNewsDTO;
+import com.tjint.springboot.common.imageFile.AttachFileDTO;
+import com.tjint.springboot.common.imageFile.NewImageDTO;
 import com.tjint.springboot.common.paging.Page;
 import com.tjint.springboot.common.utils.StringUtil;
 import io.swagger.annotations.Api;
@@ -67,7 +69,11 @@ public class AdminNewsApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @PostMapping(value = "addNews")
-    public void addNews(NewNewsDTO newNewsDTO) throws Exception {
-        this.adminNewsApiService.addNews(newNewsDTO);
+    public String addNews(NewNewsDTO newNewsDTO,
+                          NewImageDTO newImageDTO,
+                          AttachFileDTO attachFileDTO) throws Exception {
+        String result = this.adminNewsApiService.addNews(newNewsDTO, newImageDTO, attachFileDTO);
+
+        return result;
     }
 }

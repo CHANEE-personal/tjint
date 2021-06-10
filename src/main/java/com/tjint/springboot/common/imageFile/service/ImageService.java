@@ -22,7 +22,7 @@ public interface ImageService {
      * @return
      * @throws Exception
      */
-    public String addImageFile(NewImageDTO newImageDTO) throws Exception;
+    public Integer addImageFile(NewImageDTO newImageDTO) throws Exception;
 
     /**
      * <pre>

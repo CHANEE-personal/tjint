@@ -9,36 +9,36 @@ import lombok.Setter;
 @Setter
 @ApiModel
 public class AttachFileDTO {
-    @ApiModelProperty(required = true, value = "파일ID")
+    @ApiModelProperty(value = "파일ID", hidden = true)
     private String fileId;
 
-    @ApiModelProperty(required = true, value = "파일구분")
+    @ApiModelProperty(value = "파일구분", hidden = true)
     private Integer fileSeq;
 
     @ApiModelProperty(required = true, value = "파일명")
     private String fileName;
 
-    @ApiModelProperty(required = true, value = "파일SIZE")
+    @ApiModelProperty(value = "파일SIZE", hidden = true)
     private Integer fileSize;
 
-    @ApiModelProperty(required = true, value = "파일MASK")
+    @ApiModelProperty(value = "파일MASK", hidden = true)
     private String fileMask;
 
-    @ApiModelProperty(required = true, value = "파일경로")
+    @ApiModelProperty(value = "파일경로", hidden = true)
     private String filePath;
 
-    @ApiModelProperty(required = true, value = "다운로드횟수")
+    @ApiModelProperty(value = "다운로드횟수", hidden = true)
     private Integer downloadCnt;
 
-    @ApiModelProperty(required = true, value = "다운로드 제한날짜")
+    @ApiModelProperty(value = "다운로드 제한날짜", hidden = true)
     private String downloadExpireDate;
 
-    @ApiModelProperty(required = true, value = "다운로드 제한횟수")
+    @ApiModelProperty(value = "다운로드 제한횟수", hidden = true)
     private Integer downloadLimitCnt;
 
-    @ApiModelProperty(required = true, value = "등록일자")
+    @ApiModelProperty(value = "등록일자", hidden = true)
     private String regDate;
 
-    @ApiModelProperty(required = true, value = "삭제여부")
+    @ApiModelProperty(value = "삭제여부", hidden = true)
     private String deleteYn;
 }
