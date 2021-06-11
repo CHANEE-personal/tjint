@@ -29,7 +29,7 @@
                , NOW())
     </insert>
 
-    <insert id="addAttachFile" parameterType="attachFileDto">
+    <insert id="addAttachFile" parameterType="newNewsDto">
         /* [AdminApiImage.xml].[addAttachFile] */
         INSERT INTO J_ATTACHFILE_TEST
         (FILE_ID,

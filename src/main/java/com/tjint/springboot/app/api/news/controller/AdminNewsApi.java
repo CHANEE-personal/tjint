@@ -68,10 +68,14 @@ public class AdminNewsApi {
             @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
-    @PostMapping(value = "addNews")
-    public String addNews(NewNewsDTO newNewsDTO,
+    @PostMapping(value = "/addNews")
+    public String addNews(@RequestBody NewNewsDTO newNewsDTO,
                           NewImageDTO newImageDTO,
                           AttachFileDTO attachFileDTO) throws Exception {
+        System.out.println("===newsTitle===");
+        System.out.println(newNewsDTO.getNewsTitle());
+        System.out.println(newNewsDTO.getNewsDescription());
+        System.out.println(newNewsDTO.getFileName());
         String result = this.adminNewsApiService.addNews(newNewsDTO, newImageDTO, attachFileDTO);
 
         return result;

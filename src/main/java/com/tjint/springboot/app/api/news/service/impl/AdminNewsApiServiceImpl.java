@@ -102,6 +102,7 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
                 attachFileDTO.setFileMask(fileMask);
                 attachFileDTO.setFilePath("/www/tjinternational_kr/www/file/image/"+fileMask);
                 attachFileDTO.setDownloadCnt(0);
+                attachFileDTO.setFileName(newNewsDTO.getFileName());
                 if(this.imageMapper.addAttachFile(attachFileDTO) > 0) {
                     return "Y";       // 등록 성공
                 } else {
