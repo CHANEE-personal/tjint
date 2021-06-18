@@ -19,7 +19,7 @@ public class AttachFileDTO {
     private String fileName;
 
     @ApiModelProperty(value = "파일SIZE", hidden = true)
-    private Integer fileSize;
+    private Long fileSize;
 
     @ApiModelProperty(value = "파일MASK", hidden = true)
     private String fileMask;

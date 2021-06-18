@@ -3,7 +3,6 @@ package com.tjint.springboot.common.imageFile.service.impl;
 import com.tjint.springboot.common.imageFile.AttachFileDTO;
 import com.tjint.springboot.common.imageFile.NewImageDTO;
 import com.tjint.springboot.common.imageFile.service.ImageService;
-import com.tjint.springboot.common.utils.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -108,7 +107,7 @@ public class ImageServiceImpl implements ImageService {
                 attachFileDTO.setFileId(fileId);                                         // 파일ID
                 attachFileDTO.setFileSeq(0);                                             // 파일구분
                 attachFileDTO.setFileName(file.getOriginalFilename());                   // 파일명
-                attachFileDTO.setFileSize(StringUtil.getInt(file.getSize(), 0));  // 파일Size
+                attachFileDTO.setFileSize(file.getSize());  // 파일Size
                 attachFileDTO.setFileMask(today);                                        // 파일Mask
 
                 // 이미지 정보 insert

@@ -34,8 +34,8 @@
         ]]>
     </select>
 
-    <select id="selectNewsDetail" parameterType="newsVo" resultType="newsVo">
-        /*[AdminPrMgmt_SQL.xml].[selectNewsDetail] */
+    <select id="getNewsInfo" parameterType="newNewsDto" resultType="java.util.HashMap">
+        /*[AdminPrMgmt_SQL.xml].[getNewsInfo] */
         <![CDATA[
         SELECT news_seq,
                news_title,
@@ -48,12 +48,12 @@
                B.image_file_id as imageFileId,
                C.FILE_NAME     as fileName,
                C.FILE_PATH     as filePath
-        FROM app_board_news A
+        FROM app_board_news_test A
                  left OUTER JOIN
-             (select * from app_image_file_info where board_type_cd = 'brdt002' AND visible = 'Y') B
+             (select * from app_image_file_info_test where board_type_cd = 'brdt002' AND visible = 'Y') B
              ON A.news_seq = B.board_seq
                  left outer join
-             J_ATTACHFILE C
+             J_ATTACHFILE_TEST C
              on B.image_file_id = C.file_id
         WHERE news_seq = #{newsSeq}
         ]]>
