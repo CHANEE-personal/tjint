@@ -95,7 +95,7 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 			newImageDTO.setBoardTypeCd("brdt002");
 			newImageDTO.setImageTypeCd("imgt001");
 			newImageDTO.setBoardSeq(newNewsDTO.getNewsSeq());
-			newImageDTO.setImageFileId(strToday);
+			newImageDTO.setImageFileId(fileId);
 			newImageDTO.setSortOrder(1);
 			newImageDTO.setCreator(1);
 			newImageDTO.setUpdater(1);
@@ -190,13 +190,14 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 			newImageDTO.setBoardTypeCd("brdt002");
 			newImageDTO.setImageTypeCd("imgt001");
 			newImageDTO.setBoardSeq(newNewsDTO.getNewsSeq());
-			newImageDTO.setImageFileId(strToday);
+			newImageDTO.setImageFileId(fileId);
 			newImageDTO.setSortOrder(1);
 			newImageDTO.setCreator(1);
 			newImageDTO.setUpdater(1);
 			newImageDTO.setVisible("Y");
 			newImageDTO.setImageFileSeq(1);
 			imageMapper.deleteImageFile(newImageDTO);
+
 			if (this.imageMapper.addImageFile(newImageDTO) > 0) {
 				// 이미지 경로 및 정보 등록
 				// 이미지 경로 및 정보 등록
