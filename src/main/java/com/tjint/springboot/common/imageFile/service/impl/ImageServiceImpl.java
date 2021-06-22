@@ -106,7 +106,7 @@ public class ImageServiceImpl implements ImageService {
                 AttachFileDTO attachFileDTO = new AttachFileDTO();
                 attachFileDTO.setFileId(fileId);                                         // 파일ID
                 attachFileDTO.setFileSeq(0);                                             // 파일구분
-                attachFileDTO.setFileName(file.getOriginalFilename());                   // 파일명
+                attachFileDTO.setFilename(file.getOriginalFilename());                   // 파일명
                 attachFileDTO.setFileSize(file.getSize());  // 파일Size
                 attachFileDTO.setFileMask(today);                                        // 파일Mask
 

@@ -45,7 +45,7 @@
          DELETE_YN)
         VALUES (#{fileId},
                 #{fileSeq},
-                #{fileName},
+                #{filename},
                 #{fileSize},
                 #{fileMask},
                 #{filePath},
@@ -55,4 +55,20 @@
                 now(),
                 #{deleteYn})
     </insert>
+
+    <delete id="deleteAttachFile" parameterType="newImageDTO">
+        /* [Common_imageFile_SQL.xml].[deleteAttachFile] */
+        DELETE
+        FROM J_ATTACHFILE_TEST
+        WHERE file_id= #{imageFileId}
+    </delete>
+
+    <delete id="deleteImageFile" parameterType="newImageDTO">
+        /* [Common_imageFile_SQL.xml].[deleteImageFile] */
+        DELETE
+        FROM app_image_file_info_TEST
+        WHERE board_type_cd = #{boardTypeCd}
+          AND board_seq = #{boardSeq}
+          AND image_file_id = #{imageFileId}
+    </delete>
 </mapper>

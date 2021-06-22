@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import net.sf.json.JSONObject;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,7 +30,7 @@ public class AdminNewsApi {
 
 	private final AdminNewsApiService adminNewsApiService;
 
-	@ApiOperation(value = "News관련조회", notes = "News를 조회한다.")
+	@ApiOperation(value = "News 조회", notes = "News를 조회한다.")
 	@GetMapping(value = "/getNewsList")
 	public JSONObject getNewsList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, Page page) throws Exception {
 
@@ -69,11 +70,11 @@ public class AdminNewsApi {
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
-	@PostMapping(value = "/addNews")
-	public String addNews(@RequestBody NewNewsDTO newNewsDTO,
+	@PostMapping(value = "/addNews", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	public String addNews(NewNewsDTO newNewsDTO,
 						  NewImageDTO newImageDTO,
 						  AttachFileDTO attachFileDTO,
-						  MultipartFile files) throws Exception {
+						  @RequestParam(value = "fileName", required = false) MultipartFile files) throws Exception {
 
 		String result = this.adminNewsApiService.addNews(newNewsDTO, newImageDTO, attachFileDTO, files);
 
@@ -102,11 +103,15 @@ public class AdminNewsApi {
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
-	@PutMapping(value = "/updateNews/{newsSeq}")
-	public void updateNews(@RequestBody NewNewsDTO newNewsDTO,
+	@PutMapping(value = "/updateNews/{newsSeq}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	public String updateNews(@RequestBody NewNewsDTO newNewsDTO,
+						   @PathVariable(value="newsSeq") Integer newsSeq,
 						   NewImageDTO newImageDTO,
 						   AttachFileDTO attachFileDTO,
-						   MultipartFile files) throws Exception {
-		this.adminNewsApiService.updateNews(newNewsDTO, newImageDTO, attachFileDTO, files);
+							 @RequestPart(value = "files", required = false) MultipartFile files) throws Exception {
+		newNewsDTO.setNewsSeq(newsSeq);
+		String result = this.adminNewsApiService.updateNews(newNewsDTO, newImageDTO, attachFileDTO, files);
+
+		return result;
 	}
 }

@@ -27,8 +27,4 @@ public class NewNewsDTO {
 
     @ApiModelProperty(required = true, value = "수정자", hidden=true)
     private Integer updater;
-
-    @ApiModelProperty(required = true, value = "파일명")
-    private String fileName;
-
 }

@@ -87,7 +87,7 @@ public interface AdminNewsApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public void updateNews(NewNewsDTO newNewsDTO,
+	public String updateNews(NewNewsDTO newNewsDTO,
 						   NewImageDTO newImageDTO,
 						   AttachFileDTO attachFileDTO,
 						   MultipartFile files) throws Exception;

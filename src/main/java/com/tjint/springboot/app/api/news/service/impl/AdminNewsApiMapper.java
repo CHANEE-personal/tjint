@@ -57,6 +57,22 @@ public interface AdminNewsApiMapper {
 
     /**
      * <pre>
+     * 1. MethodName : updateNews
+     * 2. ClassName  : AdminNewsApiMapper.java
+     * 3. Comment    : News 수정
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 22.
+     * </pre>
+     *
+     * @param newNewsDTO
+     * @return
+     * @throws Exception
+     */
+    @Transactional
+    public Integer updateNews(NewNewsDTO newNewsDTO) throws Exception;
+
+    /**
+     * <pre>
      * 1. MethodName : getNewsInfo
      * 2. ClassName  : AdminNewsApiMapper.java
      * 3. Comment    : News 상세 페이지 조회

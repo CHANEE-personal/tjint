@@ -15,8 +15,8 @@ public class AttachFileDTO {
     @ApiModelProperty(value = "파일구분", hidden = true)
     private Integer fileSeq;
 
-    @ApiModelProperty(required = true, value = "파일명")
-    private String fileName;
+    @ApiModelProperty(required = true, value = "파일명", hidden = true)
+    private String filename;
 
     @ApiModelProperty(value = "파일SIZE", hidden = true)
     private Long fileSize;

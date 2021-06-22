@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -107,9 +108,21 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 				attachFileDTO.setFileSeq(1);
 				attachFileDTO.setFileSize(fileSize);
 				attachFileDTO.setFileMask(fileMask);
-				attachFileDTO.setFilePath("/www/tjinternational_kr/www/file/image/" + fileMask);
+				attachFileDTO.setFilePath("/Users/tj03/Documents/image/" + fileMask);
 				attachFileDTO.setDownloadCnt(0);
-				attachFileDTO.setFileName(newNewsDTO.getFileName());
+				attachFileDTO.setFilename(files.getOriginalFilename());
+
+				if(!new File("/Users/tj03/Documents/image/").exists()) {
+					try {
+						new File("/Users/tj03/Documents/image/").mkdir();
+					}catch(Exception e) {
+						e.getStackTrace();
+					}
+				}
+
+				String filePath = "/Users/tj03/Documents/image/" + fileMask;
+				files.transferTo(new File(filePath));
+
 				if (this.imageMapper.addAttachFile(attachFileDTO) > 0) {
 					return "Y";       // 등록 성공
 				} else {
@@ -154,10 +167,68 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public void updateNews(NewNewsDTO newNewsDTO,
+	public String updateNews(NewNewsDTO newNewsDTO,
 						   NewImageDTO newImageDTO,
 						   AttachFileDTO attachFileDTO,
 						   MultipartFile files) throws Exception {
+		// 현재 날짜 구하기
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		Calendar cl = Calendar.getInstance();
+		String strToday = sdf.format(cl.getTime());
+		// 파일 확장자
+		String ext = files.getOriginalFilename().substring(files.getOriginalFilename().lastIndexOf(".") + 1).toLowerCase();
+		// 파일 Id
+		String fileId = strToday.substring(4);
+		// 파일 Mask
+		String fileMask = strToday + '.' + ext;
+		// 파일 Size
+		long fileSize = files.getSize();
 
+		newNewsDTO.setUpdater(1);
+		if (this.adminNewsApiMapper.updateNews(newNewsDTO) > 0) {
+			// 이미지 파일 정보 등록
+			newImageDTO.setBoardTypeCd("brdt002");
+			newImageDTO.setImageTypeCd("imgt001");
+			newImageDTO.setBoardSeq(newNewsDTO.getNewsSeq());
+			newImageDTO.setImageFileId(strToday);
+			newImageDTO.setSortOrder(1);
+			newImageDTO.setCreator(1);
+			newImageDTO.setUpdater(1);
+			newImageDTO.setVisible("Y");
+			newImageDTO.setImageFileSeq(1);
+			imageMapper.deleteImageFile(newImageDTO);
+			if (this.imageMapper.addImageFile(newImageDTO) > 0) {
+				// 이미지 경로 및 정보 등록
+				// 이미지 경로 및 정보 등록
+				attachFileDTO.setFileId(fileId);
+				attachFileDTO.setFileSeq(1);
+				attachFileDTO.setFileSize(fileSize);
+				attachFileDTO.setFileMask(fileMask);
+				attachFileDTO.setFilePath("/Users/tj03/Documents/image/" + fileMask);
+				attachFileDTO.setDownloadCnt(0);
+				attachFileDTO.setFilename(files.getOriginalFilename());
+				imageMapper.deleteAttachFile(attachFileDTO);
+				if(!new File("/Users/tj03/Documents/image/").exists()) {
+					try {
+						new File("/Users/tj03/Documents/image/").mkdir();
+					}catch(Exception e) {
+						e.getStackTrace();
+					}
+				}
+
+				String filePath = "/Users/tj03/Documents/image/" + fileMask;
+				files.transferTo(new File(filePath));
+				if (this.imageMapper.addAttachFile(attachFileDTO) > 0) {
+					return "Y";       // 수정 성공
+				} else {
+					return "N";
+				}
+			} else {
+				return "N";       // 수정 실패
+			}
+
+		} else {
+			return "N";       // 수정 실패
+		}
 	}
 }

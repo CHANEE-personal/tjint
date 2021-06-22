@@ -101,7 +101,7 @@
 
     <update id="updateNews" parameterType="newsVo">
         /* [AdminPrMgmt_SQL.xml].[updateNews] */
-        UPDATE app_board_news
+        UPDATE app_board_news_test
         SET
         <if test="newsTitle != null and newsTitle != ''">news_title = #{newsTitle},</if>
         <if test="newsDescription != null and newsDescription != ''">news_description = #{newsDescription},</if>
