@@ -106,6 +106,7 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 				// 이미지 경로 및 정보 등록
 				attachFileDTO.setFileId(fileId);
 				attachFileDTO.setFileSeq(1);
+				attachFileDTO.setFileBoardSeq(newNewsDTO.getNewsSeq());
 				attachFileDTO.setFileSize(fileSize);
 				attachFileDTO.setFileMask(fileMask);
 				attachFileDTO.setFilePath("/Users/tj03/Documents/image/" + fileMask);
@@ -186,6 +187,7 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 
 		newNewsDTO.setUpdater(1);
 		if (this.adminNewsApiMapper.updateNews(newNewsDTO) > 0) {
+
 			// 이미지 파일 정보 등록
 			newImageDTO.setBoardTypeCd("brdt002");
 			newImageDTO.setImageTypeCd("imgt001");
@@ -199,8 +201,9 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 			imageMapper.deleteImageFile(newImageDTO);
 
 			if (this.imageMapper.addImageFile(newImageDTO) > 0) {
+				attachFileDTO.setFileBoardSeq(newNewsDTO.getNewsSeq());
 				// 이미지 경로 및 정보 등록
-				// 이미지 경로 및 정보 등록
+				imageMapper.deleteAttachFile(attachFileDTO);
 				attachFileDTO.setFileId(fileId);
 				attachFileDTO.setFileSeq(1);
 				attachFileDTO.setFileSize(fileSize);
@@ -208,7 +211,6 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 				attachFileDTO.setFilePath("/Users/tj03/Documents/image/" + fileMask);
 				attachFileDTO.setDownloadCnt(0);
 				attachFileDTO.setFilename(files.getOriginalFilename());
-				imageMapper.deleteAttachFile(attachFileDTO);
 				if(!new File("/Users/tj03/Documents/image/").exists()) {
 					try {
 						new File("/Users/tj03/Documents/image/").mkdir();

@@ -42,7 +42,8 @@
          DOWNLOAD_EXPIRE_DATE,
          DOWNLOAD_LIMIT_COUNT,
          REG_DATE,
-         DELETE_YN)
+         DELETE_YN,
+         FILE_BOARD_SEQ)
         VALUES (#{fileId},
                 #{fileSeq},
                 #{filename},
@@ -53,22 +54,21 @@
                 #{downloadExpireDate},
                 #{downloadLimitCnt},
                 now(),
-                #{deleteYn})
+                #{deleteYn},
+                #{fileBoardSeq})
     </insert>
 
     <delete id="deleteAttachFile" parameterType="newImageDTO">
         /* [Common_imageFile_SQL.xml].[deleteAttachFile] */
         DELETE
         FROM J_ATTACHFILE_TEST
-        WHERE file_id= #{imageFileId}
+        WHERE FILE_BOARD_SEQ = #{fileBoardSeq}
     </delete>
 
     <delete id="deleteImageFile" parameterType="newImageDTO">
         /* [Common_imageFile_SQL.xml].[deleteImageFile] */
         DELETE
-        FROM app_image_file_info_TEST
-        WHERE board_type_cd = #{boardTypeCd}
-          AND board_seq = #{boardSeq}
-          AND image_file_id = #{imageFileId}
+        FROM app_image_file_info_test
+        WHERE board_seq = #{boardSeq}
     </delete>
 </mapper>

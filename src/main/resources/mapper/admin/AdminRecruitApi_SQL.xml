@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjint.springboot.app.api.recruit.service.impl.AdminRecruitApiMapper">
+
+    <select id="getRecruitListCnt" parameterType="newRecruitDto" resultType="Integer">
+        /*[AdminRecruitMgmt_SQL.xml].[getRecruitCnt] */
+        SELECT  count(*) total
+        FROM  app_board_recruit
+        <where>
+            AND visible != 'D'
+            <if test="searchKeyword != null and searchKeyword !=''">
+                AND recruit_title LIKE CONCAT ('%', #{searchKeyword},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getRecruitList" parameterType="hashMap" resultType="hashMap">
+        /*[AdminPrMgmt_SQL.xml].[selectNewsList] */
+        SELECT  recruit_seq,
+        recruit_title,
+        recruit_description,
+        DATE_FORMAT(opening_date, '%Y-%m-%d') as openingDate,
+        DATE_FORMAT(closing_date, '%Y-%m-%d') as closingDate,
+        visible,
+        creator,
+        case when NOW() BETWEEN opening_date AND DATE_ADD(closing_date, INTERVAL 1 DAY) then '
+        ELSE 'END as recruitDateYn,
+        create_time,
+        updater,
+        update_time
+        FROM  app_board_recruit
+        <where>
+            AND visible != 'D'
+            <if test="recruitSeq != null and recruitSeq !=''">
+                AND recruit_seq = #{recruitSeq}
+            </if>
+            <if test="searchKeyword != null and searchKeyword !=''">
+                AND recruit_title LIKE CONCAT ('%', #{searchKeyword},'%')
+            </if>
+            <choose>
+                <when test="searchCondition == 1">
+                    AND NOW() BETWEEN opening_date AND DATE_ADD(closing_date, INTERVAL 1 DAY)
+                </when>
+                <when test="searchCondition == 2">
+                    AND !(NOW() BETWEEN opening_date AND DATE_ADD(closing_date, INTERVAL 1 DAY))
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+        </where>
+        ORDER BY recruitDateYn DESC, recruit_seq DESC
+        LIMIT #{startPage}, #{size}
+    </select>
+
+    <select id="getRecruitInfo" parameterType="newRecruitDto" resultType="java.util.HashMap">
+        SELECT  recruit_seq,
+        recruit_title,
+        recruit_description,
+        DATE_FORMAT(opening_date, '%Y-%m-%d') as openingDate,
+        DATE_FORMAT(closing_date, '%Y-%m-%d') as closingDate,
+        visible,
+        creator,
+        case when NOW() BETWEEN opening_date AND DATE_ADD(closing_date, INTERVAL 1 DAY) then '
+        ELSE 'END as recruitDateYn,
+        create_time,
+        updater,
+        update_time
+        FROM  app_board_recruit
+        WHERE recruit_seq = #{recruitSeq}
+    </select>
+
+    <insert id="insertRecruitInfo" parameterType="newRecruitDto" useGeneratedKeys="true" keyProperty="recruitSeq">
+        /* [AdminRecruitMgmt_SQL.xml].[insertRecruitInfo] */
+        INSERT INTO app_board_recruit_test
+        (
+            recruit_title,
+            recruit_description,
+            opening_date,
+            closing_date,
+            visible,
+            creator,
+            create_time,
+            updater,
+            update_time
+        )
+        VALUES
+        (
+            #{recruitTitle},
+            '',
+            #{openingDate},
+            #{closingDate},
+            #{visible},
+            #{updater},
+            now(),
+            #{updater},
+            now()
+        )
+    </insert>
+
+</mapper>

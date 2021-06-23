@@ -21,6 +21,9 @@ public class AttachFileDTO {
     @ApiModelProperty(value = "파일SIZE", hidden = true)
     private Long fileSize;
 
+    @ApiModelProperty(value = "상세 IDX", hidden = true)
+    private Integer fileBoardSeq;
+
     @ApiModelProperty(value = "파일MASK", hidden = true)
     private String fileMask;
 

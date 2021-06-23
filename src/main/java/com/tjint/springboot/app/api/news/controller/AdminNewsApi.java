@@ -103,16 +103,13 @@ public class AdminNewsApi {
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
-	@PutMapping(value = "/updateNews/{newsSeq}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	@PostMapping(value = "/updateNews/{newsSeq}")
 	public String updateNews(NewNewsDTO newNewsDTO,
 							 NewImageDTO newImageDTO,
 							 AttachFileDTO attachFileDTO,
 							 @RequestParam(value = "fileName", required = false) MultipartFile files,
 							 @PathVariable(value = "newsSeq") Integer newsSeq) throws Exception {
-		System.out.println("===files===");
-		System.out.println(newNewsDTO.getNewsTitle());
-		System.out.println(files);
-		System.out.println(newsSeq);
+
 		newNewsDTO.setNewsSeq(newsSeq);
 		String result = this.adminNewsApiService.updateNews(newNewsDTO, newImageDTO, attachFileDTO, files);
 
