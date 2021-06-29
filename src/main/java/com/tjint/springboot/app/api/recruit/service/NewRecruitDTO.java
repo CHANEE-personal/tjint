@@ -20,6 +20,9 @@ public class NewRecruitDTO extends NewUrlLinkDTO {
 	@ApiModelProperty(required = false, value = "채용공고 상세", hidden = true)
 	private String recruitDescription;
 
+	@ApiModelProperty(required = false, value = "채용사이트")
+	private String jobsValues;
+
 	@ApiModelProperty(required = true, value = "오픈일자")
 	private String openingDate;
 

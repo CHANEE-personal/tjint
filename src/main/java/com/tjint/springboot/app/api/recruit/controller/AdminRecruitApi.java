@@ -97,8 +97,7 @@ public class AdminRecruitApi {
 	})
 	@PostMapping(value = "/addRecruit")
 	public String addRecruit(@RequestBody NewRecruitDTO newRecruitDTO) throws Exception {
-		newRecruitDTO.setCreator(1);
-		newRecruitDTO.setUpdater(1);
+
 		String result = this.adminRecruitApiService.addRecruit(newRecruitDTO);
 
 		return result;

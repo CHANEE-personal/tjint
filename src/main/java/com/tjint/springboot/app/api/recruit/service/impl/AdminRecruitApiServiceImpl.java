@@ -95,7 +95,7 @@ public class AdminRecruitApiServiceImpl implements AdminRecruitApiService {
 	public String addRecruit(NewRecruitDTO newRecruitDTO) throws Exception {
 
 		//채용사이트 구분
-		String[] snsArr = newRecruitDTO.getLinkAddress().split(",");
+		String[] snsArr = newRecruitDTO.getJobsValues().split(",");
 		for(int i = 0; i < snsArr.length; i++) {
 
 		}
