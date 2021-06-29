@@ -1,6 +1,7 @@
 package com.tjint.springboot.app.api.recruit.service.impl;
 
 import com.tjint.springboot.app.api.recruit.service.NewRecruitDTO;
+import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -68,4 +69,19 @@ public interface AdminRecruitApiMapper {
 	 * @throws Exception
 	 */
 	public Integer addRecruit(NewRecruitDTO newRecruitDTO) throws Exception;
+
+	/**
+	 * <pre>
+	 * 1. MethodName : getRecruitLinkList
+	 * 2. ClassName  : AdminRecruitApiMapper.java
+	 * 3. Comment    : 채용공고 URL 조회
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 06. 23.
+	 * </pre>
+	 *
+	 * @param newUrlLinkDTO
+	 * @return
+	 * @throws Exception
+	 */
+	public List<NewUrlLinkDTO> getRecruitLinkList(NewUrlLinkDTO newUrlLinkDTO) throws Exception;
 }

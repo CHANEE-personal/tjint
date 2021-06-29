@@ -1,5 +1,6 @@
 package com.tjint.springboot.app.api.recruit.service;
 
+import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,7 +52,7 @@ public interface AdminRecruitApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, Object> getRecruitInfo(NewRecruitDTO newRecruitDTO) throws Exception;
+	public Map<String, Object> getRecruitInfo(NewRecruitDTO newRecruitDTO, NewUrlLinkDTO newUrlLinkDTO) throws Exception;
 
 	/**
 	 * <pre>

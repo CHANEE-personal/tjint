@@ -23,8 +23,8 @@
         DATE_FORMAT(closing_date, '%Y-%m-%d') as closingDate,
         visible,
         creator,
-        case when NOW() BETWEEN opening_date AND DATE_ADD(closing_date, INTERVAL 1 DAY) then '
-        ELSE 'END as recruitDateYn,
+        case when NOW() BETWEEN opening_date AND DATE_ADD(closing_date, INTERVAL 1 DAY) then 'Y'
+        ELSE 'N' END as recruitDateYn,
         create_time,
         updater,
         update_time
@@ -60,13 +60,37 @@
         DATE_FORMAT(closing_date, '%Y-%m-%d') as closingDate,
         visible,
         creator,
-        case when NOW() BETWEEN opening_date AND DATE_ADD(closing_date, INTERVAL 1 DAY) then '
-        ELSE 'END as recruitDateYn,
+        case when NOW() BETWEEN opening_date AND DATE_ADD(closing_date, INTERVAL 1 DAY) then 'Y'
+        ELSE 'N' END as recruitDateYn,
         create_time,
         updater,
         update_time
         FROM  app_board_recruit
         WHERE recruit_seq = #{recruitSeq}
+    </select>
+
+    <select id="getRecruitLinkList" resultType="newUrlLinkDto">
+        /* [AdminRecruitMgmt_SQL.xml].[getRecruitLinkList] */
+        SELECT
+            A.code_name snsName
+             , B.link_seq
+             , B.board_type_cd
+             , B.board_seq
+             , IFNULL(B.link_type_cd,A.code_id) as linkTypeCd
+             , B.link_address
+             , B.sort_order
+             , B.visible
+             , B.creator
+             , B.create_time
+             , B.updater
+             , B.update_time
+             , A.property1
+        FROM app_code A
+                 LEFT OUTER JOIN app_url_link_info B ON A.code_id = B.link_type_cd
+            AND B.board_seq = #{boardSeq}
+            AND B.board_type_cd = #{boardTypeCd}
+            AND B.link_type_cd !='rect001'
+        WHERE A.parent_cd = 'rect001'
     </select>
 
     <insert id="insertRecruitInfo" parameterType="newRecruitDto" useGeneratedKeys="true" keyProperty="recruitSeq">

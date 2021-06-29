@@ -14,7 +14,7 @@ public class UrlLinkServiceImpl implements UrlLinkService {
     public String addUrlLink(NewUrlLinkDTO newUrlLinkDTO) throws Exception {
 
         NewBrandDTO newBrandDTO = new NewBrandDTO();
-        newUrlLinkDTO.setBrandSeq(newBrandDTO.getBrandSeq());
+        newUrlLinkDTO.setBoardSeq(newBrandDTO.getBrandSeq());
         newUrlLinkDTO.setBoardTypeCd("brdt001");
         newUrlLinkDTO.setLinkTypeCd("lnkt001");
         newUrlLinkDTO.setSortOrder(1);

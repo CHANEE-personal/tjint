@@ -2,9 +2,11 @@ package com.tjint.springboot.app.api.recruit.service.impl;
 
 import com.tjint.springboot.app.api.recruit.service.AdminRecruitApiService;
 import com.tjint.springboot.app.api.recruit.service.NewRecruitDTO;
+import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,8 +63,20 @@ public class AdminRecruitApiServiceImpl implements AdminRecruitApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, Object> getRecruitInfo(NewRecruitDTO newRecruitDTO) throws Exception {
-		return adminRecruitApiMapper.getRecruitInfo(newRecruitDTO);
+	public Map<String, Object> getRecruitInfo(NewRecruitDTO newRecruitDTO, NewUrlLinkDTO newUrlLinkDTO) throws Exception {
+		Map<String, Object> resultMap = new HashMap<>();
+		Map<String, Object> recruitMap;
+		List<NewUrlLinkDTO> urlLinkList = null;
+		recruitMap = this.adminRecruitApiMapper.getRecruitInfo(newRecruitDTO);
+
+		newUrlLinkDTO.setBoardTypeCd("brdt003");
+		newUrlLinkDTO.setBoardSeq(newRecruitDTO.getRecruitSeq());
+		urlLinkList = this.adminRecruitApiMapper.getRecruitLinkList(newUrlLinkDTO);
+
+		resultMap.put("recruitInfo", recruitMap);
+		resultMap.put("urlLinkList", urlLinkList);
+
+		return resultMap;
 	}
 
 	/**
@@ -80,6 +94,11 @@ public class AdminRecruitApiServiceImpl implements AdminRecruitApiService {
 	 */
 	public String addRecruit(NewRecruitDTO newRecruitDTO) throws Exception {
 
+		//채용사이트 구분
+		String[] snsArr = newRecruitDTO.getLinkAddress().split(",");
+		for(int i = 0; i < snsArr.length; i++) {
+
+		}
 		if(this.adminRecruitApiMapper.addRecruit(newRecruitDTO) > 0) {
 			return "Y";
 		} else {

@@ -1,5 +1,6 @@
 package com.tjint.springboot.app.api.recruit.service;
 
+import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -8,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel
-public class NewRecruitDTO {
+public class NewRecruitDTO extends NewUrlLinkDTO {
 
 	@ApiModelProperty(required = true, value = "채용공고 IDX", hidden = true)
 	private Integer recruitSeq;

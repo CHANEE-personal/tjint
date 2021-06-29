@@ -3,6 +3,7 @@ package com.tjint.springboot.app.api.recruit.controller;
 import com.tjint.springboot.app.api.recruit.service.AdminRecruitApiService;
 import com.tjint.springboot.app.api.recruit.service.NewRecruitDTO;
 import com.tjint.springboot.common.paging.Page;
+import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import com.tjint.springboot.common.utils.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -75,11 +76,16 @@ public class AdminRecruitApi {
 	})
 	@GetMapping(value = "/getRecruitInfo/{recruitSeq}")
 	public Map<String, Object> getRecruitInfo(@PathVariable("recruitSeq") Integer recruitSeq) throws Exception {
+		Map<String, Object> resultMap = new HashMap<>();
 		Map<String, Object> recruitMap;
 		NewRecruitDTO newRecruitDTO = new NewRecruitDTO();
+		NewUrlLinkDTO newUrlLinkDTO = new NewUrlLinkDTO();
 		newRecruitDTO.setRecruitSeq(recruitSeq);
 
-		recruitMap = this.adminRecruitApiService.getRecruitInfo(newRecruitDTO);
+		recruitMap = this.adminRecruitApiService.getRecruitInfo(newRecruitDTO, newUrlLinkDTO);
+		resultMap.put("recruitMap", recruitMap.get("recruitInfo"));
+		resultMap.put("urlLinkList", recruitMap.get("urlLinkList"));
+
 		return recruitMap;
 	}
 
@@ -90,7 +96,7 @@ public class AdminRecruitApi {
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
 	@PostMapping(value = "/addRecruit")
-	public String addRecruit(NewRecruitDTO newRecruitDTO) throws Exception {
+	public String addRecruit(@RequestBody NewRecruitDTO newRecruitDTO) throws Exception {
 		newRecruitDTO.setCreator(1);
 		newRecruitDTO.setUpdater(1);
 		String result = this.adminRecruitApiService.addRecruit(newRecruitDTO);
