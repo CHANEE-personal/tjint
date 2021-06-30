@@ -2,6 +2,7 @@ package com.tjint.springboot.app.api.frontNews.service.impl;
 
 import com.tjint.springboot.app.api.frontNews.service.FrontNewsApiService;
 import com.tjint.springboot.app.api.news.service.NewNewsDTO;
+import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +64,23 @@ public class FrontNewsApiServiceImpl implements FrontNewsApiService {
      */
     public Map<String, Object> frontNewsInfo(NewNewsDTO newNewsDTO) throws Exception {
         return frontNewsApiMapper.frontNewsInfo(newNewsDTO);
+    }
+
+    /**
+     * <pre>
+     * 1. MethodName : frontSnsLinkList
+     * 2. ClassName  : FrontNewsApiServiceImpl.java
+     * 3. Comment    : News SNS Link 조회
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 30.
+     * </pre>
+     *
+     * @param newsSeq
+     * @return
+     * @throws Exception
+     */
+    public List<NewUrlLinkDTO> frontSnsLinkList(Integer newsSeq) throws Exception {
+        return frontNewsApiMapper.frontSnsLinkList(newsSeq);
     }
 
     /**

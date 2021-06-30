@@ -83,6 +83,11 @@ public class FrontNewsApi {
         // 이전, 다음 글 idx 조회
         newsMap.put("prevIdx", this.frontNewsApiService.frontNewsPrevIdx(newsSeq));
         newsMap.put("nextIdx", this.frontNewsApiService.frontNewsNextIdx(newsSeq));
+
+        // sns link 조회
+        newsMap.put("snsLinkList", this.frontNewsApiService.frontSnsLinkList(newsSeq));
+
+        // 뉴스 상세 조회
         newsMap.put("newsInfo", this.frontNewsApiService.frontNewsInfo(newNewsDTO));
 
         return newsMap;

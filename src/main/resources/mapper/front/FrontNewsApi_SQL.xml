@@ -88,6 +88,13 @@
         </choose>
     </select>
 
+    <select id="frontSnsLinkList" parameterType="Integer" resultType="newUrlLinkDto">
+        SELECT *
+        FROM app_url_link_info
+        WHERE board_type_cd = 'brdt001'
+        AND board_seq = #{newsSeq}
+    </select>
+
     <select id="frontNewsPrevIdx" parameterType="Integer" resultType="Integer">
         SELECT max(news_seq)
         FROM app_board_news
