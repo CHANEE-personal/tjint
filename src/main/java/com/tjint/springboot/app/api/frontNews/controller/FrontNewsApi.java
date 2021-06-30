@@ -67,6 +67,24 @@ public class FrontNewsApi {
         return jsonObject;
     }
 
+    @ApiOperation(value = "Front News 상세페이지", notes = "Front News 상세페이지")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공", response = Map.class),
+            @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
+            @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
+    })
+    @GetMapping(value = "/frontNewsInfo/{newsSeq}")
+    public Map<String, Object> frontNewsInfo(@PathVariable(value="newsSeq") Integer newsSeq) throws Exception {
+        Map<String, Object> newsMap = new HashMap<>();
+
+        NewNewsDTO newNewsDTO = new NewNewsDTO();
+        newNewsDTO.setNewsSeq(newsSeq);
+
+        newsMap = this.frontNewsApiService.frontNewsInfo(newNewsDTO);
+
+        return newsMap;
+    }
+
     @ApiOperation(value = "Front SOCIETY 페이지", notes = "Front SOCIETY 페이지")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = Map.class),

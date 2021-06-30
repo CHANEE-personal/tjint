@@ -27,7 +27,7 @@
                  left outer join
              J_ATTACHFILE C
              on B.image_file_id = C.file_id
-             WHERE A.visible != 'D'
+             WHERE A.visible = 'Y'
         ]]>
         <choose>
             <when test="searchCondition == 0">
@@ -43,7 +43,7 @@
         ]]>
     </select>
 
-    <select id="getNewsInfo" parameterType="newNewsDto" resultType="java.util.HashMap">
+    <select id="frontNewsInfo" parameterType="newNewsDto" resultType="java.util.HashMap">
         /*[AdminPrMgmt_SQL.xml].[getNewsInfo] */
         <![CDATA[
         SELECT news_seq,
@@ -76,7 +76,7 @@
                 COUNT(*) AS TOT
             FROM
                 app_board_news
-            where visible != 'D'
+            where visible != 'Y'
         ]]>
         <choose>
             <when test="searchCondition == 0">

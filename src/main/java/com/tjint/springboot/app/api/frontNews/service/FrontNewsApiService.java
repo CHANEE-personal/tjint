@@ -37,4 +37,19 @@ public interface FrontNewsApiService {
      * @throws Exception
      */
     public List<NewNewsDTO> frontNewsList(Map<String, Object> searchMap) throws Exception;
+
+    /**
+     * <pre>
+     * 1. MethodName : frontNewsInfo
+     * 2. ClassName  : FrontNewsApiService.java
+     * 3. Comment    : News 상세
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 30.
+     * </pre>
+     *
+     * @param newNewsDTO
+     * @return
+     * @throws Exception
+     */
+    public Map<String, Object> frontNewsInfo (NewNewsDTO newNewsDTO) throws Exception;
 }
