@@ -1,5 +1,7 @@
 package com.tjint.springboot.app.api.business.controller;
 
+import com.tjint.springboot.app.api.brand.service.NewBrandDTO;
+import com.tjint.springboot.app.api.business.service.FrontBusinessApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -11,6 +13,8 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.rmi.ServerError;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Api(tags = "FRONT BUSINESS API")
@@ -19,6 +23,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 @CrossOrigin
 public class FrontBusinessApi {
+
+    private final FrontBusinessApiService frontBusinessApiService;
+
     @ApiOperation(value = "Front Mission 페이지", notes = "Front Mission 페이지")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = Map.class),
@@ -29,13 +36,25 @@ public class FrontBusinessApi {
     public JSONObject brandPage(@PathVariable("menuCd") Integer menuCd, HttpServletRequest request) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
+        List<NewBrandDTO> brandList = null;
+
+        Map<String, Object> brandMap = new HashMap<>();
+
+
         if(menuCd == 1) {
+            brandMap.put("menuCd", menuCd);
             jsonObject.put("brandPage",1);
         } else if(menuCd == 2) {
+            brandMap.put("menuCd", menuCd);
             jsonObject.put("brandPage",2);
         } else if(menuCd == 3) {
+            brandMap.put("menuCd", menuCd);
             jsonObject.put("brandPage",3);
         }
+
+        brandList = this.frontBusinessApiService.getBrandList(brandMap);
+
+        jsonObject.put("brandList", brandList);
 
         return jsonObject;
     }
