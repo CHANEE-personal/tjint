@@ -24,10 +24,10 @@ public class NewRecruitDTO extends NewUrlLinkDTO {
 	private String jobsValues;
 
 	@ApiModelProperty(required = true, value = "오픈일자")
-	private String openingDate;
+	private String time1;
 
 	@ApiModelProperty(required = true, value = "종료일자")
-	private String closingDate;
+	private String time2;
 
 	@ApiModelProperty(required = true, value = "노출여부")
 	private String visible;

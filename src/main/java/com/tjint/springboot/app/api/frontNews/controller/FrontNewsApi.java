@@ -80,7 +80,10 @@ public class FrontNewsApi {
         NewNewsDTO newNewsDTO = new NewNewsDTO();
         newNewsDTO.setNewsSeq(newsSeq);
 
-        newsMap = this.frontNewsApiService.frontNewsInfo(newNewsDTO);
+        // 이전, 다음 글 idx 조회
+        newsMap.put("prevIdx", this.frontNewsApiService.frontNewsPrevIdx(newsSeq));
+        newsMap.put("nextIdx", this.frontNewsApiService.frontNewsNextIdx(newsSeq));
+        newsMap.put("newsInfo", this.frontNewsApiService.frontNewsInfo(newNewsDTO));
 
         return newsMap;
     }

@@ -64,4 +64,38 @@ public class FrontNewsApiServiceImpl implements FrontNewsApiService {
     public Map<String, Object> frontNewsInfo(NewNewsDTO newNewsDTO) throws Exception {
         return frontNewsApiMapper.frontNewsInfo(newNewsDTO);
     }
+
+    /**
+     * <pre>
+     * 1. MethodName : frontNewsPrevIdx
+     * 2. ClassName  : FrontNewsApiServiceImpl.java
+     * 3. Comment    : 이전 idx 조회
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 30.
+     * </pre>
+     *
+     * @param newsSeq
+     * @return
+     * @throws Exception
+     */
+    public Integer frontNewsPrevIdx(Integer newsSeq) throws Exception {
+        return frontNewsApiMapper.frontNewsPrevIdx(newsSeq);
+    }
+
+    /**
+     * <pre>
+     * 1. MethodName : frontNewsPrevIdx
+     * 2. ClassName  : FrontNewsApiServiceImpl.java
+     * 3. Comment    : 다음 idx 조회
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 30.
+     * </pre>
+     *
+     * @param idxMap
+     * @return
+     * @throws Exception
+     */
+    public Integer frontNewsNextIdx(Integer newsSeq) throws Exception {
+        return frontNewsApiMapper.frontNewsNextIdx(newsSeq);
+    }
 }

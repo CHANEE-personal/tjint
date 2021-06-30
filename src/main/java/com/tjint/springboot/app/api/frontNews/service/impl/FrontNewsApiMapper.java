@@ -52,4 +52,34 @@ public interface FrontNewsApiMapper {
      * @throws Exception
      */
     public Map<String, Object> frontNewsInfo(NewNewsDTO newNewsDTO) throws Exception;
+
+    /**
+     * <pre>
+     * 1. MethodName : frontNewsPrevIdx
+     * 2. ClassName  : FrontNewsApiMapper.java
+     * 3. Comment    : 이전 idx 조회
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 30.
+     * </pre>
+     *
+     * @param newsSeq
+     * @return
+     * @throws Exception
+     */
+    public Integer frontNewsPrevIdx(Integer newsSeq) throws Exception;
+
+    /**
+     * <pre>
+     * 1. MethodName : frontNewsNextIdx
+     * 2. ClassName  : FrontNewsApiMapper.java
+     * 3. Comment    : 다음 idx 조회
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 30.
+     * </pre>
+     *
+     * @param newsSeq
+     * @return
+     * @throws Exception
+     */
+    public Integer frontNewsNextIdx(Integer newsSeq) throws Exception;
 }

@@ -102,7 +102,7 @@
 
     <insert id="insertRecruitInfo" parameterType="newRecruitDto" useGeneratedKeys="true" keyProperty="recruitSeq">
         /* [AdminRecruitMgmt_SQL.xml].[insertRecruitInfo] */
-        INSERT INTO app_board_recruit
+        INSERT INTO app_board_recruit_test
         (
             recruit_title,
             recruit_description,
@@ -118,8 +118,8 @@
         (
             #{recruitTitle},
             '',
-            #{openingDate},
-            #{closingDate},
+            #{time1},
+            #{time2},
             #{visible},
             #{updater},
             now(),
@@ -129,7 +129,7 @@
     </insert>
 
     <insert id="addRecruitUrlLink" parameterType="newUrlLinkDto" useGeneratedKeys="true" keyProperty="linkSeq">
-        INSERT INTO app_url_link_info
+        INSERT INTO app_url_link_info_test
         (
             board_type_cd,
             board_seq,

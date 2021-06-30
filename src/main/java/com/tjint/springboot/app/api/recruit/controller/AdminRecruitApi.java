@@ -98,8 +98,6 @@ public class AdminRecruitApi {
 	@PostMapping(value = "/addRecruit")
 	public String addRecruit(@RequestBody NewRecruitDTO newRecruitDTO) throws Exception {
 
-		System.out.println("===Idx===");
-		System.out.println(newRecruitDTO.getRecruitSeq());
 		String result = this.adminRecruitApiService.addRecruit(newRecruitDTO);
 
 		return result;

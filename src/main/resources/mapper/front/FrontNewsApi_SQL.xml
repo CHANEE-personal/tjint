@@ -88,4 +88,18 @@
         </choose>
     </select>
 
+    <select id="frontNewsPrevIdx" parameterType="Integer" resultType="Integer">
+        SELECT max(news_seq)
+        FROM app_board_news
+        WHERE news_seq <![CDATA[<]]> #{newsSeq}
+        AND visible = 'Y'
+    </select>
+
+    <select id="frontNewsNextIdx" parameterType="Integer" resultType="Integer">
+        SELECT min(news_seq)
+        FROM app_board_news
+        WHERE news_seq <![CDATA[>]]> #{newsSeq}
+        AND visible = 'Y';
+    </select>
+
 </mapper>

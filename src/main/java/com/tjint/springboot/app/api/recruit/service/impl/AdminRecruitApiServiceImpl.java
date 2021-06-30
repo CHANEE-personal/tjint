@@ -96,36 +96,41 @@ public class AdminRecruitApiServiceImpl implements AdminRecruitApiService {
 	public String addRecruit(NewRecruitDTO newRecruitDTO) throws Exception {
 
 		//채용사이트 구분
+		String result = "";
 		NewUrlLinkDTO newUrlLinkDTO = new NewUrlLinkDTO();
 
 		Map<String, Object> recruitMap = new HashMap<>();
 		Map<String, Object> urlMap;
 
-		String[] snsArr = newRecruitDTO.getJobsValues().split(",");
-		for(int i = 0; i < snsArr.length; i++) {
-			// 채용 url 조회
-			recruitMap.put("codeId", snsArr[i]);
-
-			urlMap = this.adminRecruitApiMapper.getRecruitUrlInfo(recruitMap);
-
-			newUrlLinkDTO.setBoardTypeCd("brdt003");
-			newUrlLinkDTO.setBoardSeq(newRecruitDTO.getRecruitSeq());
-			newUrlLinkDTO.setLinkAddress(StringUtil.getString(urlMap.get("property1"),""));
-			newUrlLinkDTO.setSortOrder(i);
-			newUrlLinkDTO.setVisible("Y");
-			newUrlLinkDTO.setCreator(1);
-			newUrlLinkDTO.setUpdater(1);
-
-			if(this.adminRecruitApiMapper.addRecruitUrlLink(newUrlLinkDTO) > 0) {
-				return "Y";
-			} else {
-				return "N";
-			}
-		}
+		newRecruitDTO.setCreator(1);
+		newRecruitDTO.setUpdater(1);
 		if(this.adminRecruitApiMapper.insertRecruitInfo(newRecruitDTO) > 0) {
-			return "Y";
+			String[] snsArr = newRecruitDTO.getJobsValues().split(",");
+			for(int i = 0; i < snsArr.length; i++) {
+				// 채용 url 조회
+				recruitMap.put("codeId", snsArr[i]);
+
+				urlMap = this.adminRecruitApiMapper.getRecruitUrlInfo(recruitMap);
+
+				newUrlLinkDTO.setBoardTypeCd("brdt003");
+				newUrlLinkDTO.setLinkTypeCd(snsArr[i]);
+				newUrlLinkDTO.setBoardSeq(newRecruitDTO.getRecruitSeq());
+				newUrlLinkDTO.setLinkAddress(StringUtil.getString(urlMap.get("property1"),""));
+				newUrlLinkDTO.setSortOrder(i);
+				newUrlLinkDTO.setVisible("Y");
+				newUrlLinkDTO.setCreator(1);
+				newUrlLinkDTO.setUpdater(1);
+
+				if(this.adminRecruitApiMapper.addRecruitUrlLink(newUrlLinkDTO) > 0) {
+					result = "Y";
+				} else {
+					result = "N";
+				}
+			}
 		} else {
-			return "N";
+			result = "N";
 		}
+
+		return result;
 	}
 }
