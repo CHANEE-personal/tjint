@@ -93,9 +93,16 @@
         WHERE A.parent_cd = 'rect001'
     </select>
 
+    <select id="getRecruitUrlInfo" parameterType="HashMap" resultType="HashMap">
+        /* [AdminRecruitApi_SQL.xml].[getRecruitUrlInfo] */
+        SELECT *
+        FROM app_code
+        WHERE code_id = #{codeId}
+    </select>
+
     <insert id="insertRecruitInfo" parameterType="newRecruitDto" useGeneratedKeys="true" keyProperty="recruitSeq">
         /* [AdminRecruitMgmt_SQL.xml].[insertRecruitInfo] */
-        INSERT INTO app_board_recruit_test
+        INSERT INTO app_board_recruit
         (
             recruit_title,
             recruit_description,
@@ -118,6 +125,35 @@
             now(),
             #{updater},
             now()
+        )
+    </insert>
+
+    <insert id="addRecruitUrlLink" parameterType="newUrlLinkDto" useGeneratedKeys="true" keyProperty="linkSeq">
+        INSERT INTO app_url_link_info
+        (
+            board_type_cd,
+            board_seq,
+            link_type_cd,
+            link_address,
+            sort_order,
+            visible,
+            creator,
+            create_time,
+            updater,
+            update_time
+        )
+        VALUES
+        (
+            #{boardTypeCd},
+            #{boardSeq},
+            #{linkTypeCd},
+            #{linkAddress},
+            #{sortOrder},
+            #{visible},
+            #{updater},
+            NOW(),
+            #{updater},
+            NOW()
         )
     </insert>
 

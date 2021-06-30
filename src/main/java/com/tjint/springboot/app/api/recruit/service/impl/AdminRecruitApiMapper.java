@@ -57,7 +57,7 @@ public interface AdminRecruitApiMapper {
 
 	/**
 	 * <pre>
-	 * 1. MethodName : addRecruit
+	 * 1. MethodName : insertRecruitInfo
 	 * 2. ClassName  : AdminRecruitApiMapper.java
 	 * 3. Comment    : 채용공고 등록
 	 * 4. 작성자       : CHO
@@ -68,7 +68,7 @@ public interface AdminRecruitApiMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public Integer addRecruit(NewRecruitDTO newRecruitDTO) throws Exception;
+	public Integer insertRecruitInfo(NewRecruitDTO newRecruitDTO) throws Exception;
 
 	/**
 	 * <pre>
@@ -84,4 +84,34 @@ public interface AdminRecruitApiMapper {
 	 * @throws Exception
 	 */
 	public List<NewUrlLinkDTO> getRecruitLinkList(NewUrlLinkDTO newUrlLinkDTO) throws Exception;
+
+	/**
+	 * <pre>
+	 * 1. MethodName : addRecruitUrlLink
+	 * 2. ClassName  : AdminRecruitApiMapper.java
+	 * 3. Comment    : 채용공고 URL 등록
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 06. 30.
+	 * </pre>
+	 *
+	 * @param newUrlLinkDTO
+	 * @return
+	 * @throws Exception
+	 */
+	public Integer addRecruitUrlLink(NewUrlLinkDTO newUrlLinkDTO) throws Exception;
+
+	/**
+	 * <pre>
+	 * 1. MethodName : getRecruitUrlInfo
+	 * 2. ClassName  : AdminRecruitApiMapper.java
+	 * 3. Comment    : 채용 URL 조회
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 06. 30.
+	 * </pre>
+	 *
+	 * @param recruitMap
+	 * @return
+	 * @throws Exception
+	 */
+	public Map<String, Object> getRecruitUrlInfo(Map<String, Object> recruitMap) throws Exception;
 }

@@ -3,6 +3,7 @@ package com.tjint.springboot.app.api.recruit.service.impl;
 import com.tjint.springboot.app.api.recruit.service.AdminRecruitApiService;
 import com.tjint.springboot.app.api.recruit.service.NewRecruitDTO;
 import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
+import com.tjint.springboot.common.utils.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -95,11 +96,33 @@ public class AdminRecruitApiServiceImpl implements AdminRecruitApiService {
 	public String addRecruit(NewRecruitDTO newRecruitDTO) throws Exception {
 
 		//채용사이트 구분
+		NewUrlLinkDTO newUrlLinkDTO = new NewUrlLinkDTO();
+
+		Map<String, Object> recruitMap = new HashMap<>();
+		Map<String, Object> urlMap;
+
 		String[] snsArr = newRecruitDTO.getJobsValues().split(",");
 		for(int i = 0; i < snsArr.length; i++) {
+			// 채용 url 조회
+			recruitMap.put("codeId", snsArr[i]);
 
+			urlMap = this.adminRecruitApiMapper.getRecruitUrlInfo(recruitMap);
+
+			newUrlLinkDTO.setBoardTypeCd("brdt003");
+			newUrlLinkDTO.setBoardSeq(newRecruitDTO.getRecruitSeq());
+			newUrlLinkDTO.setLinkAddress(StringUtil.getString(urlMap.get("property1"),""));
+			newUrlLinkDTO.setSortOrder(i);
+			newUrlLinkDTO.setVisible("Y");
+			newUrlLinkDTO.setCreator(1);
+			newUrlLinkDTO.setUpdater(1);
+
+			if(this.adminRecruitApiMapper.addRecruitUrlLink(newUrlLinkDTO) > 0) {
+				return "Y";
+			} else {
+				return "N";
+			}
 		}
-		if(this.adminRecruitApiMapper.addRecruit(newRecruitDTO) > 0) {
+		if(this.adminRecruitApiMapper.insertRecruitInfo(newRecruitDTO) > 0) {
 			return "Y";
 		} else {
 			return "N";

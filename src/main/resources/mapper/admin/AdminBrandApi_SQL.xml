@@ -109,7 +109,7 @@
 
     <update id="modifyBrand" parameterType="brandInfoVo">
         /* [AdminBrand_SQL.xml].[modifyBrand] */
-        UPDATE app_board_brand_test
+        UPDATE app_board_brand
         SET
         <if test="categoryCd != null and categoryCd != ''">category_cd = #{categoryCd},</if>
         <if test="brandName != null and brandName != ''">brand_name = #{brandName},</if>
@@ -122,7 +122,7 @@
 
     <insert id="addBrand" parameterType="newBrandDto">
         /* [AdminBrand_SQL.xml].[addBrand] */
-        INSERT INTO app_board_brand_test
+        INSERT INTO app_board_brand
         ( category_cd
         , menuCategoryNm
         , brand_name
@@ -146,13 +146,13 @@
     <select id="selectLatestFileId" resultType="java.lang.String">
         /* [AdminBrand_SQL.xml].[selectLatestFileId] */
         SELECT FILE_ID
-        FROM J_ATTACHFILE_test
+        FROM J_ATTACHFILE
         ORDER BY REG_DATE DESC LIMIT 1
     </select>
 
     <insert id="addImageFileInfo" parameterType="newImageDto">
         /* [AdminBrand_SQL.xml].[addImageFileInfo] */
-        INSERT INTO app_image_file_info_test
+        INSERT INTO app_image_file_info
         ( board_type_cd
         , board_seq
         , image_type_cd
@@ -201,7 +201,7 @@
 
     <insert id="addUrlLink" parameterType="newUrlLinkDto">
         /* [AdminBrand_SQL.xml].[addUrlLink] */
-        INSERT INTO app_url_link_info_test
+        INSERT INTO app_url_link_info
         ( board_type_cd
         , board_seq
         , link_type_cd

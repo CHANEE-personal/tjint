@@ -6,19 +6,28 @@
         /*[AdminPrMgmt_SQL.xml].[selectNewsList] */
         <![CDATA[
            SELECT
-              news_seq,
-              news_title,
-              news_description,
-              visible,
-              creator,
+              A.news_seq,
+              A.news_title,
+              A.news_description,
+              A.visible,
+              A.creator,
               (SELECT name from app_user_info where user_seq = creator) as creatorNm,
-              DATE_FORMAT(create_time, '%Y.%m.%d') as create_time,
-              updater,
+              DATE_FORMAT(A.create_time, '%Y.%m.%d') as create_time,
+              A.updater,
               (SELECT name from app_user_info where user_seq = updater) as updaterNm,
-              DATE_FORMAT(update_time, '%Y.%m.%d') as update_time
+              DATE_FORMAT(A.update_time, '%Y.%m.%d') as update_time,
+              file_id,
+              file_mask,
+              file_path
            FROM
-              app_board_news_test
-           WHERE visible != 'D'
+              app_board_news A
+           left OUTER join
+             (select * from app_image_file_info where board_type_cd = 'brdt002' AND visible = 'Y') B
+             ON A.news_seq = B.board_seq
+                 left outer join
+             J_ATTACHFILE C
+             on B.image_file_id = C.file_id
+             WHERE A.visible != 'D'
         ]]>
         <choose>
             <when test="searchCondition == 0">
@@ -48,12 +57,12 @@
                B.image_file_id as imageFileId,
                C.FILE_NAME     as fileName,
                C.FILE_PATH     as filePath
-        FROM app_board_news_test A
+        FROM app_board_news A
                  left OUTER JOIN
-             (select * from app_image_file_info_test where board_type_cd = 'brdt002' AND visible = 'Y') B
+             (select * from app_image_file_info where board_type_cd = 'brdt002' AND visible = 'Y') B
              ON A.news_seq = B.board_seq
                  left outer join
-             J_ATTACHFILE_TEST C
+             J_ATTACHFILE C
              on B.image_file_id = C.file_id
         WHERE news_seq = #{newsSeq}
         ]]>
@@ -66,7 +75,7 @@
             SELECT
                 COUNT(*) AS TOT
             FROM
-                app_board_news_test
+                app_board_news
             where visible != 'D'
         ]]>
         <choose>
