@@ -76,7 +76,7 @@
                 COUNT(*) AS TOT
             FROM
                 app_board_news
-            where visible != 'Y'
+            where visible = 'Y'
         ]]>
         <choose>
             <when test="searchCondition == 0">
