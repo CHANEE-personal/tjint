@@ -2,6 +2,7 @@ package com.tjint.springboot.app.api.business.service.impl;
 
 import com.tjint.springboot.app.api.brand.service.NewBrandDTO;
 import com.tjint.springboot.app.api.business.service.FrontBusinessApiService;
+import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +30,9 @@ public class FrontBusinessApiServiceImpl implements FrontBusinessApiService {
 	 */
 	public List<NewBrandDTO> getBrandList(Map<String, Object> brandMap) throws Exception {
 		return this.frontBusinessApiMapper.getBrandList(brandMap);
+	}
+
+	public List<NewUrlLinkDTO> getSnsLinkList(Integer brandIdx) throws Exception {
+		return this.frontBusinessApiMapper.getSnsLinkList(brandIdx);
 	}
 }

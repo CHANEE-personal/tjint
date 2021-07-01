@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tjint.springboot.app.api.business.service.impl.FrontBusinessApiMapper">
 
-    <select id="getBrandList" parameterType="hashMap" resultType="hashMap">
+    <select id="getBrandList" parameterType="hashMap" resultType="newBrandDto">
         /*[FrontBusinessApi.xml].[getBrandList] */
         SELECT
         a.brand_seq           as brandSeq
@@ -43,7 +43,16 @@
             </if>
         </where>
 
-        ORDER BY brand_seq DESC
+        ORDER BY brand_seq ASC
+    </select>
+
+    <select id="getSnsLinkList" parameterType="Integer" resultType="newUrlLinkDto">
+        SELECT link_address
+        FROM app_url_link_info
+        WHERE board_seq = #{brandIdx}
+        AND visible = 'Y'
+        AND link_type_cd IN ('lnkt003','lnkt004','lnkt005','lnkt006')
+        ORDER BY sort_order ASC
     </select>
 
     <select id="frontNewsInfo" parameterType="newNewsDto" resultType="java.util.HashMap">

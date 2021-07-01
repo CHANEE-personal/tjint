@@ -1,6 +1,7 @@
 package com.tjint.springboot.app.api.business.service;
 
 import com.tjint.springboot.app.api.brand.service.NewBrandDTO;
+import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface FrontBusinessApiService {
 	 * @throws Exception
 	 */
 	public List<NewBrandDTO> getBrandList(Map<String, Object> brandMap) throws Exception;
+
+	public List<NewUrlLinkDTO> getSnsLinkList(Integer brandIdx) throws Exception;
 }

@@ -1,6 +1,7 @@
 package com.tjint.springboot.app.api.business.service.impl;
 
 import com.tjint.springboot.app.api.brand.service.NewBrandDTO;
+import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface FrontBusinessApiMapper {
 	 * @throws Exception
 	 */
 	public List<NewBrandDTO> getBrandList(Map<String, Object> brandMap) throws Exception;
+
+	public List<NewUrlLinkDTO> getSnsLinkList(Integer brandIdx) throws Exception;
 }
