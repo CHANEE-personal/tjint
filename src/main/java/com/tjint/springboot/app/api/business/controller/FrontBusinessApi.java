@@ -33,8 +33,8 @@ public class FrontBusinessApi {
     })
     @GetMapping(value = "/brandPage/{menuCd}")
     public JSONObject brandPage(@PathVariable("menuCd") Integer menuCd) throws Exception {
-        JSONObject jsonObject = new JSONObject();
-
+        JSONObject brandObject = new JSONObject();
+        JSONObject allObject = new JSONObject();
         List<NewBrandDTO> brandList = null;
 
         Map<String, Object> brandMap = new HashMap<>();
@@ -43,13 +43,15 @@ public class FrontBusinessApi {
 
         brandList = this.frontBusinessApiService.getBrandList(brandMap);
 
-        jsonObject.put("brandList", brandList);
+        brandObject.put("brandList", brandList);
 
         for(int i = 0; i < brandList.size(); i++) {
-            jsonObject.put("snsLinkList_"+i, this.frontBusinessApiService.getSnsLinkList(brandList.get(i).getBrandSeq()));
+            brandObject.put("snsLinkList_"+i, this.frontBusinessApiService.getSnsLinkList(brandList.get(i).getBrandSeq()));
+            brandObject.put("imageList_"+i, this.frontBusinessApiService.getImageList(brandList.get(i).getBrandSeq()));
         }
 
+        allObject.put("brandObject", brandObject);
 
-        return jsonObject;
+        return allObject;
     }
 }

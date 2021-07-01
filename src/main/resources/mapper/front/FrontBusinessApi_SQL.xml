@@ -55,6 +55,14 @@
         ORDER BY sort_order ASC
     </select>
 
+    <select id="getImageList" parameterType="Integer" resultType="attachFileDto">
+        SELECT * FROM app_image_file_info, J_ATTACHFILE ja
+        WHERE image_file_id = FILE_ID
+        AND board_seq = #{brandIdx}
+        AND visible = 'Y'
+        ORDER BY sort_order ASC
+    </select>
+
     <select id="frontNewsInfo" parameterType="newNewsDto" resultType="java.util.HashMap">
         /*[AdminPrMgmt_SQL.xml].[getNewsInfo] */
         <![CDATA[
