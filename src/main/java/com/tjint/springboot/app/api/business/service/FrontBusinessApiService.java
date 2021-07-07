@@ -1,7 +1,6 @@
 package com.tjint.springboot.app.api.business.service;
 
-import com.tjint.springboot.app.api.brand.service.NewBrandDTO;
-import com.tjint.springboot.common.imageFile.NewImageDTO;
+import com.tjint.springboot.common.imageFile.AttachFileDTO;
 import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,7 @@ public interface FrontBusinessApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<NewBrandDTO> getBrandList(Map<String, Object> brandMap) throws Exception;
+	public Map<String, Object> getBrandList(Map<String, Object> brandMap) throws Exception;
 
 	/**
 	 * <pre>
@@ -54,5 +53,5 @@ public interface FrontBusinessApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<NewImageDTO> getImageList(Integer brandIdx) throws Exception;
+	public List<AttachFileDTO> getImageList(Integer brandIdx) throws Exception;
 }

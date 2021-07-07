@@ -2,11 +2,12 @@ package com.tjint.springboot.app.api.business.service.impl;
 
 import com.tjint.springboot.app.api.brand.service.NewBrandDTO;
 import com.tjint.springboot.app.api.business.service.FrontBusinessApiService;
-import com.tjint.springboot.common.imageFile.NewImageDTO;
+import com.tjint.springboot.common.imageFile.AttachFileDTO;
 import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +30,22 @@ public class FrontBusinessApiServiceImpl implements FrontBusinessApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<NewBrandDTO> getBrandList(Map<String, Object> brandMap) throws Exception {
-		return this.frontBusinessApiMapper.getBrandList(brandMap);
+	public Map<String, Object> getBrandList(Map<String, Object> brandMap) throws Exception {
+		Map<String, Object> resultMap = new HashMap();
+
+		NewBrandDTO newBrandDTO = new NewBrandDTO();
+
+		List<NewBrandDTO> brandList = this.frontBusinessApiMapper.getBrandList(brandMap);
+		int brandCount = this.frontBusinessApiMapper.getBrandList(brandMap).size();
+
+		for(int i = 0; i < brandCount; i++) {
+			newBrandDTO.setSnsLinkList(this.frontBusinessApiMapper.getSnsLinkList(brandList.get(i).getBrandSeq()));
+			newBrandDTO.setImageList(this.frontBusinessApiMapper.getImageList(brandList.get(i).getBrandSeq()));
+		}
+
+		resultMap.put("brandList", brandList);
+
+		return resultMap;
 	}
 
 	/**
@@ -63,7 +78,7 @@ public class FrontBusinessApiServiceImpl implements FrontBusinessApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<NewImageDTO> getImageList(Integer brandIdx) throws Exception {
+	public List<AttachFileDTO> getImageList(Integer brandIdx) throws Exception {
 		return this.frontBusinessApiMapper.getImageList(brandIdx);
 	}
 }

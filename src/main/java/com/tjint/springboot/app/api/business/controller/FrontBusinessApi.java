@@ -1,19 +1,16 @@
 package com.tjint.springboot.app.api.business.controller;
 
-import com.tjint.springboot.app.api.brand.service.NewBrandDTO;
 import com.tjint.springboot.app.api.business.service.FrontBusinessApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import net.sf.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.rmi.ServerError;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Api(tags = "FRONT BUSINESS API")
@@ -32,26 +29,16 @@ public class FrontBusinessApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @GetMapping(value = "/brandPage/{menuCd}")
-    public JSONObject brandPage(@PathVariable("menuCd") Integer menuCd) throws Exception {
-        JSONObject brandObject = new JSONObject();
-        JSONObject allObject = new JSONObject();
-        List<NewBrandDTO> brandList = null;
+    @ResponseBody
+    public Map<String, Object> brandPage(@PathVariable("menuCd") Integer menuCd) throws Exception {
+        Map<String, Object> resultMap = new HashMap<>();
 
         Map<String, Object> brandMap = new HashMap<>();
 
         brandMap.put("menuCd", menuCd);
 
-        brandList = this.frontBusinessApiService.getBrandList(brandMap);
+        resultMap = this.frontBusinessApiService.getBrandList(brandMap);
 
-        brandObject.put("brandList", brandList);
-
-        for(int i = 0; i < brandList.size(); i++) {
-            brandObject.put("snsLinkList_"+i, this.frontBusinessApiService.getSnsLinkList(brandList.get(i).getBrandSeq()));
-            brandObject.put("imageList_"+i, this.frontBusinessApiService.getImageList(brandList.get(i).getBrandSeq()));
-        }
-
-        allObject.put("brandObject", brandObject);
-
-        return allObject;
+        return resultMap;
     }
 }

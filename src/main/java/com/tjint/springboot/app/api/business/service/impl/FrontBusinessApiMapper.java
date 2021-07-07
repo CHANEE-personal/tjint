@@ -1,7 +1,7 @@
 package com.tjint.springboot.app.api.business.service.impl;
 
 import com.tjint.springboot.app.api.brand.service.NewBrandDTO;
-import com.tjint.springboot.common.imageFile.NewImageDTO;
+import com.tjint.springboot.common.imageFile.AttachFileDTO;
 import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -23,7 +23,7 @@ public interface FrontBusinessApiMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<NewBrandDTO> getBrandList(Map<String, Object> brandMap) throws Exception;
+	List<NewBrandDTO> getBrandList(Map<String, Object> brandMap) throws Exception;
 
 	/**
 	 * <pre>
@@ -38,7 +38,7 @@ public interface FrontBusinessApiMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<NewUrlLinkDTO> getSnsLinkList(Integer brandIdx) throws Exception;
+	List<NewUrlLinkDTO> getSnsLinkList(Integer brandIdx) throws Exception;
 
 	/**
 	 * <pre>
@@ -53,5 +53,5 @@ public interface FrontBusinessApiMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<NewImageDTO> getImageList(Integer brandIdx) throws Exception;
+	List<AttachFileDTO> getImageList(Integer brandIdx) throws Exception;
 }

@@ -1,9 +1,13 @@
 package com.tjint.springboot.app.api.brand.service;
 
+import com.tjint.springboot.common.imageFile.AttachFileDTO;
+import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -42,4 +46,10 @@ public class NewBrandDTO {
 
     @ApiModelProperty(required = true, value = "수정일자", hidden = true)
     private String updateTime;
+
+    @ApiModelProperty(required = true, value = "SNS 리스트", hidden = true)
+    private List<NewUrlLinkDTO> snsLinkList;
+
+    @ApiModelProperty(required = true, value = "Image 리스트", hidden = true)
+    private List<AttachFileDTO> imageList;
 }
