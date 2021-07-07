@@ -244,8 +244,21 @@
     <!--        </where>-->
     <!--    </update>-->
 
-    <select id="getCodeList" parameterType="codeVo" resultType="snsInfoVo">
-        /* [AdminBrand_SQL.xml].[getCodeList] */
+    <select id="getCategoryListCnt" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+        /* [AdminBrand_SQL.xml].[getCodeListCnt] */
+        SELECT count(*) totCnt
+        FROM app_code a
+        WHERE parent_cd = #{parentCd}
+        <if test='parentCd == "lnkt002" or visible == "Y"'>
+            AND visible = 'Y'
+        </if>
+        <if test="codeId != null and codeId != ''">
+            AND a.code_id = #{codeId}
+        </if>
+    </select>
+
+    <select id="getCategoryList" parameterType="java.util.HashMap" resultType="newCodeDto">
+        /* [AdminBrandApi_SQL.xml].[getCategoryList] */
         SELECT
         a.code_id as codeId
         , a.code_name as codeName
@@ -280,20 +293,8 @@
                 ORDER BY sortOrder
             </otherwise>
         </choose>
+        LIMIT #{startPage}, #{size}
     </select>
-
-    <!--    <select id="getCodeListCnt" parameterType="app.cmm.service.CodeVo" resultType="java.lang.Integer">-->
-    <!--        /* [AdminBrand_SQL.xml].[getCodeListCnt] */-->
-    <!--        SELECT count(*) totCnt-->
-    <!--        FROM app_code a-->
-    <!--        WHERE parent_cd = #{parentCd}-->
-    <!--        <if test='parentCd == "lnkt002" or visible == "Y"'>-->
-    <!--            AND visible = 'Y'-->
-    <!--        </if>-->
-    <!--        <if test="codeId != null and codeId != ''">-->
-    <!--            AND a.code_id = #{codeId}-->
-    <!--        </if>-->
-    <!--    </select>-->
 
     <!--    <update id="modifyCode" parameterType="app.cmm.service.CodeVo">-->
     <!--        /* [AdminBrand_SQL.xml].[modifyCode] */-->

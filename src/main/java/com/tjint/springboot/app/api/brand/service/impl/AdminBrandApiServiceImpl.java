@@ -2,6 +2,7 @@ package com.tjint.springboot.app.api.brand.service.impl;
 
 import com.tjint.springboot.app.api.brand.service.AdminBrandApiService;
 import com.tjint.springboot.app.api.brand.service.NewBrandDTO;
+import com.tjint.springboot.app.api.brand.service.NewCodeDTO;
 import com.tjint.springboot.common.BrandInfoVo;
 import com.tjint.springboot.common.imageFile.NewImageDTO;
 import com.tjint.springboot.common.imageFile.service.ImageService;
@@ -23,14 +24,87 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
     private final ImageService imageService;
     private final UrlLinkService urlLinkService;
 
+    /**
+     * <pre>
+     * 1. MethodName : getBrandListCnt
+     * 2. ClassName  : AdminBrandApiServiceImpl.java
+     * 3. Comment    : 브랜드 리스트 갯수
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 04. 23.
+     * </pre>
+     *
+     * @param searchMap
+     * @return
+     * @throws Exception
+     */
     public Integer getBrandListCnt(Map<String, Object> searchMap) throws Exception {
         return adminBrandApiMapper.getBrandListCnt(searchMap);
     }
 
+    /**
+     * <pre>
+     * 1. MethodName : getBrandList
+     * 2. ClassName  : AdminBrandApiServiceImpl.java
+     * 3. Comment    : 브랜드 리스트
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 04. 23.
+     * </pre>
+     *
+     * @param searchMap
+     * @return
+     * @throws Exception
+     */
     public List<BrandInfoVo> getBrandList(Map<String, Object> searchMap) throws Exception {
         return adminBrandApiMapper.getBrandList(searchMap);
     }
 
+    /**
+     * <pre>
+     * 1. MethodName : getCategoryListCnt
+     * 2. ClassName  : AdminBrandApiServiceImpl.java
+     * 3. Comment    : 분야 리스트 갯수
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 07.
+     * </pre>
+     *
+     * @param searchMap
+     * @return
+     * @throws Exception
+     */
+    public Integer getCategoryListCnt(Map<String, Object> searchMap) throws Exception {
+        return adminBrandApiMapper.getCategoryListCnt(searchMap);
+    }
+
+    /**
+     * <pre>
+     * 1. MethodName : getCategoryList
+     * 2. ClassName  : AdminBrandApiServiceImpl.java
+     * 3. Comment    : 분야 리스트
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 07.
+     * </pre>
+     *
+     * @param searchMap
+     * @return
+     * @throws Exception
+     */
+    public List<NewCodeDTO> getCategoryList(Map<String, Object> searchMap) throws Exception {
+        return adminBrandApiMapper.getCategoryList(searchMap);
+    }
+
+    /**
+     * <pre>
+     * 1. MethodName : getBrandInfo
+     * 2. ClassName  : AdminBrandApiServiceImpl.java
+     * 3. Comment    : 브랜드 상세
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 04. 23.
+     * </pre>
+     *
+     * @param brandInfoVo
+     * @return
+     * @throws Exception
+     */
     public Map<String, Object> getBrandInfo(BrandInfoVo brandInfoVo) throws Exception {
         return adminBrandApiMapper.getBrandInfo(brandInfoVo);
     }

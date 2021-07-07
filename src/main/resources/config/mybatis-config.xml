@@ -26,6 +26,7 @@
         <typeAlias type="com.tjint.springboot.app.api.news.service.NewNewsDTO" alias="newNewsDto"/>
         <typeAlias type="com.tjint.springboot.app.api.recruit.service.NewRecruitDTO" alias="newRecruitDto"/>
         <typeAlias type="com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO" alias="newUrlLinkDto"/>
+        <typeAlias type="com.tjint.springboot.app.api.brand.service.NewCodeDTO" alias="newCodeDto"/>
     </typeAliases>
 
 </configuration>
