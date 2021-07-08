@@ -94,6 +94,72 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
 
     /**
      * <pre>
+     * 1. MethodName : getCategoryInfo
+     * 2. ClassName  : AdminBrandApiServiceImpl.java
+     * 3. Comment    : 분야 상세
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 08.
+     * </pre>
+     *
+     * @param newCodeDTO
+     * @return
+     * @throws Exception
+     */
+    public Map<String, Object> getCategoryInfo(NewCodeDTO newCodeDTO) throws Exception {
+        return adminBrandApiMapper.getCategoryInfo(newCodeDTO);
+    }
+
+    /**
+     * <pre>
+     * 1. MethodName : insertCategory
+     * 2. ClassName  : AdminBrandApiServiceImpl.java
+     * 3. Comment    : 분야 등록
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 08.
+     * </pre>
+     *
+     * @param newCodeDTO
+     * @return
+     * @throws Exception
+     */
+    public String insertCategory(NewCodeDTO newCodeDTO) throws Exception {
+        String result = "";
+
+        if(this.adminBrandApiMapper.insertCategory(newCodeDTO) > 0) {
+            result = "Y";
+        } else {
+            result = "N";
+        }
+
+        return result;
+    }
+
+    /**
+     * <pre>
+     * 1. MethodName : updateCategory
+     * 2. ClassName  : AdminBrandApiServiceImpl.java
+     * 3. Comment    : 분야 수정
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 08.
+     * </pre>
+     *
+     * @param newCodeDTO
+     * @return
+     * @throws Exception
+     */
+    public String updateCategory(NewCodeDTO newCodeDTO) throws Exception {
+        String result = "";
+        if(this.adminBrandApiMapper.updateCategory(newCodeDTO) > 0) {
+            result = "Y";
+        } else {
+            result = "N";
+        }
+
+        return result;
+    }
+
+    /**
+     * <pre>
      * 1. MethodName : getBrandInfo
      * 2. ClassName  : AdminBrandApiServiceImpl.java
      * 3. Comment    : 브랜드 상세

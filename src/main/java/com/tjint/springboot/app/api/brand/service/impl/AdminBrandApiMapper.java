@@ -76,6 +76,51 @@ public interface AdminBrandApiMapper {
 
     /**
      * <pre>
+     * 1. MethodName : getCategoryInfo
+     * 2. ClassName  : AdminBrandApiMapper.java
+     * 3. Comment    : 분야 상세
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 08.
+     * </pre>
+     *
+     * @param newCodeDTO
+     * @return
+     * @throws Exception
+     */
+    public Map<String, Object> getCategoryInfo(NewCodeDTO newCodeDTO) throws Exception;
+
+    /**
+     * <pre>
+     * 1. MethodName : insertCategory
+     * 2. ClassName  : AdminBrandApiMapper.java
+     * 3. Comment    : 분야 등록
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 08.
+     * </pre>
+     *
+     * @param newCodeDTO
+     * @return
+     * @throws Exception
+     */
+    public Integer insertCategory(NewCodeDTO newCodeDTO) throws Exception;
+
+    /**
+     * <pre>
+     * 1. MethodName : updateCategory
+     * 2. ClassName  : AdminBrandApiMapper.java
+     * 3. Comment    : 분야 수정
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 08.
+     * </pre>
+     *
+     * @param newCodeDTO
+     * @return
+     * @throws Exception
+     */
+    public Integer updateCategory(NewCodeDTO newCodeDTO) throws Exception;
+
+    /**
+     * <pre>
      * 1. MethodName : addBrand
      * 2. ClassName  : AdminBrandApiMapper.java
      * 3. Comment    : 브랜드 등록

@@ -39,6 +39,7 @@ public class adminBrandApi {
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
 	@GetMapping(value = "/brandList")
+	@ResponseBody
 	public JSONObject getBrandList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, Page page) throws Exception {
 
 		JSONObject jsonObject = new JSONObject();
@@ -120,11 +121,47 @@ public class adminBrandApi {
 	})
 	@GetMapping(value = "/categoryInfo/{codeId}")
 	@ResponseBody
-	public Map<String, Object> categoryInfo(@PathVariable("codeId") Integer codeId) throws Exception {
+	public Map<String, Object> categoryInfo(@PathVariable("codeId") String codeId) throws Exception {
 		Map<String, Object> resultMap = new HashMap<>();
 
+		NewCodeDTO newCodeDTO = new NewCodeDTO();
+		newCodeDTO.setCodeId(codeId);
+
+		resultMap = this.adminBrandApiService.getCategoryInfo(newCodeDTO);
 
 		return resultMap;
+	}
+
+	@ApiOperation(value = "분야 등록", notes = "분야를 등록한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
+			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
+			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
+	})
+	@PostMapping(value = "/insertCategory")
+	@ResponseBody
+	public String insertCategory(NewCodeDTO newCodeDTO) throws Exception {
+		String result = "";
+
+		result = this.adminBrandApiService.insertCategory(newCodeDTO);
+
+		return result;
+	}
+
+	@ApiOperation(value = "분야 수정", notes = "분야를 수정한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
+			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
+			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
+	})
+	@PutMapping(value = "/updateCategory/{codeId}")
+	@ResponseBody
+	public String updateCategory(@RequestBody NewCodeDTO newCodeDTO) throws Exception {
+		String result = "";
+
+		result = this.adminBrandApiService.updateCategory(newCodeDTO);
+
+		return result;
 	}
 
 	@ApiOperation(value = "SNS 조회", notes = "SNS를 조회한다.")
