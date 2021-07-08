@@ -35,7 +35,8 @@ public class FrontNewsApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @GetMapping(value = "/frontNewsList")
-    public JSONObject frontNewsList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, Page page) throws Exception {
+    public JSONObject frontNewsList(@RequestParam(value = "searchCondition", required = false) Integer searchCondition,
+                                    @RequestParam(value = "searchKeyword", required = false) String searchKeyword, Page page) throws Exception {
         JSONObject jsonObject = new JSONObject();
 
         Map<String, Object> searchMap = new HashMap<>();
@@ -47,6 +48,7 @@ public class FrontNewsApi {
         searchMap.put("searchKeyword", StringUtil.getString(searchKeyword, ""));
         searchMap.put("startPage", page.getStartPage());
         searchMap.put("size", pageSize);
+        searchMap.put("searchCondition", searchCondition);
 
         Integer newsListCnt = this.frontNewsApiService.frontNewsListCnt(searchMap);
         List<NewNewsDTO> newsInfoList = null;
