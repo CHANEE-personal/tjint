@@ -68,7 +68,7 @@
 		FROM app_url_link_info
 		WHERE board_seq = #{brandIdx}
 		  AND visible = 'Y'
-		  AND link_type_cd IN ('lnkt003', 'lnkt004', 'lnkt005', 'lnkt006')
+		  AND link_type_cd IN ('lnkt001','lnkt003', 'lnkt004', 'lnkt005', 'lnkt006')
 		ORDER BY sort_order ASC
 	</select>
 
