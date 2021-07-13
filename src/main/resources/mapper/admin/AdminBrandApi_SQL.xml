@@ -25,12 +25,12 @@
 		, d.link_address as linkAddress
 		, d.visible as brandLinkVisible
 		FROM ( SELECT @ROWNUM := 0) temp
-		,app_board_brand a
-		LEFT OUTER JOIN app_image_file_info b ON a.brand_seq = b.board_seq
+		,app_board_brand_test a
+		LEFT OUTER JOIN app_image_file_info_test b ON a.brand_seq = b.board_seq
 		AND b.board_type_cd = 'brdt001'
 		AND b.image_type_cd = 'imgt001'
-		LEFT OUTER JOIN J_ATTACHFILE c ON b.image_file_id = c.FILE_ID
-		LEFT OUTER JOIN app_url_link_info d ON a.brand_seq = d.board_seq
+		LEFT OUTER JOIN J_ATTACHFILE_TEST c ON b.image_file_id = c.FILE_ID
+		LEFT OUTER JOIN app_url_link_info_test d ON a.brand_seq = d.board_seq
 		AND d.board_type_cd = 'brdt001'
 		AND d.link_type_cd = 'lnkt001'
 		<where>
@@ -69,12 +69,12 @@
 		, d.link_seq as linkSeq
 		, d.link_address as linkAddress
 		, d.visible as brandLinkVisible
-		FROM app_board_brand a
-		LEFT OUTER JOIN app_image_file_info b ON a.brand_seq = b.board_seq
+		FROM app_board_brand_test a
+		LEFT OUTER JOIN app_image_file_info_test b ON a.brand_seq = b.board_seq
 		AND b.board_type_cd = 'brdt001'
 		AND b.image_type_cd = 'imgt001'
-		LEFT OUTER JOIN J_ATTACHFILE c ON b.image_file_id = c.FILE_ID
-		LEFT OUTER JOIN app_url_link_info d ON a.brand_seq = d.board_seq
+		LEFT OUTER JOIN J_ATTACHFILE_TEST c ON b.image_file_id = c.FILE_ID
+		LEFT OUTER JOIN app_url_link_info_test d ON a.brand_seq = d.board_seq
 		AND d.board_type_cd = 'brdt001'
 		AND d.link_type_cd = 'lnkt001'
 		<where>

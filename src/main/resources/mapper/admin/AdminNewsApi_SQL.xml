@@ -17,7 +17,7 @@
               (SELECT name from app_user_info where user_seq = updater) as updaterNm,
               DATE_FORMAT(update_time, '%Y.%m.%d') as update_time
            FROM
-              app_board_news
+              app_board_news_test
            WHERE visible != 'D'
         ]]>
         <choose>
@@ -48,12 +48,12 @@
                B.image_file_id as imageFileId,
                C.FILE_NAME     as fileName,
                C.FILE_PATH     as filePath
-        FROM app_board_news A
+        FROM app_board_news_test A
                  left OUTER JOIN
-             (select * from app_image_file_info where board_type_cd = 'brdt002' AND visible = 'Y') B
+             (select * from app_image_file_info_test where board_type_cd = 'brdt002' AND visible = 'Y') B
              ON A.news_seq = B.board_seq
                  left outer join
-             J_ATTACHFILE C
+             J_ATTACHFILE_TEST C
              on B.image_file_id = C.file_id
         WHERE news_seq = #{newsSeq}
         ]]>
@@ -82,7 +82,7 @@
 
     <insert id="addNews" parameterType="newNewsDto" useGeneratedKeys="true" keyProperty="newsSeq">
         /* [AdminPrMgmt_SQL.xml].[insertNews] */
-        INSERT INTO app_board_news
+        INSERT INTO app_board_news_test
         ( news_title
         , news_description
         , visible
@@ -101,7 +101,7 @@
 
     <update id="updateNews" parameterType="newsVo">
         /* [AdminPrMgmt_SQL.xml].[updateNews] */
-        UPDATE app_board_news
+        UPDATE app_board_news_test
         SET
         <if test="newsTitle != null and newsTitle != ''">news_title = #{newsTitle},</if>
         <if test="newsDescription != null and newsDescription != ''">news_description = #{newsDescription},</if>

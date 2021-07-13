@@ -4,7 +4,7 @@
 
     <insert id="addImageFile" parameterType="newImageDTO">
         /* [AdminApiImage.xml].[addImageFileInfo] */
-        INSERT INTO app_image_file_info
+        INSERT INTO app_image_file_info_test
         ( board_type_cd
         , board_seq
         , image_type_cd
@@ -31,7 +31,7 @@
 
     <insert id="addAttachFile" parameterType="newNewsDto">
         /* [AdminApiImage.xml].[addAttachFile] */
-        INSERT INTO J_ATTACHFILE
+        INSERT INTO J_ATTACHFILE_TEST
         (FILE_ID,
          FILE_SEQ,
          FILE_NAME,
@@ -42,8 +42,7 @@
          DOWNLOAD_EXPIRE_DATE,
          DOWNLOAD_LIMIT_COUNT,
          REG_DATE,
-         DELETE_YN,
-         FILE_BOARD_SEQ)
+         DELETE_YN)
         VALUES (#{fileId},
                 #{fileSeq},
                 #{filename},
@@ -54,21 +53,20 @@
                 #{downloadExpireDate},
                 #{downloadLimitCnt},
                 now(),
-                #{deleteYn},
-                #{fileBoardSeq})
+                #{deleteYn})
     </insert>
 
     <delete id="deleteAttachFile" parameterType="newImageDTO">
         /* [Common_imageFile_SQL.xml].[deleteAttachFile] */
         DELETE
-        FROM J_ATTACHFILE
+        FROM J_ATTACHFILE_TEST
         WHERE FILE_BOARD_SEQ = #{fileBoardSeq}
     </delete>
 
     <delete id="deleteImageFile" parameterType="newImageDTO">
         /* [Common_imageFile_SQL.xml].[deleteImageFile] */
         DELETE
-        FROM app_image_file_info
+        FROM app_image_file_info_test
         WHERE board_seq = #{boardSeq}
     </delete>
 </mapper>
