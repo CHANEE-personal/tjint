@@ -121,7 +121,7 @@
 
 	<insert id="addBrand" parameterType="newBrandDto">
 		/* [AdminBrand_SQL.xml].[addBrand] */
-		INSERT INTO app_board_brand
+		INSERT INTO app_board_brand_test
 		( category_cd
 		, menuCategoryNm
 		, brand_name
@@ -292,7 +292,9 @@
 				ORDER BY sortOrder
 			</otherwise>
 		</choose>
-		LIMIT #{startPage}, #{size}
+		<if test="startPage != null and startPage != '' and size != null and size != ''">
+			LIMIT #{startPage}, #{size}
+		</if>
 	</select>
 
 	<select id="getCategoryInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">

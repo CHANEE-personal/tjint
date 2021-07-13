@@ -12,6 +12,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.UUID;
 
 @Service("ImageService")
@@ -88,7 +89,7 @@ public class ImageServiceImpl implements ImageService {
      * @return
      * @throws Exception
      */
-    public String uploadImageFile(MultipartFile[] files, HttpServletRequest request) throws Exception {
+    public String uploadImageFile(List<MultipartFile> files, HttpServletRequest request) throws Exception {
 
         File dir = new File(uploadPath);
         if (dir.exists() == false) {

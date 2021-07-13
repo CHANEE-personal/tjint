@@ -191,9 +191,14 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
     public String addBrand(NewBrandDTO newBrandDTO,
                            NewImageDTO newImageDTO,
                            NewUrlLinkDTO newUrlLinkDTO,
-                           MultipartFile[] files, HttpServletRequest request) throws Exception {
+                           List<MultipartFile> files, HttpServletRequest request) throws Exception {
 
         String resultMsg = "";
+
+        newBrandDTO.setCreator(1);
+        newBrandDTO.setUpdater(1);
+        newImageDTO.setSortOrder(1);
+
         if (adminBrandApiMapper.addBrand(newBrandDTO) > 0) {
             // 이미지 파일 등록
             if (StringUtil.getInt(imageService.addImageFile(newImageDTO)) > 0) {

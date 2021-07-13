@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Service
 public interface ImageService {
@@ -38,5 +39,5 @@ public interface ImageService {
      * @return
      * @throws Exception
      */
-    public String uploadImageFile(MultipartFile[] files, HttpServletRequest request) throws Exception;
+    public String uploadImageFile(List<MultipartFile> files, HttpServletRequest request) throws Exception;
 }
