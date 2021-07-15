@@ -308,6 +308,7 @@
 		, DATE_FORMAT(a.update_time, '%Y-%m-%d') as updateTime
 		, (select FILE_NAME from J_ATTACHFILE where file_id = a.property1) as fileName
 		, (select FILE_PATH from J_ATTACHFILE where file_id = a.property1) as filePath
+		, (select concat('http://tjinternational.kr/file/image/',file_mask) from J_ATTACHFILE where file_id = a.property1) AS newFilePath
 		FROM app_code a
 		WHERE parent_cd = #{parentCd}
 		<if test='parentCd == "lnkt002" or visible == "Y"'>
