@@ -95,11 +95,26 @@ public interface AdminBrandApiService {
      * 5. 작성일       : 2021. 04. 23.
      * </pre>
      *
-     * @param brandInfoVo
+     * @param newBrandDTO
      * @return
      * @throws Exception
      */
-    public Map<String, Object> getBrandInfo(BrandInfoVo brandInfoVo) throws Exception;
+    public Map<String, Object> getBrandInfo(NewBrandDTO newBrandDTO) throws Exception;
+
+    /**
+     * <pre>
+     * 1. MethodName : getBrandInfo
+     * 2. ClassName  : AdminBrandApiService.java
+     * 3. Comment    : 브랜드 상세 SNS LIST
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 15.
+     * </pre>
+     *
+     * @param newUrlLinkDTO
+     * @return
+     * @throws Exception
+     */
+    public List<NewUrlLinkDTO> getSnsLinkList(NewUrlLinkDTO newUrlLinkDTO) throws Exception;
 
     /**
      * <pre>
@@ -162,7 +177,7 @@ public interface AdminBrandApiService {
     public String addBrand(NewBrandDTO newBrandDTO,
                            NewImageDTO newImageDTO,
                            NewUrlLinkDTO newUrlLinkDTO,
-                           List<MultipartFile> files, HttpServletRequest request) throws Exception;
+                           MultipartFile[] files, HttpServletRequest request) throws Exception;
 
     /** 브랜드 삭제 **/
     public String modifyBrand(BrandInfoVo brandInfoVo) throws Exception;

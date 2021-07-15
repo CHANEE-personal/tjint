@@ -47,7 +47,7 @@
 		LIMIT #{startPage}, #{size}
 	</select>
 
-	<select id="getBrandInfo" parameterType="brandInfoVo" resultType="java.util.HashMap">
+	<select id="getBrandInfo" parameterType="newBrandDto" resultType="java.util.HashMap">
 		/* [AdminBrand_SQL.xml].[getBrandInfo] */
 		SELECT
 		a.brand_seq as brandSeq
@@ -87,12 +87,12 @@
 		/* [AdminBrand_SQL.xml].[getBrandList] */
 		SELECT
 		count(*) as total
-		FROM app_board_brand a
+		FROM app_board_brand_test a
 		LEFT OUTER JOIN app_image_file_info b ON a.brand_seq = b.board_seq
 		AND b.board_type_cd = 'brdt001'
 		AND b.image_type_cd = 'imgt001'
-		LEFT OUTER JOIN J_ATTACHFILE c ON b.image_file_id = c.FILE_ID
-		LEFT OUTER JOIN app_url_link_info d ON a.brand_seq = d.board_seq
+		LEFT OUTER JOIN J_ATTACHFILE_TEST c ON b.image_file_id = c.FILE_ID
+		LEFT OUTER JOIN app_url_link_info_test d ON a.brand_seq = d.board_seq
 		AND d.board_type_cd = 'brdt001'
 		AND d.link_type_cd = 'lnkt001'
 		<where>
@@ -104,6 +104,36 @@
 				AND a.brand_name LIKE CONCAT ('%', #{searchKeyword},'%')
 			</if>
 		</where>
+	</select>
+
+	<select id="getSnsLinkList" parameterType="newUrlLinkDTO" resultType="newUrlLinkDto">
+		SELECT
+			A.code_name snsName
+			, B.link_seq
+			, B.board_type_cd
+			, B.board_seq
+			, IFNULL(B.link_type_cd,A.code_id) as linkTypeCd
+			, B.link_address
+			, B.sort_order
+			, B.visible
+			, B.creator
+			, B.create_time
+			, B.updater
+			, B.update_time
+			, C.FILE_ID
+			, C.FILE_NAME
+			, C.FILE_PATH
+		FROM app_code A
+		LEFT OUTER JOIN app_url_link_info_test B ON A.code_id = B.link_type_cd
+		AND B.board_seq = #{boardSeq}
+		AND B.board_type_cd = #{boardTypeCd}
+		AND B.link_type_cd NOT IN ('lnkt001', 'lnkt002')
+		LEFT OUTER JOIN J_ATTACHFILE_TEST C ON A.property1 = C.FILE_ID
+		WHERE A.parent_cd = 'lnkt002'
+		<if test="visible != null and visible != ''">
+			AND B.visible = #{visible}
+		</if>
+		ORDER BY A.sort_order
 	</select>
 
 	<update id="modifyBrand" parameterType="brandInfoVo">
@@ -119,11 +149,12 @@
 		WHERE brand_seq = #{brandSeq}
 	</update>
 
-	<insert id="addBrand" parameterType="newBrandDto">
+	<insert id="addBrand" parameterType="newBrandDto" useGeneratedKeys="true" keyProperty="brandSeq">
 		/* [AdminBrand_SQL.xml].[addBrand] */
 		INSERT INTO app_board_brand_test
 		( category_cd
-		, menuCategoryNm
+		, menu_category_cd
+		, menu_category_nm
 		, brand_name
 		, brand_description
 		, visible
@@ -132,6 +163,7 @@
 		, updater
 		, update_time)
 		VALUES ( #{categoryCd}
+			   , #{menuCategoryCd}
 			   , #{menuCategoryNm}
 			   , #{brandName}
 			   , #{brandDescription}
@@ -200,7 +232,7 @@
 
 	<insert id="addUrlLink" parameterType="newUrlLinkDto">
 		/* [AdminBrand_SQL.xml].[addUrlLink] */
-		INSERT INTO app_url_link_info
+		INSERT INTO app_url_link_info_test
 		( board_type_cd
 		, board_seq
 		, link_type_cd
@@ -256,7 +288,7 @@
 		</if>
 	</select>
 
-	<select id="getCategoryList" parameterType="java.util.HashMap" resultType="newCodeDto">
+	<select id="getCategoryList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		/* [AdminBrandApi_SQL.xml].[getCategoryList] */
 		SELECT
 		a.code_id as codeId

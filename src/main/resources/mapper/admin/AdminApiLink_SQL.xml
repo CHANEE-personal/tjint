@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjint.springboot.common.urlLink.service.impl.UrlLinkMapper">
+    <insert id="addUrlLink" parameterType="newUrlLinkDto">
+        /* [AdminBrand_SQL.xml].[addUrlLink] */
+        INSERT INTO app_url_link_info_test
+        ( board_type_cd
+        , board_seq
+        , link_type_cd
+        , link_address
+        , sort_order
+        , visible
+        , creator
+        , create_time
+        , updater
+        , update_time)
+        VALUES ( #{boardTypeCd}
+               , #{boardSeq}
+               , #{linkTypeCd}
+               , #{linkAddress}
+               , #{sortOrder}
+               , #{visible}
+               , #{updater}
+               , NOW()
+               , #{updater}
+               , NOW())
+    </insert>
+</mapper>

@@ -167,12 +167,29 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
      * 5. 작성일       : 2021. 04. 23.
      * </pre>
      *
-     * @param brandInfoVo
+     * @param newBrandDTO
      * @return
      * @throws Exception
      */
-    public Map<String, Object> getBrandInfo(BrandInfoVo brandInfoVo) throws Exception {
-        return adminBrandApiMapper.getBrandInfo(brandInfoVo);
+    public Map<String, Object> getBrandInfo(NewBrandDTO newBrandDTO) throws Exception {
+        return adminBrandApiMapper.getBrandInfo(newBrandDTO);
+    }
+
+    /**
+     * <pre>
+     * 1. MethodName : getSnsLinkList
+     * 2. ClassName  : AdminBrandApiServiceImpl.java
+     * 3. Comment    : 브랜드 상세 SNS LIST
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 15.
+     * </pre>
+     *
+     * @param newUrlLinkDTO
+     * @return
+     * @throws Exception
+     */
+    public List<NewUrlLinkDTO> getSnsLinkList(NewUrlLinkDTO newUrlLinkDTO) throws Exception {
+        return adminBrandApiMapper.getSnsLinkList(newUrlLinkDTO);
     }
 
     /**
@@ -191,34 +208,43 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
     public String addBrand(NewBrandDTO newBrandDTO,
                            NewImageDTO newImageDTO,
                            NewUrlLinkDTO newUrlLinkDTO,
-                           List<MultipartFile> files, HttpServletRequest request) throws Exception {
+                           MultipartFile[] files, HttpServletRequest request) throws Exception {
 
         String resultMsg = "";
 
+        NewCodeDTO newCodeDTO = new NewCodeDTO();
         newBrandDTO.setCreator(1);
         newBrandDTO.setUpdater(1);
         newImageDTO.setSortOrder(1);
 
-        if (adminBrandApiMapper.addBrand(newBrandDTO) > 0) {
-            // 이미지 파일 등록
-            if (StringUtil.getInt(imageService.addImageFile(newImageDTO)) > 0) {
-                // 이미지 파일 업로드
-                if (StringUtil.getInt(imageService.uploadImageFile(files, request), 0) > 0) {
+        if("0".equals(newBrandDTO.getMenuCategoryCd())) {
+            newCodeDTO.setCodeId("mu001");
+        } else if("1".equals(newBrandDTO.getMenuCategoryCd())) {
+            newCodeDTO.setCodeId("mu002");
+        } else if("2".equals(newBrandDTO.getMenuCategoryCd())) {
+            newCodeDTO.setCodeId("mu003");
+        }
+
+        newBrandDTO.setMenuCategoryNm(StringUtil.getString(this.adminBrandApiMapper.getCategoryInfo(newCodeDTO).get("code_name"),""));
+
+
+            if (adminBrandApiMapper.addBrand(newBrandDTO) > 0) {
+                newImageDTO.setBoardSeq(newBrandDTO.getBrandSeq());
+                // 이미지 파일 등록
+                if (StringUtil.getInt(imageService.addImageFile(newImageDTO, files),0) > 0) {
                     // URL 링크 등록
+                    newUrlLinkDTO.setBoardSeq(newBrandDTO.getBrandSeq());
                     if(StringUtil.getInt(urlLinkService.addUrlLink(newUrlLinkDTO),0) > 0) {
                         resultMsg = "S00";      // 등록 성공
                     } else {
                         resultMsg = "F00";     // 등록 실패
                     }
                 } else {
-                    resultMsg = "F01";     // 이미지 업로드 실패
+                    resultMsg = "F01";      // 이미지 파일 정보 insert 실패
                 }
             } else {
-                resultMsg = "F01";      // 이미지 파일 정보 insert 실패
+                resultMsg = "F02";            // 브랜드 등록 실패
             }
-        } else {
-            return "F02";            // 브랜드 등록 실패
-        }
 
         return resultMsg;
     }

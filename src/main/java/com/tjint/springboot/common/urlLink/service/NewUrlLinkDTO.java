@@ -36,4 +36,12 @@ public class NewUrlLinkDTO {
     @ApiModelProperty(required = true, value = "수정자", hidden = true)
     private Integer updater;
 
+    @ApiModelProperty(required = false, value = "홈페이지 링크", hidden = true)
+    private String brandLink;
+
+    @ApiModelProperty(required = false, value = "홈페이지 링크 노출 여부", hidden = true)
+    private String brandLinkVisible;
+
+    @ApiModelProperty(required = false, value = "SNS 링크 노출 여부", hidden = true)
+    private String snsListAll;
 }

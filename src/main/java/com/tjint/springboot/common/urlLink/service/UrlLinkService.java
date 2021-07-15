@@ -17,5 +17,5 @@ public interface UrlLinkService {
      * @return
      * @throws Exception
      */
-    public String addUrlLink(NewUrlLinkDTO newUrlLinkDTO) throws Exception;
+    public Integer addUrlLink(NewUrlLinkDTO newUrlLinkDTO) throws Exception;
 }

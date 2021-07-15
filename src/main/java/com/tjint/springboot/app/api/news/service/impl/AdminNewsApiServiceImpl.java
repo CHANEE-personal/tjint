@@ -109,19 +109,19 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 				attachFileDTO.setFileBoardSeq(newNewsDTO.getNewsSeq());
 				attachFileDTO.setFileSize(fileSize);
 				attachFileDTO.setFileMask(fileMask);
-				attachFileDTO.setFilePath("/Users/tj02/Documents/image/" + fileMask);
+				attachFileDTO.setFilePath("/Users/tj03/Documents/image/" + fileMask);
 				attachFileDTO.setDownloadCnt(0);
 				attachFileDTO.setFilename(files.getOriginalFilename());
 
-				if(!new File("/Users/tj02/Documents/image/").exists()) {
+				if(!new File("/Users/tj03/Documents/image/").exists()) {
 					try {
-						new File("/Users/tj02/Documents/image/").mkdir();
+						new File("/Users/tj03/Documents/image/").mkdir();
 					}catch(Exception e) {
 						e.getStackTrace();
 					}
 				}
 
-				String filePath = "/Users/tj02/Documents/image/" + fileMask;
+				String filePath = "/Users/tj03/Documents/image/" + fileMask;
 				files.transferTo(new File(filePath));
 
 				if (this.imageMapper.addAttachFile(attachFileDTO) > 0) {
@@ -208,18 +208,18 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 				attachFileDTO.setFileSeq(1);
 				attachFileDTO.setFileSize(fileSize);
 				attachFileDTO.setFileMask(fileMask);
-				attachFileDTO.setFilePath("/Users/tj02/Documents/image/" + fileMask);
+				attachFileDTO.setFilePath("/Users/tj03/Documents/image/" + fileMask);
 				attachFileDTO.setDownloadCnt(0);
 				attachFileDTO.setFilename(files.getOriginalFilename());
-				if(!new File("/Users/tj02/Documents/image/").exists()) {
+				if(!new File("/Users/tj03/Documents/image/").exists()) {
 					try {
-						new File("/Users/tj02/Documents/image/").mkdir();
+						new File("/Users/tj03/Documents/image/").mkdir();
 					}catch(Exception e) {
 						e.getStackTrace();
 					}
 				}
 
-				String filePath = "/Users/tj02/Documents/image/" + fileMask;
+				String filePath = "/Users/tj03/Documents/image/" + fileMask;
 				files.transferTo(new File(filePath));
 				if (this.imageMapper.addAttachFile(attachFileDTO) > 0) {
 					return "Y";       // 수정 성공

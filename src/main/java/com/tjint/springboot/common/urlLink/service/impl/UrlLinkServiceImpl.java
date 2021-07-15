@@ -11,25 +11,43 @@ import org.springframework.stereotype.Service;
 public class UrlLinkServiceImpl implements UrlLinkService {
     private final UrlLinkMapper urlLinkmapper;
 
-    public String addUrlLink(NewUrlLinkDTO newUrlLinkDTO) throws Exception {
+    public Integer addUrlLink(NewUrlLinkDTO newUrlLinkDTO) throws Exception {
 
         NewBrandDTO newBrandDTO = new NewBrandDTO();
-        newUrlLinkDTO.setBoardSeq(newBrandDTO.getBrandSeq());
-        newUrlLinkDTO.setBoardTypeCd("brdt001");
-        newUrlLinkDTO.setLinkTypeCd("lnkt001");
-        newUrlLinkDTO.setSortOrder(1);
 
-        // 홈페이지 링크 등록
-        urlLinkmapper.addUrlLink(newUrlLinkDTO);
+        if("Y".equals(newUrlLinkDTO.getBrandLinkVisible())) {
+            newUrlLinkDTO.setBoardTypeCd("brdt001");
+            newUrlLinkDTO.setLinkTypeCd("lnkt001");
+            newUrlLinkDTO.setLinkAddress(newUrlLinkDTO.getBrandLink());
+            newUrlLinkDTO.setSortOrder(1);
+            newUrlLinkDTO.setCreator(1);
+            newUrlLinkDTO.setUpdater(1);
+            newUrlLinkDTO.setVisible("Y");
 
-        for(int i = 1; i < 6; i++) {
-            newUrlLinkDTO.setBoardTypeCd("lnkt00"+(i+2));
+            // 홈페이지 링크 등록
+            urlLinkmapper.addUrlLink(newUrlLinkDTO);
+        }
+
+        String[] snsArr = newUrlLinkDTO.getSnsListAll().split(";");
+        for(int i = 0; i < snsArr.length; i++) {
+            newUrlLinkDTO.setBoardTypeCd("brdt001");
+            newUrlLinkDTO.setLinkTypeCd("lnkt00"+(i+3));
             newUrlLinkDTO.setSortOrder(i);
+            newUrlLinkDTO.setCreator(1);
+            newUrlLinkDTO.setUpdater(1);
+            String[] sns = snsArr[i].split(",");
+            if ("Y".equals(sns[1])) {
+                newUrlLinkDTO.setVisible("Y");
+                newUrlLinkDTO.setLinkAddress(sns[2]);
+            } else {
+                newUrlLinkDTO.setVisible("N");
+                newUrlLinkDTO.setLinkAddress("");
+            }
 
             // snsLink 등록
             urlLinkmapper.addUrlLink(newUrlLinkDTO);
         }
 
-        return urlLinkmapper.addUrlLink(newUrlLinkDTO);
+        return 1;
     }
 }

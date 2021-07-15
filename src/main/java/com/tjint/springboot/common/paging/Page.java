@@ -16,6 +16,7 @@ public class Page {
     private Integer size;
 
     // 시작페이지
+    @ApiModelProperty(value = "시작페이지", hidden = true)
     public int getStartPage() {
         return (page - 1) * size;
     }

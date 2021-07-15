@@ -6,5 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UrlLinkMapper {
 
-    public String addUrlLink(NewUrlLinkDTO newUrlLinkDTO) throws Exception;
+    public Integer addUrlLink(NewUrlLinkDTO newUrlLinkDTO) throws Exception;
 }

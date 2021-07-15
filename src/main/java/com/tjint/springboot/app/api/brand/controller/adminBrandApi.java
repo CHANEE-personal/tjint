@@ -13,6 +13,7 @@ import com.tjint.springboot.common.utils.StringUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import net.sf.json.JSONObject;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
@@ -205,7 +206,7 @@ public class adminBrandApi {
 		return resultMap;
 	}
 
-	@ApiOperation(value = "브랜드 등록페이지", notes = "브랜드를 등록페이지")
+	@ApiOperation(value = "브랜드 등록페이지", notes = "브랜드를 등록페이지", position = 1)
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
@@ -236,8 +237,17 @@ public class adminBrandApi {
 			menuList = this.adminBrandApiService.getCategoryList(searchMap);
 		}
 
+		searchMap.put("parentCd", "lnkt002");
+		searchMap.put("visible", "Y");
+		Integer snsLinkListCnt = this.adminBrandApiService.getCategoryListCnt(searchMap);
+		List<NewCodeDTO> snsLinkList = null;
+		if(snsLinkListCnt > 0) {
+			snsLinkList = this.adminBrandApiService.getCategoryList(searchMap);
+		}
+
 		brandMap.put("categoryList", categoryList);
 		brandMap.put("menuList", menuList);
+		brandMap.put("snsLinkList", snsLinkList);
 
 		jsonObject.put("brandObject", brandMap);
 
@@ -251,11 +261,19 @@ public class adminBrandApi {
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
 	@GetMapping(value = "/brandInfo/{brandSeq}")
+	@ResponseBody
 	public Map<String, Object> brandInfo(@PathVariable("brandSeq") Integer brandSeq) throws Exception {
+		Map<String, Object> brandMap = new HashMap<>();
 
-		BrandInfoVo brandInfoVo = new BrandInfoVo();
-		brandInfoVo.setBrandSeq(brandSeq);
-		Map<String, Object> brandMap = this.adminBrandApiService.getBrandInfo(brandInfoVo);
+		NewBrandDTO newBrandDTO = new NewBrandDTO();
+		newBrandDTO.setBrandSeq(brandSeq);
+
+		NewUrlLinkDTO newUrlLinkDTO = new NewUrlLinkDTO();
+		newUrlLinkDTO.setBoardSeq(brandSeq);
+		newUrlLinkDTO.setBoardTypeCd("brdt001");
+
+		brandMap.put("brandInfo", this.adminBrandApiService.getBrandInfo(newBrandDTO));
+		brandMap.put("snsLinkList", this.adminBrandApiService.getSnsLinkList(newUrlLinkDTO));
 
 		return brandMap;
 	}
@@ -266,11 +284,12 @@ public class adminBrandApi {
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
-	@PostMapping(value = "/addBrand")
+	@PostMapping(value = "/addBrand", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public void addBrand(NewBrandDTO newBrandDTO,
 						 NewImageDTO newImageDTO,
 						 NewUrlLinkDTO newUrlLinkDTO,
-						 List<MultipartFile> files, HttpServletRequest request) throws Exception {
+						 @RequestParam(value = "fileName", required = false) MultipartFile[] files, HttpServletRequest request) throws Exception {
+
 		this.adminBrandApiService.addBrand(newBrandDTO, newImageDTO, newUrlLinkDTO, files, request);
 	}
 
@@ -297,7 +316,7 @@ public class adminBrandApi {
 	public void deleteBrand(@PathVariable @ApiParam(value = "브랜드코드", required = true) Integer brandSeq) throws Exception {
 
 		BrandInfoVo brandInfoVo = new BrandInfoVo();
-		brandInfoVo.setVisible("D");
+		brandInfoVo.setVisible("N");
 		brandInfoVo.setBrandSeq(brandSeq);
 
 		this.adminBrandApiService.modifyBrand(brandInfoVo);
