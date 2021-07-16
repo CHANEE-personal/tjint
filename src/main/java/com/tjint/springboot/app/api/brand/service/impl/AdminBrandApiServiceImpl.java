@@ -235,15 +235,15 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
                     // URL 링크 등록
                     newUrlLinkDTO.setBoardSeq(newBrandDTO.getBrandSeq());
                     if(StringUtil.getInt(urlLinkService.addUrlLink(newUrlLinkDTO),0) > 0) {
-                        resultMsg = "S00";      // 등록 성공
+                        resultMsg = "Y";      // 등록 성공
                     } else {
-                        resultMsg = "F00";     // 등록 실패
+                        resultMsg = "N";     // 등록 실패
                     }
                 } else {
-                    resultMsg = "F01";      // 이미지 파일 정보 insert 실패
+                    resultMsg = "N";      // 이미지 파일 정보 insert 실패
                 }
             } else {
-                resultMsg = "F02";            // 브랜드 등록 실패
+                resultMsg = "N";            // 브랜드 등록 실패
             }
 
         return resultMsg;

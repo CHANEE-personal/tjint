@@ -31,17 +31,30 @@ public class UrlLinkServiceImpl implements UrlLinkService {
         String[] snsArr = newUrlLinkDTO.getSnsListAll().split(";");
         for(int i = 0; i < snsArr.length; i++) {
             newUrlLinkDTO.setBoardTypeCd("brdt001");
-            newUrlLinkDTO.setLinkTypeCd("lnkt00"+(i+3));
-            newUrlLinkDTO.setSortOrder(i);
+            newUrlLinkDTO.setSortOrder(i+1);
             newUrlLinkDTO.setCreator(1);
             newUrlLinkDTO.setUpdater(1);
             String[] sns = snsArr[i].split(",");
-            if ("Y".equals(sns[1])) {
-                newUrlLinkDTO.setVisible("Y");
-                newUrlLinkDTO.setLinkAddress(sns[2]);
+            if(i == 0) {
+                if ("Y".equals(sns[1])) {
+                    newUrlLinkDTO.setVisible("Y");
+                    newUrlLinkDTO.setLinkTypeCd(sns[0]);
+                    newUrlLinkDTO.setLinkAddress(sns[2]);
+                } else {
+                    newUrlLinkDTO.setLinkTypeCd(sns[0]);
+                    newUrlLinkDTO.setVisible("N");
+                    newUrlLinkDTO.setLinkAddress("");
+                }
             } else {
-                newUrlLinkDTO.setVisible("N");
-                newUrlLinkDTO.setLinkAddress("");
+                if ("Y".equals(sns[2])) {
+                    newUrlLinkDTO.setVisible("Y");
+                    newUrlLinkDTO.setLinkTypeCd(sns[1].replace(",",""));
+                    newUrlLinkDTO.setLinkAddress(sns[3]);
+                } else {
+                    newUrlLinkDTO.setLinkTypeCd(sns[1].replace(",",""));
+                    newUrlLinkDTO.setVisible("N");
+                    newUrlLinkDTO.setLinkAddress("");
+                }
             }
 
             // snsLink 등록

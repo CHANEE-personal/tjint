@@ -285,12 +285,20 @@ public class adminBrandApi {
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
 	@PostMapping(value = "/addBrand", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-	public void addBrand(NewBrandDTO newBrandDTO,
+	@ResponseBody
+	public String addBrand(NewBrandDTO newBrandDTO,
 						 NewImageDTO newImageDTO,
 						 NewUrlLinkDTO newUrlLinkDTO,
 						 @RequestParam(value = "fileName", required = false) MultipartFile[] files, HttpServletRequest request) throws Exception {
 
-		this.adminBrandApiService.addBrand(newBrandDTO, newImageDTO, newUrlLinkDTO, files, request);
+		String result = "";
+		if("Y".equals(this.adminBrandApiService.addBrand(newBrandDTO, newImageDTO, newUrlLinkDTO, files, request))) {
+			result = "Y";
+		} else {
+			result = "N";
+		}
+
+		return result;
 	}
 
 	@ApiOperation(value = "브랜드 수정", notes = "브랜드를 수정한다.")
