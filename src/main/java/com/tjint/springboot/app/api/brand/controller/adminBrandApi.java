@@ -309,8 +309,8 @@ public class adminBrandApi {
 	})
 
 	@PutMapping(value = "/updateBrand/{brandSeq}")
-	public void updateBrand(BrandInfoVo brandInfoVo) throws Exception {
-		this.adminBrandApiService.modifyBrand(brandInfoVo);
+	public void updateBrand(NewBrandDTO newBrandDTO) throws Exception {
+		this.adminBrandApiService.modifyBrand(newBrandDTO);
 	}
 
 	@ApiOperation(value = "브랜드 삭제", notes = "브랜드를 삭제한다.")
@@ -321,13 +321,20 @@ public class adminBrandApi {
 	})
 
 	@DeleteMapping(value = "/deleteBrand/{brandSeq}")
-	public void deleteBrand(@PathVariable @ApiParam(value = "브랜드코드", required = true) Integer brandSeq) throws Exception {
+	public String deleteBrand(@PathVariable @ApiParam(value = "브랜드코드", required = true) Integer brandSeq) throws Exception {
 
-		BrandInfoVo brandInfoVo = new BrandInfoVo();
-		brandInfoVo.setVisible("N");
-		brandInfoVo.setBrandSeq(brandSeq);
+		String result = "";
 
-		this.adminBrandApiService.modifyBrand(brandInfoVo);
+		NewBrandDTO newBrandDTO = new NewBrandDTO();
+		newBrandDTO.setVisible("D");
+		newBrandDTO.setBrandSeq(brandSeq);
+
+		if (StringUtil.getInt(this.adminBrandApiService.modifyBrand(newBrandDTO), 0) > 0) {
+			result = "Y";
+		} else {
+			result = "N";
+		}
+
+		return result;
 	}
-
 }

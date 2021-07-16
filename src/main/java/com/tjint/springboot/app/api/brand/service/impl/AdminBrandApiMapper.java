@@ -145,11 +145,11 @@ public interface AdminBrandApiMapper {
      * 5. 작성일       : 2021. 04. 23.
      * </pre>
      *
-     * @param brandInfoVo
+     * @param newBrandDTO
      * @return
      * @throws Exception
      */
-    String modifyBrand(BrandInfoVo brandInfoVo) throws Exception;
+    Integer modifyBrand(NewBrandDTO newBrandDTO) throws Exception;
 
     /**
      * <pre>

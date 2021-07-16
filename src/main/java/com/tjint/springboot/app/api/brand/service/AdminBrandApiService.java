@@ -180,5 +180,5 @@ public interface AdminBrandApiService {
                            MultipartFile[] files, HttpServletRequest request) throws Exception;
 
     /** 브랜드 삭제 **/
-    public String modifyBrand(BrandInfoVo brandInfoVo) throws Exception;
+    public Integer modifyBrand(NewBrandDTO newBrandDTO) throws Exception;
 }

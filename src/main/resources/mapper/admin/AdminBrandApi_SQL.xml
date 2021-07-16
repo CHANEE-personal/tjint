@@ -136,9 +136,9 @@
 		ORDER BY A.sort_order
 	</select>
 
-	<update id="modifyBrand" parameterType="brandInfoVo">
+	<update id="modifyBrand" parameterType="newBrandDto">
 		/* [AdminBrand_SQL.xml].[modifyBrand] */
-		UPDATE app_board_brand
+		UPDATE app_board_brand_test
 		SET
 		<if test="categoryCd != null and categoryCd != ''">category_cd = #{categoryCd},</if>
 		<if test="brandName != null and brandName != ''">brand_name = #{brandName},</if>

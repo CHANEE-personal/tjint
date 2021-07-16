@@ -258,11 +258,11 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
      * 5. 작성일       : 2021. 04. 23.
      * </pre>
      *
-     * @param
+     * @param  newBrandDTO
      * @return
      * @throws Exception
      */
-    public String modifyBrand(BrandInfoVo brandInfoVo) throws Exception {
-        return adminBrandApiMapper.modifyBrand(brandInfoVo);
+    public Integer modifyBrand(NewBrandDTO newBrandDTO) throws Exception {
+        return adminBrandApiMapper.modifyBrand(newBrandDTO);
     }
 }
