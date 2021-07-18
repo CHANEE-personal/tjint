@@ -6,6 +6,8 @@
 <configuration>
 
     <typeAliases>
+        <!-- userDTO -->
+        <typeAlias type="com.tjint.springboot.app.api.admin.service.NewUserDTO" alias="newUserDto"/>
         <!-- adminVo -->
         <typeAlias type="com.tjint.springboot.app.admin.brand.service.SnsInfoVo" alias="snsInfoVo"/>
         <typeAlias type="com.tjint.springboot.app.admin.brand.service.BrandVo" alias="brandVo"/>

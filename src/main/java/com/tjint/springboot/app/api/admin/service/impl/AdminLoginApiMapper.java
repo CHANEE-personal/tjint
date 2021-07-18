@@ -1,5 +1,6 @@
 package com.tjint.springboot.app.api.admin.service.impl;
 
+import com.tjint.springboot.app.api.admin.service.NewUserDTO;
 import com.tjint.springboot.common.UserInfoVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -16,7 +17,7 @@ public interface AdminLoginApiMapper {
 
     String adminLogin(String id) throws Exception;
 
-    String adminLogin(final UserInfoVo p0) throws Exception;
+    String adminLogin(NewUserDTO newUserDTO) throws Exception;
 
-    UserInfoVo selectAdminSeq(final UserInfoVo p0) throws Exception;
+    NewUserDTO selectAdminSeq(NewUserDTO newUserDTO) throws Exception;
 }

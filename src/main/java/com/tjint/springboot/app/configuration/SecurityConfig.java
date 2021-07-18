@@ -1,7 +1,8 @@
 package com.tjint.springboot.app.configuration;
 
-import com.tjint.springboot.app.admin.jwt.JwtFilter;
+import com.tjint.springboot.app.admin.jwt.JwtUtil;
 import com.tjint.springboot.app.admin.jwt.MyUserDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,14 +22,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private MyUserDetailsService userDetailsService;
-
-    @Autowired
-    private JwtFilter jwtFilter;
+    private final MyUserDetailsService userDetailsService;
+    private final JwtUtil jwtUtil;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -45,12 +44,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**", "/swagger/**");
     }
 
+    /**
+     * <pre>
+     * 1. MethodName : authenticationManagerBean
+     * 2. ClassName  : SecurityConfig.java
+     * 3. Comment    : authenticationManager Bean 등록
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 07.
+     * </pre>
+     *
+     * @return
+     * @throws Exception
+     */
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
+    /**
+     * <pre>
+     * 1. MethodName : passwordEncoder
+     * 2. ClassName  : SecurityConfig.java
+     * 3. Comment    : 암호화에 필요한 passwordEncoder Bean 등록
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 07.
+     * </pre>
+     *
+     * @return
+     * @throws Exception
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -60,6 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable();
+
 //        http.csrf().disable().authorizeRequests()
 //                .antMatchers("/api/auth/adminLogin")
 //                .permitAll().anyRequest().authenticated()

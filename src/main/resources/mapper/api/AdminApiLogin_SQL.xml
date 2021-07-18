@@ -16,7 +16,7 @@
         WHERE user_id = #{id}
     </select>
 
-    <select id="adminLogin" parameterType="userInfoVo" resultType="String">
+    <select id="adminLogin" parameterType="newUserDto" resultType="String">
         /*[AdminLogin_SQL.xml].[adminLogin] */
         <![CDATA[
         SELECT PASSWORD
@@ -25,7 +25,7 @@
         ]]>
     </select>
 
-    <select id="selectAdminSeq" parameterType="userInfoVo" resultType="userInfoVo">
+    <select id="selectAdminSeq" parameterType="newUserDto" resultType="newUserDto">
         /*[AdminLogin_SQL.xml].[selectAdminSeq] */
         <![CDATA[
         SELECT USER_SEQ as userSeq,

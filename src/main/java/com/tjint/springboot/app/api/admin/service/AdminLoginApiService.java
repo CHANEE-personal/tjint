@@ -18,6 +18,19 @@ public interface AdminLoginApiService {
     /** 패스워드 조회 **/
     public String adminLogin(String id) throws Exception;
 
-    /** 회원 로그인 처리 **/
-    String adminLogin(final UserInfoVo p0, final HttpServletRequest p1) throws Exception;
+    /**
+     * <pre>
+     * 1. MethodName : adminLogin
+     * 2. ClassName  : AdminLoginApiService.java
+     * 3. Comment    : 회원 로그인 처리
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 04. 23.
+     * </pre>
+     *
+     * @param newUserDTO
+     * @param request
+     * @return result
+     * @throws Exception
+     */
+    String adminLogin(NewUserDTO newUserDTO, HttpServletRequest request) throws Exception;
 }

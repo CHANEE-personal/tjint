@@ -5,9 +5,13 @@ import com.tjint.springboot.app.admin.jwt.AuthenticationResponse;
 import com.tjint.springboot.app.admin.jwt.JwtUtil;
 import com.tjint.springboot.app.admin.jwt.MyUserDetailsService;
 import com.tjint.springboot.app.api.admin.service.AdminLoginApiService;
+import com.tjint.springboot.app.api.admin.service.NewUserDTO;
 import com.tjint.springboot.common.UserInfoVo;
 import com.tjint.springboot.common.paging.Page;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import net.sf.json.JSONObject;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +19,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
@@ -65,18 +70,20 @@ public class adminLoginApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @PostMapping(value = "/adminLogin")
-    public JSONObject adminLogin(@RequestBody AuthenticationRequest authenticationRequest, final HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    @ResponseBody
+    public JSONObject adminLogin(@RequestBody AuthenticationRequest authenticationRequest, HttpServletRequest request, final HttpServletResponse response) throws Exception {
 
-        UserInfoVo userInfoVo = new UserInfoVo();
-        userInfoVo.setUserId(authenticationRequest.getUserId());
-        userInfoVo.setPassword(authenticationRequest.getPassword());
+        NewUserDTO newUserDTO = new NewUserDTO();
 
-        final String resultValue = adminLoginApiService.adminLogin(userInfoVo, request);
+        newUserDTO.setUserId(authenticationRequest.getUserId());
+        newUserDTO.setPassword(authenticationRequest.getPassword());
+
+        String resultValue = adminLoginApiService.adminLogin(newUserDTO, request);
 
         JSONObject jsonObject = new JSONObject();
         if("Y".equals(resultValue)) {
             jsonObject.put("loginYn", resultValue);
-            jsonObject.put("userId", userInfoVo.getUserId());
+            jsonObject.put("userId", newUserDTO.getUserId());
             jsonObject.put("token", createAuthenticationToken(authenticationRequest));
         }
 
@@ -88,16 +95,22 @@ public class adminLoginApi {
     @PostMapping(value = "/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
 
-//        authenticate(authenticationRequest.getUserId(), authenticationRequest.getPassword());
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUserId());
-        final String token = jwtTokenUtil.generateToken(userDetails);
+        // id, password 인증
+        authenticate(authenticationRequest.getUserId(), authenticationRequest.getPassword());
+
+        // 사용자 정보 조회 후 token 생성
+        UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUserId());
+        String token = jwtTokenUtil.generateToken(userDetails);
+
         return ResponseEntity.ok(new AuthenticationResponse(token));
     }
 
     private void authenticate(String id, String password) throws Exception {
         try {
-            final UserDetails userDetails = userDetailsService.loadUserByUsername(id);
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(id,password));
+            Authentication request = new UsernamePasswordAuthenticationToken(id, password);
+            if(request.getName().equals(request.getCredentials())) {
+                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getName(), request.getCredentials()));
+            }
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
