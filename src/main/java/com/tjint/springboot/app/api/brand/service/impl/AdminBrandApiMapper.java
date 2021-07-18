@@ -180,4 +180,19 @@ public interface AdminBrandApiMapper {
      * @throws Exception
      */
     List<NewUrlLinkDTO> getSnsLinkList(NewUrlLinkDTO newUrlLinkDTO) throws Exception;
+
+    /**
+     * <pre>
+     * 1. MethodName : addSns
+     * 2. ClassName  : AdminBrandApiMapper.java
+     * 3. Comment    : SNS 등록
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 18.
+     * </pre>
+     *
+     * @param newCodeDTO
+     * @return
+     * @throws Exception
+     */
+    Integer addSns(NewCodeDTO newCodeDTO) throws Exception;
 }

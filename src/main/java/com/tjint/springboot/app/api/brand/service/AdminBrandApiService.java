@@ -181,4 +181,21 @@ public interface AdminBrandApiService {
 
     /** 브랜드 삭제 **/
     public Integer modifyBrand(NewBrandDTO newBrandDTO) throws Exception;
+
+    /**
+     * <pre>
+     * 1. MethodName : addSns
+     * 2. ClassName  : AdminBrandApiService.java
+     * 3. Comment    : SNS 등록
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 18.
+     * </pre>
+     *
+     * @param newCodeDTO
+     * @param files
+     * @return
+     * @throws Exception
+     */
+    public Integer addSns(NewCodeDTO newCodeDTO, MultipartFile files) throws Exception;
+
 }

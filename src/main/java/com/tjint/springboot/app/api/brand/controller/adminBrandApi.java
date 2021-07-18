@@ -165,6 +165,27 @@ public class adminBrandApi {
 		return result;
 	}
 
+	@ApiOperation(value = "SNS 등록", notes = "SNS를 등록한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
+			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
+			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
+	})
+	@PostMapping(value = "/addSns")
+	@ResponseBody
+	public String addSns(NewCodeDTO newCodeDTO,
+						 @RequestParam(value = "fileName") MultipartFile files) throws Exception {
+		String result = "";
+
+		if(this.adminBrandApiService.addSns(newCodeDTO, files) > 0) {
+			result = "Y";
+		} else {
+			result = "N";
+		}
+
+		return result;
+	}
+
 	@ApiOperation(value = "SNS 조회", notes = "SNS를 조회한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),

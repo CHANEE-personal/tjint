@@ -74,12 +74,12 @@ public class JwtUtil {
 	 * <pre>
 	 * 1. MethodName : resolveToken
 	 * 2. ClassName  : JwtUtil.java
-	 * 3. Comment    : Header에 저장된 토큰 가져온다
+	 * 3. Comment    : Header 토큰 정보 가져오기
 	 * 4. 작성자       : CHO
 	 * 5. 작성일       : 2021. 07. 07.
 	 * </pre>
 	 *
-	 * @param request
+	 * @param  request
 	 * @return
 	 * @throws Exception
 	 */

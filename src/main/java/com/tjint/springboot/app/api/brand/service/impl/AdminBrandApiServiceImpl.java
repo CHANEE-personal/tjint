@@ -265,4 +265,22 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
     public Integer modifyBrand(NewBrandDTO newBrandDTO) throws Exception {
         return adminBrandApiMapper.modifyBrand(newBrandDTO);
     }
+
+    /**
+     * <pre>
+     * 1. MethodName : addSns
+     * 2. ClassName  : AdminBrandApiServiceImpl.java
+     * 3. Comment    : SNS 등록
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 18.
+     * </pre>
+     *
+     * @param newCodeDTO
+     * @param files
+     * @return
+     * @throws Exception
+     */
+    public Integer addSns(NewCodeDTO newCodeDTO, MultipartFile files) throws Exception {
+        return this.adminBrandApiMapper.addSns(newCodeDTO);
+    }
 }

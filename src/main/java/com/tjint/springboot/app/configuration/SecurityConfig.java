@@ -1,6 +1,6 @@
 package com.tjint.springboot.app.configuration;
 
-import com.tjint.springboot.app.admin.jwt.JwtUtil;
+import com.tjint.springboot.app.admin.jwt.JwtFilter;
 import com.tjint.springboot.app.admin.jwt.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final MyUserDetailsService userDetailsService;
-    private final JwtUtil jwtUtil;
+    private final JwtFilter jwtFilter;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -85,7 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
 //        http.csrf().disable().authorizeRequests()
-//                .antMatchers("/api/auth/adminLogin")
+//                .antMatchers("/authentication")
 //                .permitAll().anyRequest().authenticated()
 //                .and().exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint()).and().sessionManagement()
 //                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
