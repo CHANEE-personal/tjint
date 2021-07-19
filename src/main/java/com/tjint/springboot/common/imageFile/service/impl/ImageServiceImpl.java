@@ -32,7 +32,7 @@ public class ImageServiceImpl implements ImageService {
     /**
      * 업로드 경로
      **/
-    private final String uploadPath = "/Users/tj03/Documents/image/";
+    private final String uploadPath = "/Users/tj02/Documents/image/";
 
     /**
      * 서버에 생성할 파일명을 처리할 랜덤 문자열 변환
@@ -94,7 +94,7 @@ public class ImageServiceImpl implements ImageService {
                 fileMask = fileId + '.' + ext;
                 fileSize = file.getSize();
 
-                String filePath = "/Users/tj03/Documents/image/" + fileMask;
+                String filePath = "/Users/tj02/Documents/image/" + fileMask;
                 file.transferTo(new File(filePath));
 
                 AttachFileDTO attachFileDTO = new AttachFileDTO();
@@ -103,7 +103,7 @@ public class ImageServiceImpl implements ImageService {
                 attachFileDTO.setFilename(file.getOriginalFilename());                   // 파일명
                 attachFileDTO.setFileSize(fileSize);  // 파일Size
                 attachFileDTO.setFileMask(fileMask);                                        // 파일Mask
-                attachFileDTO.setFilePath("/Users/tj03/Documents/image/" + fileMask);
+                attachFileDTO.setFilePath("/Users/tj02/Documents/image/" + fileMask);
                 attachFileDTO.setDownloadCnt(0);
                 attachFileDTO.setFilename(file.getOriginalFilename());
 
@@ -181,7 +181,7 @@ public class ImageServiceImpl implements ImageService {
                 fileMask = strToday + '.' + ext;
                 fileSize = file.getSize();
 
-                String filePath = "/Users/tj03/Documents/image/" + fileMask;
+                String filePath = "/Users/tj02/Documents/image/" + fileMask;
                 file.transferTo(new File(filePath));
 
                 AttachFileDTO attachFileDTO = new AttachFileDTO();
@@ -190,7 +190,7 @@ public class ImageServiceImpl implements ImageService {
                 attachFileDTO.setFilename(file.getOriginalFilename());                   // 파일명
                 attachFileDTO.setFileSize(fileSize);  // 파일Size
                 attachFileDTO.setFileMask(fileMask);                                        // 파일Mask
-                attachFileDTO.setFilePath("/Users/tj03/Documents/image/" + fileMask);
+                attachFileDTO.setFilePath("/Users/tj02/Documents/image/" + fileMask);
                 attachFileDTO.setDownloadCnt(0);
                 attachFileDTO.setFilename(file.getOriginalFilename());
 
