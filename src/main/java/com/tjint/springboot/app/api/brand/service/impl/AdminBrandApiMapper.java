@@ -149,7 +149,22 @@ public interface AdminBrandApiMapper {
      * @return
      * @throws Exception
      */
-    Integer modifyBrand(NewBrandDTO newBrandDTO) throws Exception;
+    Integer updateBrand(NewBrandDTO newBrandDTO) throws Exception;
+
+    /**
+     * <pre>
+     * 1. MethodName : deleteBrand
+     * 2. ClassName  : AdminBrandApiMapper.java
+     * 3. Comment    : 브랜드 삭제
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 04. 23.
+     * </pre>
+     *
+     * @param newBrandDTO
+     * @return
+     * @throws Exception
+     */
+    Integer deleteBrand(NewBrandDTO newBrandDTO) throws Exception;
 
     /**
      * <pre>

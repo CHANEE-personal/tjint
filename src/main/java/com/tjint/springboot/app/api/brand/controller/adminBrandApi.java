@@ -79,6 +79,25 @@ public class adminBrandApi {
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
+	@GetMapping(value = "/addCategoryCode")
+	@ResponseBody
+	public String addCategoryCode(NewCodeDTO newCodeDTO) throws Exception {
+		String result = "";
+
+		if("Y".equals(this.adminBrandApiService.insertCategory(newCodeDTO))) {
+			result = "Y";
+		} else {
+			result = "N";
+		}
+		return result;
+	}
+
+	@ApiOperation(value = "분야 조회", notes = "분야를 조회한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
+			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
+			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
+	})
 	@GetMapping(value = "/categoryList")
 	@ResponseBody
 	public Map<String, Object> categoryList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword,
@@ -330,8 +349,11 @@ public class adminBrandApi {
 	})
 
 	@PutMapping(value = "/updateBrand/{brandSeq}")
-	public void updateBrand(NewBrandDTO newBrandDTO) throws Exception {
-		this.adminBrandApiService.modifyBrand(newBrandDTO);
+	public void updateBrand(NewBrandDTO newBrandDTO,
+							NewImageDTO newImageDTO,
+							NewUrlLinkDTO newUrlLinkDTO,
+							@RequestParam(value = "fileName", required = false) MultipartFile[] files, HttpServletRequest request) throws Exception {
+		this.adminBrandApiService.updateBrand(newBrandDTO, newImageDTO, newUrlLinkDTO, files, request);
 	}
 
 	@ApiOperation(value = "브랜드 삭제", notes = "브랜드를 삭제한다.")
@@ -350,7 +372,7 @@ public class adminBrandApi {
 		newBrandDTO.setVisible("D");
 		newBrandDTO.setBrandSeq(brandSeq);
 
-		if (StringUtil.getInt(this.adminBrandApiService.modifyBrand(newBrandDTO), 0) > 0) {
+		if (StringUtil.getInt(this.adminBrandApiService.deleteBrand(newBrandDTO), 0) > 0) {
 			result = "Y";
 		} else {
 			result = "N";

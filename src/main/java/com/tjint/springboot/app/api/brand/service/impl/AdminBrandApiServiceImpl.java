@@ -125,6 +125,11 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
     public String insertCategory(NewCodeDTO newCodeDTO) throws Exception {
         String result = "";
 
+        newCodeDTO.setDescription(newCodeDTO.getCodeName());
+        newCodeDTO.setParentCd("ct000");
+        newCodeDTO.setCodeValue(" ");
+        newCodeDTO.setCreator(1);
+        newCodeDTO.setUpdater(1);
         if(this.adminBrandApiMapper.insertCategory(newCodeDTO) > 0) {
             result = "Y";
         } else {
@@ -262,8 +267,43 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
      * @return
      * @throws Exception
      */
-    public Integer modifyBrand(NewBrandDTO newBrandDTO) throws Exception {
-        return adminBrandApiMapper.modifyBrand(newBrandDTO);
+    public Integer updateBrand(NewBrandDTO newBrandDTO,
+                               NewImageDTO newImageDTO,
+                               NewUrlLinkDTO newUrlLinkDTO,
+                               MultipartFile[] files, HttpServletRequest request) throws Exception {
+        NewCodeDTO newCodeDTO = new NewCodeDTO();
+        newBrandDTO.setCreator(1);
+        newBrandDTO.setUpdater(1);
+        newImageDTO.setSortOrder(1);
+
+        if("0".equals(newBrandDTO.getMenuCategoryCd())) {
+            newCodeDTO.setCodeId("mu001");
+        } else if("1".equals(newBrandDTO.getMenuCategoryCd())) {
+            newCodeDTO.setCodeId("mu002");
+        } else if("2".equals(newBrandDTO.getMenuCategoryCd())) {
+            newCodeDTO.setCodeId("mu003");
+        }
+
+        newBrandDTO.setMenuCategoryNm(StringUtil.getString(this.adminBrandApiMapper.getCategoryInfo(newCodeDTO).get("code_name"),""));
+
+        return adminBrandApiMapper.updateBrand(newBrandDTO);
+    }
+
+    /**
+     * <pre>
+     * 1. MethodName : deleteBrand
+     * 2. ClassName  : AdminBrandApiServiceImpl.java
+     * 3. Comment    : 브랜드 삭제
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 04. 23.
+     * </pre>
+     *
+     * @param  newBrandDTO
+     * @return
+     * @throws Exception
+     */
+    public Integer deleteBrand(NewBrandDTO newBrandDTO) throws Exception {
+        return this.adminBrandApiMapper.deleteBrand(newBrandDTO);
     }
 
     /**

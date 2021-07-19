@@ -391,6 +391,44 @@
 	            )
 	    </insert>
 
+	<insert id="insertCategory" parameterType="newCodeDto" useGeneratedKeys="true" keyProperty="codeId">
+	/* [AdminBrand_SQL.xml].[addCode] */
+	INSERT INTO app_code_test
+	(
+	code_id
+	, code_name
+	, code_value
+	, description
+	, parent_cd
+	, property1
+	, property2
+	, property3
+	, sort_order
+	, visible
+	, creator
+	, create_time
+	, updater
+	, update_time
+	)
+	VALUES
+	(
+	(select concat('ct', lpad(right(code_id, 3) + 1, 3, '0')) from app_code a where parent_cd = 'ct000' order by code_id desc limit 1)
+	, #{codeName}
+	, #{codeValue}
+	, #{description}
+	, #{parentCd}
+	, #{property1}
+	, #{property2}
+	, #{property3}
+	, (select sort_order + 1 from app_code b where parent_cd = 'ct000' order by code_id desc limit 1)
+	, 'Y'
+	, #{updater}
+	, NOW()
+	, #{updater}
+	, NOW()
+	)
+	</insert>
+
 	<!--    <select id="getLatestSnsId" resultType="java.lang.String">-->
 	<!--        /* [AdminBrand_SQL.xml].[getLatestSnsId] */-->
 	<!--        SELECT code_id-->
