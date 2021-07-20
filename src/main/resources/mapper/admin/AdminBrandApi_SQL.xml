@@ -325,7 +325,9 @@
 				ORDER BY sortOrder
 			</otherwise>
 		</choose>
+		<if test="startPage != null and startPage != '' and size != null and size != ''">
 			LIMIT #{startPage}, #{size}
+		</if>
 	</select>
 
 	<select id="getCategoryInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
