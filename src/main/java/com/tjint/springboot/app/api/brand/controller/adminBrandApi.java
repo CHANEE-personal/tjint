@@ -79,25 +79,6 @@ public class adminBrandApi {
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
-	@GetMapping(value = "/addCategoryCode")
-	@ResponseBody
-	public String addCategoryCode(NewCodeDTO newCodeDTO) throws Exception {
-		String result = "";
-
-		if("Y".equals(this.adminBrandApiService.insertCategory(newCodeDTO))) {
-			result = "Y";
-		} else {
-			result = "N";
-		}
-		return result;
-	}
-
-	@ApiOperation(value = "분야 조회", notes = "분야를 조회한다.")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
-			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
-			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
-	})
 	@GetMapping(value = "/categoryList")
 	@ResponseBody
 	public Map<String, Object> categoryList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword,

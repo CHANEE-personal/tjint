@@ -103,6 +103,7 @@ public interface AdminBrandApiMapper {
      * @return
      * @throws Exception
      */
+    @org.springframework.transaction.annotation.Transactional
     public Integer insertCategory(NewCodeDTO newCodeDTO) throws Exception;
 
     /**

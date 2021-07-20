@@ -108,21 +108,21 @@
 
 	<select id="getSnsLinkList" parameterType="newUrlLinkDTO" resultType="newUrlLinkDto">
 		SELECT
-			A.code_name snsName
-			, B.link_seq
-			, B.board_type_cd
-			, B.board_seq
-			, IFNULL(B.link_type_cd,A.code_id) as linkTypeCd
-			, B.link_address
-			, B.sort_order
-			, B.visible
-			, B.creator
-			, B.create_time
-			, B.updater
-			, B.update_time
-			, C.FILE_ID
-			, C.FILE_NAME
-			, C.FILE_PATH
+		A.code_name snsName
+		, B.link_seq
+		, B.board_type_cd
+		, B.board_seq
+		, IFNULL(B.link_type_cd,A.code_id) as linkTypeCd
+		, B.link_address
+		, B.sort_order
+		, B.visible
+		, B.creator
+		, B.create_time
+		, B.updater
+		, B.update_time
+		, C.FILE_ID
+		, C.FILE_NAME
+		, C.FILE_PATH
 		FROM app_code A
 		LEFT OUTER JOIN app_url_link_info_test B ON A.code_id = B.link_type_cd
 		AND B.board_seq = #{boardSeq}
@@ -173,6 +173,18 @@
 			   , #{updater}
 			   , now())
 	</insert>
+
+	<delete id="deleteBrand" parameterType="newBrandDto">
+		UPDATE app_board_brand_test
+		SET
+		<if test="categoryCd != null and categoryCd != ''">category_cd = #{categoryCd},</if>
+		<if test="brandName != null and brandName != ''">brand_name = #{brandName},</if>
+		<if test="brandDescription != null and brandDescription != ''">brand_description = #{brandDescription},</if>
+		<if test="visible != null and visible != ''">visible = #{visible},</if>
+		<if test="updater != null and updater != ''">updater = #{updater},</if>
+		update_time = NOW()
+		WHERE brand_seq = #{brandSeq}
+	</delete>
 
 	<select id="selectLatestFileId" resultType="java.lang.String">
 		/* [AdminBrand_SQL.xml].[selectLatestFileId] */
@@ -308,7 +320,8 @@
 		, DATE_FORMAT(a.update_time, '%Y-%m-%d') as updateTime
 		, (select FILE_NAME from J_ATTACHFILE where file_id = a.property1) as fileName
 		, (select FILE_PATH from J_ATTACHFILE where file_id = a.property1) as filePath
-		, (select concat('http://tjinternational.kr/file/image/',file_mask) from J_ATTACHFILE where file_id = a.property1) AS newFilePath
+		, (select concat('http://tjinternational.kr/file/image/',file_mask) from J_ATTACHFILE where file_id =
+		a.property1) AS newFilePath
 		FROM app_code a
 		WHERE parent_cd = #{parentCd}
 		<if test='parentCd == "lnkt002" or visible == "Y"'>
@@ -325,7 +338,7 @@
 				ORDER BY sortOrder
 			</otherwise>
 		</choose>
-		<if test="startPage != null and startPage != '' and size != null and size != ''">
+		<if test="startPage != null and !startPage.equals('') ">
 			LIMIT #{startPage}, #{size}
 		</if>
 	</select>
@@ -355,80 +368,78 @@
 		WHERE code_id = #{codeId}
 	</update>
 
-	    <insert id="addCode" parameterType="newCodeDto" useGeneratedKeys="true" keyProperty="codeId">
-	        /* [AdminBrand_SQL.xml].[addCode] */
-	        INSERT INTO app_code_test
-	        (
-	            code_id
-	        , code_name
-	        , code_value
-	        , description
-	        , parent_cd
-	        , property1
-	        , property2
-	        , property3
-	        , sort_order
-	        , visible
-	        , creator
-	        , create_time
-	        , updater
-	        , update_time
-	        )
-	        VALUES
-	        (
-	            (select concat('lnkt', lpad(right(code_id, 3) + 1, 3, '0')) from app_code a where parent_cd = 'lnkt002' order by code_id desc limit 1)
-	             , #{codeName}
-	             , #{codeValue}
-	             , #{codeDesc}
-	             , #{parentCd}
-	             , #{property1}
-	             , #{property2}
-	             , #{property3}
-	             , (select sort_order + 1 from app_code b where parent_cd = 'lnkt002' order by code_id desc limit 1)
-	             , 'Y'
-	             , #{updater}
-	             , NOW()
-	             , #{updater}
-	             , NOW()
-	            )
-	    </insert>
+	<insert id="addCode" parameterType="newCodeDto" useGeneratedKeys="true" keyProperty="codeId">
+		/* [AdminBrand_SQL.xml].[addCode] */
+		INSERT INTO app_code_test
+		( code_id
+		, code_name
+		, code_value
+		, description
+		, parent_cd
+		, property1
+		, property2
+		, property3
+		, sort_order
+		, visible
+		, creator
+		, create_time
+		, updater
+		, update_time)
+		VALUES ((select concat('lnkt', lpad(right(code_id, 3) + 1, 3, '0'))
+				 from app_code a
+				 where parent_cd = 'lnkt002'
+				 order by code_id desc limit 1)
+			 , #{codeName}
+			 , #{codeValue}
+			 , #{codeDesc}
+			 , #{parentCd}
+			 , #{property1}
+			 , #{property2}
+			 , #{property3}
+			 , (select sort_order + 1 from app_code b where parent_cd = 'lnkt002' order by code_id desc limit 1)
+			 , 'Y'
+			 , #{updater}
+			 , NOW()
+			 , #{updater}
+			 , NOW()
+			)
+	</insert>
 
 	<insert id="insertCategory" parameterType="newCodeDto" useGeneratedKeys="true" keyProperty="codeId">
-	/* [AdminBrand_SQL.xml].[addCode] */
-	INSERT INTO app_code_test
-	(
-	code_id
-	, code_name
-	, code_value
-	, description
-	, parent_cd
-	, property1
-	, property2
-	, property3
-	, sort_order
-	, visible
-	, creator
-	, create_time
-	, updater
-	, update_time
-	)
-	VALUES
-	(
-	(select concat('ct', lpad(right(code_id, 3) + 1, 3, '0')) from app_code a where parent_cd = 'ct000' order by code_id desc limit 1)
-	, #{codeName}
-	, #{codeValue}
-	, #{description}
-	, #{parentCd}
-	, #{property1}
-	, #{property2}
-	, #{property3}
-	, (select sort_order + 1 from app_code b where parent_cd = 'ct000' order by code_id desc limit 1)
-	, 'Y'
-	, #{updater}
-	, NOW()
-	, #{updater}
-	, NOW()
-	)
+		/* [AdminBrand_SQL.xml].[addCode] */
+		INSERT INTO app_code_test
+		( code_id
+		, code_name
+		, code_value
+		, description
+		, parent_cd
+		, property1
+		, property2
+		, property3
+		, sort_order
+		, visible
+		, creator
+		, create_time
+		, updater
+		, update_time)
+		VALUES ((select concat('ct', lpad(right(code_id, 3) + 1, 3, '0'))
+				 from app_code_test a
+				 where parent_cd = 'ct000'
+				 order by code_id desc limit 1)
+			 , #{codeName}
+			 , #{codeValue}
+			 , #{description}
+			 , #{parentCd}
+			 , #{property1}
+			 , #{property2}
+			 , #{property3}
+			 , (select sort_order + 1 from app_code_test b where parent_cd = 'ct000' order by code_id desc limit 1)
+			 , 'Y'
+			 , #{updater}
+			 , NOW()
+			 , #{updater}
+			 , NOW()
+			)
 	</insert>
 
 	<!--    <select id="getLatestSnsId" resultType="java.lang.String">-->
