@@ -232,24 +232,24 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
 
         newBrandDTO.setMenuCategoryNm(StringUtil.getString(this.adminBrandApiMapper.getCategoryInfo(newCodeDTO).get("code_name"),""));
 
-
-            if (adminBrandApiMapper.addBrand(newBrandDTO) > 0) {
-                newImageDTO.setBoardSeq(newBrandDTO.getBrandSeq());
-                // 이미지 파일 등록
-                if (StringUtil.getInt(imageService.addImageFile(newImageDTO, files),0) > 0) {
-                    // URL 링크 등록
-                    newUrlLinkDTO.setBoardSeq(newBrandDTO.getBrandSeq());
-                    if(StringUtil.getInt(urlLinkService.addUrlLink(newUrlLinkDTO),0) > 0) {
-                        resultMsg = "Y";      // 등록 성공
-                    } else {
-                        resultMsg = "N";     // 등록 실패
-                    }
+        String flag = "A";
+        if (adminBrandApiMapper.addBrand(newBrandDTO) > 0) {
+            newImageDTO.setBoardSeq(newBrandDTO.getBrandSeq());
+            // 이미지 파일 등록
+            if (StringUtil.getInt(imageService.addImageFile(newImageDTO, files, flag),0) > 0) {
+                // URL 링크 등록
+                newUrlLinkDTO.setBoardSeq(newBrandDTO.getBrandSeq());
+                if(StringUtil.getInt(urlLinkService.addUrlLink(newUrlLinkDTO, flag),0) > 0) {
+                    resultMsg = "Y";      // 등록 성공
                 } else {
-                    resultMsg = "N";      // 이미지 파일 정보 insert 실패
+                    resultMsg = "N";     // 등록 실패
                 }
             } else {
-                resultMsg = "N";            // 브랜드 등록 실패
+                resultMsg = "N";      // 이미지 파일 정보 insert 실패
             }
+        } else {
+            resultMsg = "N";            // 브랜드 등록 실패
+        }
 
         return resultMsg;
     }
@@ -267,10 +267,13 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
      * @return
      * @throws Exception
      */
-    public Integer updateBrand(NewBrandDTO newBrandDTO,
+    public String updateBrand(NewBrandDTO newBrandDTO,
                                NewImageDTO newImageDTO,
                                NewUrlLinkDTO newUrlLinkDTO,
                                MultipartFile[] files, HttpServletRequest request) throws Exception {
+
+        String resultMsg = "";
+
         NewCodeDTO newCodeDTO = new NewCodeDTO();
         newBrandDTO.setCreator(1);
         newBrandDTO.setUpdater(1);
@@ -286,7 +289,26 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
 
         newBrandDTO.setMenuCategoryNm(StringUtil.getString(this.adminBrandApiMapper.getCategoryInfo(newCodeDTO).get("code_name"),""));
 
-        return adminBrandApiMapper.updateBrand(newBrandDTO);
+        String flag = "U";
+        if (adminBrandApiMapper.updateBrand(newBrandDTO) > 0) {
+            newImageDTO.setBoardSeq(newBrandDTO.getBrandSeq());
+            // 이미지 파일 등록
+            if (StringUtil.getInt(imageService.addImageFile(newImageDTO, files, flag),0) > 0) {
+                // URL 링크 등록
+                newUrlLinkDTO.setBoardSeq(newBrandDTO.getBrandSeq());
+                if(StringUtil.getInt(urlLinkService.addUrlLink(newUrlLinkDTO, flag),0) > 0) {
+                    resultMsg = "Y";      // 등록 성공
+                } else {
+                    resultMsg = "N";     // 등록 실패
+                }
+            } else {
+                resultMsg = "N";      // 이미지 파일 정보 insert 실패
+            }
+        } else {
+            resultMsg = "N";            // 브랜드 등록 실패
+        }
+
+        return resultMsg;
     }
 
     /**

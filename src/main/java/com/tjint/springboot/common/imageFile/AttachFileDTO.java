@@ -44,4 +44,7 @@ public class AttachFileDTO {
 
     @ApiModelProperty(value = "삭제여부", hidden = true)
     private String deleteYn;
+
+    @ApiModelProperty(value = "브랜드 IDX", hidden = true)
+    private Integer jBoardSeq;
 }

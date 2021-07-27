@@ -22,7 +22,7 @@ public interface ImageService {
      * @return
      * @throws Exception
      */
-    public Integer addImageFile(NewImageDTO newImageDTO, MultipartFile[] files) throws Exception;
+    public Integer addImageFile(NewImageDTO newImageDTO, MultipartFile[] files, String flag) throws Exception;
 
     /**
      * <pre>

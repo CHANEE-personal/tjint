@@ -179,12 +179,40 @@ public interface AdminBrandApiService {
                            NewUrlLinkDTO newUrlLinkDTO,
                            MultipartFile[] files, HttpServletRequest request) throws Exception;
 
-    /** 브랜드 삭제 **/
-    public Integer updateBrand(NewBrandDTO newBrandDTO,
+    /**
+     * <pre>
+     * 1. MethodName : updateBrand
+     * 2. ClassName  : AdminBrandApiService.java
+     * 3. Comment    : 브랜드 수정
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 18.
+     * </pre>
+     *
+     * @param newBrandDTO
+     * @param newImageDTO
+     * @param newUrlLinkDTO
+     * @param files
+     * @return
+     * @throws Exception
+     */
+    public String updateBrand(NewBrandDTO newBrandDTO,
                                NewImageDTO newImageDTO,
                                NewUrlLinkDTO newUrlLinkDTO,
                                MultipartFile[] files, HttpServletRequest request) throws Exception;
 
+    /**
+     * <pre>
+     * 1. MethodName : deleteBrand
+     * 2. ClassName  : AdminBrandApiService.java
+     * 3. Comment    : 브랜드 삭제
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 18.
+     * </pre>
+     *
+     * @param newBrandDTO
+     * @return
+     * @throws Exception
+     */
     public Integer deleteBrand(NewBrandDTO newBrandDTO) throws Exception;
 
     /**

@@ -25,4 +25,24 @@
                , #{updater}
                , NOW())
     </insert>
+
+    <update id="updateUrlLink" parameterType="newUrlLinkDto">
+        /* [AdminBrandApi_SQL.xml].[updateUrlLink] */
+        UPDATE app_url_link_info_test
+        SET
+        <if test="boardTypeCd != null and boardTypeCd != ''">board_type_cd = #{boardTypeCd},</if>
+        <if test="boardSeq != null and boardSeq != ''">board_seq = #{boardSeq},</if>
+        <if test="linkTypeCd != null and linkTypeCd != ''">link_type_cd = #{linkTypeCd},</if>
+        <if test="linkAddress != null and linkAddress != ''">link_address = #{linkAddress},</if>
+        <if test="sortOrder != null and sortOrder != ''">sort_order = #{sortOrder},</if>
+        <if test="visible != null and visible != ''">visible = #{visible},</if>
+        <if test="updater != null and updater != ''">updater = #{updater},</if>
+        update_time = NOW()
+        <where>
+            <if test="linkSeq != null and linkSeq != ''">AND link_seq = #{linkSeq}</if>
+            <if test="boardTypeCd != null and boardTypeCd != ''">AND board_type_cd = #{boardTypeCd}</if>
+            <if test="boardSeq != null and boardSeq != ''">AND board_seq = #{boardSeq}</if>
+            <if test="linkTypeCd != null and linkTypeCd != ''">AND link_type_cd = #{linkTypeCd}</if>
+        </where>
+    </update>
 </mapper>

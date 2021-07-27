@@ -12,10 +12,8 @@ import java.io.File;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.UUID;
 
 @Service("ImageService")
 @RequiredArgsConstructor
@@ -27,19 +25,11 @@ public class ImageServiceImpl implements ImageService {
      * 오늘 날짜
      **/
     private final LocalDate nowDate = LocalDate.now();
-    private final String today = nowDate.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
     /**
      * 업로드 경로
      **/
-    private final String uploadPath = "/Users/tj02/Documents/image/";
-
-    /**
-     * 서버에 생성할 파일명을 처리할 랜덤 문자열 변환
-     **/
-    private final String getRandomString() {
-        return UUID.randomUUID().toString().replaceAll("-", "");
-    }
+    private final String uploadPath = "/Users/tj03/Documents/image/";
 
 
     /**
@@ -55,7 +45,7 @@ public class ImageServiceImpl implements ImageService {
      * @return
      * @throws Exception
      */
-    public Integer addImageFile(NewImageDTO newImageDTO, MultipartFile[] files) throws Exception {
+    public Integer addImageFile(NewImageDTO newImageDTO, MultipartFile[] files, String flag) throws Exception {
 
         // 확장자
         String ext = "";
@@ -67,6 +57,10 @@ public class ImageServiceImpl implements ImageService {
         long fileSize = 0;
         int mainCnt = 1;
 
+        AttachFileDTO attachFileDTO = new AttachFileDTO();
+        attachFileDTO.setJBoardSeq(newImageDTO.getBoardSeq());
+        imageMapper.deleteAttachFile(attachFileDTO);
+
         for (MultipartFile file : files) {
             fileId = currentDate();
             if(file.getSize() > 0) {
@@ -77,7 +71,6 @@ public class ImageServiceImpl implements ImageService {
                 }
 
                 newImageDTO.setBoardTypeCd("brdt001");
-                newImageDTO.setImageFileId(fileId);
                 newImageDTO.setSortOrder(1);
                 newImageDTO.setCreator(1);
                 newImageDTO.setVisible("Y");
@@ -85,8 +78,16 @@ public class ImageServiceImpl implements ImageService {
                 newImageDTO.setImageFileSeq(1);
 
                 // mainImage app_image_file_info 등록
-                if(imageMapper.addImageFile(newImageDTO) > 0) {
-                    mainCnt++;
+                if("U".equals(flag)) {
+                    newImageDTO.setImageFileId(fileId);
+                    if (imageMapper.updateImageFile(newImageDTO) > 0) {
+                        mainCnt++;
+                    }
+                } else {
+                    newImageDTO.setImageFileId(fileId);
+                    if (imageMapper.addImageFile(newImageDTO) > 0) {
+                        mainCnt++;
+                    }
                 }
 
                 ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1).toLowerCase();
@@ -94,22 +95,27 @@ public class ImageServiceImpl implements ImageService {
                 fileMask = fileId + '.' + ext;
                 fileSize = file.getSize();
 
-                String filePath = "/Users/tj02/Documents/image/" + fileMask;
+                String filePath = "/Users/tj03/Documents/image/" + fileMask;
                 file.transferTo(new File(filePath));
 
-                AttachFileDTO attachFileDTO = new AttachFileDTO();
                 attachFileDTO.setFileId(fileId);                                         // 파일ID
                 attachFileDTO.setFileSeq(0);                                             // 파일구분
                 attachFileDTO.setFilename(file.getOriginalFilename());                   // 파일명
                 attachFileDTO.setFileSize(fileSize);  // 파일Size
-                attachFileDTO.setFileMask(fileMask);                                        // 파일Mask
-                attachFileDTO.setFilePath("/Users/tj02/Documents/image/" + fileMask);
+                attachFileDTO.setFileMask(fileMask);                                     // 파일Mask
+                attachFileDTO.setFilePath("/Users/tj03/Documents/image/" + fileMask);
                 attachFileDTO.setDownloadCnt(0);
                 attachFileDTO.setFilename(file.getOriginalFilename());
 
                 // 이미지 정보 insert
-                if(imageMapper.addAttachFile(attachFileDTO)>0) {
-                    mainCnt++;
+                if("U".equals(flag)) {
+                    if(imageMapper.addAttachFile(attachFileDTO)>0) {
+                        mainCnt++;
+                    }
+                } else {
+                    if(imageMapper.addAttachFile(attachFileDTO)>0) {
+                        mainCnt++;
+                    }
                 }
             }
         }
@@ -124,7 +130,11 @@ public class ImageServiceImpl implements ImageService {
             newImageDTO.setImageFileSeq(1);
 
             // subImage app_image_file_info 등록
-            imageMapper.addImageFile(newImageDTO);
+            if("U".equals(flag)) {
+                imageMapper.updateImageFile(newImageDTO);
+            } else {
+                imageMapper.addImageFile(newImageDTO);
+            }
         }
 
         return mainCnt;
@@ -181,7 +191,7 @@ public class ImageServiceImpl implements ImageService {
                 fileMask = strToday + '.' + ext;
                 fileSize = file.getSize();
 
-                String filePath = "/Users/tj02/Documents/image/" + fileMask;
+                String filePath = "/Users/tj03/Documents/image/" + fileMask;
                 file.transferTo(new File(filePath));
 
                 AttachFileDTO attachFileDTO = new AttachFileDTO();
@@ -190,7 +200,7 @@ public class ImageServiceImpl implements ImageService {
                 attachFileDTO.setFilename(file.getOriginalFilename());                   // 파일명
                 attachFileDTO.setFileSize(fileSize);  // 파일Size
                 attachFileDTO.setFileMask(fileMask);                                        // 파일Mask
-                attachFileDTO.setFilePath("/Users/tj02/Documents/image/" + fileMask);
+                attachFileDTO.setFilePath("/Users/tj03/Documents/image/" + fileMask);
                 attachFileDTO.setDownloadCnt(0);
                 attachFileDTO.setFilename(file.getOriginalFilename());
 

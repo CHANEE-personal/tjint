@@ -119,6 +119,7 @@ public interface AdminBrandApiMapper {
      * @return
      * @throws Exception
      */
+    @Transactional
     public Integer updateCategory(NewCodeDTO newCodeDTO) throws Exception;
 
     /**

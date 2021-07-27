@@ -157,8 +157,11 @@ public class adminBrandApi {
 	})
 	@PutMapping(value = "/updateCategory/{codeId}")
 	@ResponseBody
-	public String updateCategory(@RequestBody NewCodeDTO newCodeDTO) throws Exception {
+	public String updateCategory(@RequestBody NewCodeDTO newCodeDTO,
+								 @PathVariable(name = "codeId") String codeId) throws Exception {
 		String result = "";
+
+		newCodeDTO.setCodeId(codeId);
 
 		result = this.adminBrandApiService.updateCategory(newCodeDTO);
 
@@ -329,12 +332,21 @@ public class adminBrandApi {
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
 
-	@PutMapping(value = "/updateBrand/{brandSeq}")
-	public void updateBrand(NewBrandDTO newBrandDTO,
+	@PostMapping(value = "/updateBrand/{brandSeq}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	@ResponseBody
+	public String updateBrand(NewBrandDTO newBrandDTO,
 							NewImageDTO newImageDTO,
 							NewUrlLinkDTO newUrlLinkDTO,
 							@RequestParam(value = "fileName", required = false) MultipartFile[] files, HttpServletRequest request) throws Exception {
-		this.adminBrandApiService.updateBrand(newBrandDTO, newImageDTO, newUrlLinkDTO, files, request);
+		String result = "";
+
+		if("Y".equals(this.adminBrandApiService.updateBrand(newBrandDTO, newImageDTO, newUrlLinkDTO, files, request))) {
+			result = "Y";
+		} else {
+			result = "N";
+		}
+
+		return result;
 	}
 
 	@ApiOperation(value = "브랜드 삭제", notes = "브랜드를 삭제한다.")

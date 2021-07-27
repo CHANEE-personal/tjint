@@ -13,6 +13,9 @@ public interface ImageMapper {
     public Integer addImageFile(NewImageDTO newImageDTO) throws Exception;
 
     @Transactional
+    Integer updateImageFile(NewImageDTO newImageDTO) throws Exception;
+
+    @Transactional
     public Integer deleteImageFile(NewImageDTO newImageDTO) throws Exception;
 
     @Transactional

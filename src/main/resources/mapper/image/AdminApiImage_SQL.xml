@@ -29,6 +29,28 @@
                , NOW())
     </insert>
 
+    <update id="updateImageFile" parameterType="newImageDTO">
+        /* [AdminApiImage_SQL.xml].[updateImageFile] */
+        UPDATE app_image_file_info_test
+        SET
+        <if test="boardTypeCd != null and boardTypeCd != ''">board_type_cd = #{boardTypeCd},</if>
+        <if test="boardSeq != null and boardSeq != ''">board_seq = #{boardSeq},</if>
+        <if test="imageTypeCd != null and imageTypeCd != ''">image_type_cd = #{imageTypeCd},</if>
+        <if test="imageFileId != null and imageFileId != ''">image_file_id = #{imageFileId},</if>
+        <if test="imageFileSeq != null and imageFileSeq != ''">image_file_seq = #{imageFileSeq},</if>
+        <if test="sortOrder != null and sortOrder != ''">sort_order = #{sortOrder},</if>
+        <if test="visible != null and visible != ''">visible = #{visible},</if>
+        <if test="updater != null and updater != ''">updater = #{updater},</if>
+        update_time = NOW()
+        <where>
+            <if test="imageFileInfoSeq != null and imageFileInfoSeq != ''">AND image_file_info_seq = #{imageFileInfoSeq}</if>
+            <if test="boardTypeCd != null and boardTypeCd != ''">AND board_type_cd = #{boardTypeCd}</if>
+            <if test="boardSeq != null and boardSeq != ''">AND board_seq = #{boardSeq}</if>
+            <if test="imageTypeCd != null and imageTypeCd != ''">AND image_type_cd = #{imageTypeCd}</if>
+            <if test="sortOrder != null and sortOrder != ''">AND sort_order = #{sortOrder}</if>
+        </where>
+    </update>
+
     <insert id="addAttachFile" parameterType="newNewsDto">
         /* [AdminApiImage.xml].[addAttachFile] */
         INSERT INTO J_ATTACHFILE_TEST
@@ -42,7 +64,8 @@
          DOWNLOAD_EXPIRE_DATE,
          DOWNLOAD_LIMIT_COUNT,
          REG_DATE,
-         DELETE_YN)
+         DELETE_YN,
+         J_BOARD_SEQ)
         VALUES (#{fileId},
                 #{fileSeq},
                 #{filename},
@@ -53,14 +76,15 @@
                 #{downloadExpireDate},
                 #{downloadLimitCnt},
                 now(),
-                #{deleteYn})
+                #{deleteYn},
+                #{jBoardSeq})
     </insert>
 
     <delete id="deleteAttachFile" parameterType="newImageDTO">
         /* [Common_imageFile_SQL.xml].[deleteAttachFile] */
         DELETE
         FROM J_ATTACHFILE_TEST
-        WHERE FILE_BOARD_SEQ = #{fileBoardSeq}
+        WHERE J_BOARD_SEQ = #{jBoardSeq}
     </delete>
 
     <delete id="deleteImageFile" parameterType="newImageDTO">

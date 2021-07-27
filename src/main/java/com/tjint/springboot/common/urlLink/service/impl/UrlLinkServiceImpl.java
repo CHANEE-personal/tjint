@@ -1,6 +1,5 @@
 package com.tjint.springboot.common.urlLink.service.impl;
 
-import com.tjint.springboot.app.api.brand.service.NewBrandDTO;
 import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import com.tjint.springboot.common.urlLink.service.UrlLinkService;
 import lombok.RequiredArgsConstructor;
@@ -9,11 +8,9 @@ import org.springframework.stereotype.Service;
 @Service("UrlLinkService")
 @RequiredArgsConstructor
 public class UrlLinkServiceImpl implements UrlLinkService {
-    private final UrlLinkMapper urlLinkmapper;
+    private final UrlLinkMapper urlLinkMapper;
 
-    public Integer addUrlLink(NewUrlLinkDTO newUrlLinkDTO) throws Exception {
-
-        NewBrandDTO newBrandDTO = new NewBrandDTO();
+    public Integer addUrlLink(NewUrlLinkDTO newUrlLinkDTO, String flag) throws Exception {
 
         if("Y".equals(newUrlLinkDTO.getBrandLinkVisible())) {
             newUrlLinkDTO.setBoardTypeCd("brdt001");
@@ -25,7 +22,11 @@ public class UrlLinkServiceImpl implements UrlLinkService {
             newUrlLinkDTO.setVisible("Y");
 
             // 홈페이지 링크 등록
-            urlLinkmapper.addUrlLink(newUrlLinkDTO);
+            if("U".equals(flag)) {
+                urlLinkMapper.updateUrlLink(newUrlLinkDTO);
+            } else {
+                urlLinkMapper.addUrlLink(newUrlLinkDTO);
+            }
         }
 
         String[] snsArr = newUrlLinkDTO.getSnsListAll().split(";");
@@ -58,7 +59,11 @@ public class UrlLinkServiceImpl implements UrlLinkService {
             }
 
             // snsLink 등록
-            urlLinkmapper.addUrlLink(newUrlLinkDTO);
+            if("U".equals(flag)) {
+                urlLinkMapper.updateUrlLink(newUrlLinkDTO);
+            } else {
+                urlLinkMapper.addUrlLink(newUrlLinkDTO);
+            }
         }
 
         return 1;

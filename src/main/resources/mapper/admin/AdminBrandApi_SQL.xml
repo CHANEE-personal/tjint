@@ -136,7 +136,7 @@
 		ORDER BY A.sort_order
 	</select>
 
-	<update id="modifyBrand" parameterType="newBrandDto">
+	<update id="`modifyBrand" parameterType="newBrandDto">
 		/* [AdminBrand_SQL.xml].[modifyBrand] */
 		UPDATE app_board_brand_test
 		SET
@@ -173,6 +173,19 @@
 			   , #{updater}
 			   , now())
 	</insert>
+
+	<update id="updateBrand" parameterType="newBrandDto">
+		/* [AdminBrandApi_SQL.xml].[updateBrand] */
+		UPDATE app_board_brand_test
+		SET
+		<if test="categoryCd != null and categoryCd != ''">category_cd = #{categoryCd},</if>
+		<if test="brandName != null and brandName != ''">brand_name = #{brandName},</if>
+		<if test="brandDescription != null and brandDescription != ''">brand_description = #{brandDescription},</if>
+		<if test="visible != null and visible != ''">visible = #{visible},</if>
+		<if test="updater != null and updater != ''">updater = #{updater},</if>
+		update_time = NOW()
+		WHERE brand_seq = #{brandSeq}
+	</update>
 
 	<delete id="deleteBrand" parameterType="newBrandDto">
 		UPDATE app_board_brand_test
@@ -242,55 +255,10 @@
 	<!--        </where>-->
 	<!--    </update>-->
 
-	<insert id="addUrlLink" parameterType="newUrlLinkDto">
-		/* [AdminBrand_SQL.xml].[addUrlLink] */
-		INSERT INTO app_url_link_info_test
-		( board_type_cd
-		, board_seq
-		, link_type_cd
-		, link_address
-		, sort_order
-		, visible
-		, creator
-		, create_time
-		, updater
-		, update_time)
-		VALUES ( #{boardTypeCd}
-			   , #{boardSeq}
-			   , #{linkTypeCd}
-			   , #{linkAddress}
-			   , #{sortOrder}
-			   , #{visible}
-			   , #{updater}
-			   , NOW()
-			   , #{updater}
-			   , NOW())
-	</insert>
-
-	<!--    <update id="modifyUrlLink" parameterType="app.cmm.urlLink.service.UrlLinkVo">-->
-	<!--        /* [AdminBrand_SQL.xml].[modifyUrlLink] */-->
-	<!--        UPDATE app_url_link_info-->
-	<!--        SET-->
-	<!--        <if test="boardTypeCd != null and boardTypeCd != ''">board_type_cd = #{boardTypeCd},</if>-->
-	<!--        <if test="boardSeq != null and boardSeq != ''">board_seq = #{boardSeq},</if>-->
-	<!--        <if test="linkTypeCd != null and linkTypeCd != ''">link_type_cd = #{linkTypeCd},</if>-->
-	<!--        <if test="linkAddress != null and linkAddress != ''">link_address = #{linkAddress},</if>-->
-	<!--        <if test="sortOrder != null and sortOrder != ''">sort_order = #{sortOrder},</if>-->
-	<!--        <if test="visible != null and visible != ''">visible = #{visible},</if>-->
-	<!--        <if test="updater != null and updater != ''">updater = #{updater},</if>-->
-	<!--        update_time = NOW()-->
-	<!--        <where>-->
-	<!--            <if test="linkSeq != null and linkSeq != ''">AND link_seq = #{linkSeq}</if>-->
-	<!--            <if test="boardTypeCd != null and boardTypeCd != ''">AND board_type_cd = #{boardTypeCd}</if>-->
-	<!--            <if test="boardSeq != null and boardSeq != ''">AND board_seq = #{boardSeq}</if>-->
-	<!--            <if test="linkTypeCd != null and linkTypeCd != ''">AND link_type_cd = #{linkTypeCd}</if>-->
-	<!--        </where>-->
-	<!--    </update>-->
-
 	<select id="getCategoryListCnt" parameterType="java.util.HashMap" resultType="java.lang.Integer">
 		/* [AdminBrand_SQL.xml].[getCodeListCnt] */
 		SELECT count(*) totCnt
-		FROM app_code a
+		FROM app_code_test a
 		WHERE parent_cd = #{parentCd}
 		<if test='parentCd == "lnkt002" or visible == "Y"'>
 			AND visible = 'Y'
@@ -318,11 +286,11 @@
 		, DATE_FORMAT(a.create_time, '%Y-%m-%d') as createTime
 		, a.updater as updater
 		, DATE_FORMAT(a.update_time, '%Y-%m-%d') as updateTime
-		, (select FILE_NAME from J_ATTACHFILE where file_id = a.property1) as fileName
-		, (select FILE_PATH from J_ATTACHFILE where file_id = a.property1) as filePath
-		, (select concat('http://tjinternational.kr/file/image/',file_mask) from J_ATTACHFILE where file_id =
+		, (select FILE_NAME from J_ATTACHFILE_TEST where file_id = a.property1) as fileName
+		, (select FILE_PATH from J_ATTACHFILE_TEST where file_id = a.property1) as filePath
+		, (select concat('http://tjinternational.kr/file/image/',file_mask) from J_ATTACHFILE_TEST where file_id =
 		a.property1) AS newFilePath
-		FROM app_code a
+		FROM app_code_test a
 		WHERE parent_cd = #{parentCd}
 		<if test='parentCd == "lnkt002" or visible == "Y"'>
 			AND visible = 'Y'
@@ -346,17 +314,17 @@
 	<select id="getCategoryInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
 		/* [AdminBrandApi_SQL.xml].[getCategoryInfo] */
 		SELECT *
-		FROM app_code
+		FROM app_code_test
 		WHERE code_id = #{codeId}
 	</select>
 
 	<update id="updateCategory" parameterType="newCodeDto">
 		/* [AdminBrandApi_SQL.xml].[updateCategory] */
-		UPDATE app_code
+		UPDATE app_code_test
 		SET
 		<if test="codeName != null and codeName != ''">code_name = #{codeName},</if>
 		<if test="codeValue != null and codeValue != ''">code_value = #{codeValue},</if>
-		<if test="codeDesc != null and codeDesc != ''">description = #{codeDesc},</if>
+		<if test="description != null and description != ''">description = #{description},</if>
 		<if test="parentCd != null and parentCd != ''">parent_cd = #{parentCd},</if>
 		<if test="property1 != null and property1 != ''">property1 = #{property1},</if>
 		<if test="property2 != null and property2 != ''">property2 = #{property2},</if>
