@@ -3,6 +3,7 @@ package com.tjint.springboot.app.api.brand.service.impl;
 import com.tjint.springboot.app.api.brand.service.NewBrandDTO;
 import com.tjint.springboot.app.api.brand.service.NewCodeDTO;
 import com.tjint.springboot.common.BrandInfoVo;
+import com.tjint.springboot.common.imageFile.NewImageDTO;
 import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -197,6 +198,21 @@ public interface AdminBrandApiMapper {
      * @throws Exception
      */
     List<NewUrlLinkDTO> getSnsLinkList(NewUrlLinkDTO newUrlLinkDTO) throws Exception;
+
+    /**
+     * <pre>
+     * 1. MethodName : getImageList
+     * 2. ClassName  : AdminBrandApiMapper.java
+     * 3. Comment    : 브랜드 상세 이미지 리스트
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 15.
+     * </pre>
+     *
+     * @param newUrlLinkDTO
+     * @return
+     * @throws Exception
+     */
+    List<NewImageDTO> getImageList(NewImageDTO newImageDTO) throws Exception;
 
     /**
      * <pre>

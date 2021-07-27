@@ -287,19 +287,26 @@ public class adminBrandApi {
 	@GetMapping(value = "/brandInfo/{brandSeq}")
 	@ResponseBody
 	public Map<String, Object> brandInfo(@PathVariable("brandSeq") Integer brandSeq) throws Exception {
+		Map<String, Object> resultMap = new HashMap<>();
 		Map<String, Object> brandMap = new HashMap<>();
 
 		NewBrandDTO newBrandDTO = new NewBrandDTO();
 		newBrandDTO.setBrandSeq(brandSeq);
+
+		NewImageDTO newImageDTO = new NewImageDTO();
+		newImageDTO.setBoardSeq(brandSeq);
 
 		NewUrlLinkDTO newUrlLinkDTO = new NewUrlLinkDTO();
 		newUrlLinkDTO.setBoardSeq(brandSeq);
 		newUrlLinkDTO.setBoardTypeCd("brdt001");
 
 		brandMap.put("brandInfo", this.adminBrandApiService.getBrandInfo(newBrandDTO));
+		brandMap.put("imageList", this.adminBrandApiService.getImageList(newImageDTO));
 		brandMap.put("snsLinkList", this.adminBrandApiService.getSnsLinkList(newUrlLinkDTO));
 
-		return brandMap;
+		resultMap.put("resultMap", brandMap);
+
+		return resultMap;
 	}
 
 	@ApiOperation(value = "브랜드 등록", notes = "브랜드를 등록한다.")

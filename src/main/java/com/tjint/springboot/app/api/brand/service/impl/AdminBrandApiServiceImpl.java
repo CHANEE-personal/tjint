@@ -182,6 +182,23 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
 
     /**
      * <pre>
+     * 1. MethodName : getImageList
+     * 2. ClassName  : AdminBrandApiServiceImpl.java
+     * 3. Comment    : 브랜드 상세 이미지 리스트
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 15.
+     * </pre>
+     *
+     * @param newImageDTO
+     * @return
+     * @throws Exception
+     */
+    public List<NewImageDTO> getImageList(NewImageDTO newImageDTO) throws Exception {
+        return adminBrandApiMapper.getImageList(newImageDTO);
+    }
+
+    /**
+     * <pre>
      * 1. MethodName : getSnsLinkList
      * 2. ClassName  : AdminBrandApiServiceImpl.java
      * 3. Comment    : 브랜드 상세 SNS LIST

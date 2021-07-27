@@ -103,7 +103,7 @@ public interface AdminBrandApiService {
 
     /**
      * <pre>
-     * 1. MethodName : getBrandInfo
+     * 1. MethodName : getSnsLinkList
      * 2. ClassName  : AdminBrandApiService.java
      * 3. Comment    : 브랜드 상세 SNS LIST
      * 4. 작성자       : CHO
@@ -115,6 +115,21 @@ public interface AdminBrandApiService {
      * @throws Exception
      */
     public List<NewUrlLinkDTO> getSnsLinkList(NewUrlLinkDTO newUrlLinkDTO) throws Exception;
+
+    /**
+     * <pre>
+     * 1. MethodName : getImageList
+     * 2. ClassName  : AdminBrandApiService.java
+     * 3. Comment    : 브랜드 상세 이미지 리스트
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 15.
+     * </pre>
+     *
+     * @param newImageDTO
+     * @return
+     * @throws Exception
+     */
+    List<NewImageDTO> getImageList(NewImageDTO newImageDTO) throws Exception;
 
     /**
      * <pre>
