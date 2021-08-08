@@ -7,7 +7,7 @@ public interface UrlLinkService {
     /**
      * <pre>
      * 1. MethodName : addUrlLink
-     * 2. ClassName  : NewUrlLinkService.java
+     * 2. ClassName  : UrlLinkService.java
      * 3. Comment    : 링크 저장
      * 4. 작성자       : CHO
      * 5. 작성일       : 2021. 06. 03.

@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -20,11 +19,6 @@ import java.util.Locale;
 public class ImageServiceImpl implements ImageService {
 
     private final ImageMapper imageMapper;
-
-    /**
-     * 오늘 날짜
-     **/
-    private final LocalDate nowDate = LocalDate.now();
 
     /**
      * 업로드 경로
@@ -95,7 +89,7 @@ public class ImageServiceImpl implements ImageService {
                 fileMask = fileId + '.' + ext;
                 fileSize = file.getSize();
 
-                String filePath = "/Users/tj02/Documents/image/" + fileMask;
+                String filePath = uploadPath + fileMask;
                 file.transferTo(new File(filePath));
 
                 attachFileDTO.setFileId(fileId);                                         // 파일ID
@@ -103,7 +97,7 @@ public class ImageServiceImpl implements ImageService {
                 attachFileDTO.setFilename(file.getOriginalFilename());                   // 파일명
                 attachFileDTO.setFileSize(fileSize);  // 파일Size
                 attachFileDTO.setFileMask(fileMask);                                     // 파일Mask
-                attachFileDTO.setFilePath("/Users/tj02/Documents/image/" + fileMask);
+                attachFileDTO.setFilePath(uploadPath + fileMask);
                 attachFileDTO.setDownloadCnt(0);
                 attachFileDTO.setFilename(file.getOriginalFilename());
 
@@ -191,7 +185,7 @@ public class ImageServiceImpl implements ImageService {
                 fileMask = strToday + '.' + ext;
                 fileSize = file.getSize();
 
-                String filePath = "/Users/tj02/Documents/image/" + fileMask;
+                String filePath = uploadPath + fileMask;
                 file.transferTo(new File(filePath));
 
                 AttachFileDTO attachFileDTO = new AttachFileDTO();
@@ -200,7 +194,7 @@ public class ImageServiceImpl implements ImageService {
                 attachFileDTO.setFilename(file.getOriginalFilename());                   // 파일명
                 attachFileDTO.setFileSize(fileSize);  // 파일Size
                 attachFileDTO.setFileMask(fileMask);                                        // 파일Mask
-                attachFileDTO.setFilePath("/Users/tj02/Documents/image/" + fileMask);
+                attachFileDTO.setFilePath(uploadPath + fileMask);
                 attachFileDTO.setDownloadCnt(0);
                 attachFileDTO.setFilename(file.getOriginalFilename());
 
