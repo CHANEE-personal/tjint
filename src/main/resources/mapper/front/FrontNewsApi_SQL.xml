@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tjint.springboot.app.api.frontNews.service.impl.FrontNewsApiMapper">
+<mapper namespace="com.tjint.springboot.app.api.front.news.service.impl.FrontNewsApiMapper">
 
 	<select id="frontNewsList" parameterType="hashMap" resultType="hashMap">
 		/*[FrontNewsApi_SQL.xml].[frontNewsList] */
@@ -39,7 +39,7 @@
 		LIMIT #{startPage}, #{size}
 	</select>
 
-	<select id="frontNewsInfo" parameterType="newNewsDto" resultType="java.util.HashMap">
+	<select id="frontNewsInfo" parameterType="newNewsDto" resultType="hashMap">
 		/*[FrontNewsApi_SQL.xml].[frontNewsInfo] */
 		SELECT news_seq,
 			   news_title,

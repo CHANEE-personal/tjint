@@ -1,6 +1,6 @@
 package com.tjint.springboot.app.exception;
 
-import com.tjint.springboot.app.api.admin.controller.adminLoginApi;
+import com.tjint.springboot.app.api.admin.login.controller.adminLoginApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

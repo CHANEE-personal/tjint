@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tjint.springboot.app.api.news.service.impl.AdminNewsApiMapper">
+<mapper namespace="com.tjint.springboot.app.api.admin.news.service.impl.AdminNewsApiMapper">
 
 	<select id="getNewsList" parameterType="hashMap" resultType="hashMap">
 		/*[AdminNewsApi_SQL.xml].[getNewsList] */

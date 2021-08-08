@@ -7,16 +7,16 @@
 
     <typeAliases>
         <!-- userDTO -->
-        <typeAlias type="com.tjint.springboot.app.api.admin.service.NewUserDTO" alias="newUserDto"/>
+        <typeAlias type="com.tjint.springboot.app.api.admin.login.service.NewUserDTO" alias="newUserDto"/>
         <typeAlias type="com.tjint.springboot.app.admin.jwt.SecurityUser" alias="securityUser"/>
         <!-- apiVo -->
-        <typeAlias type="com.tjint.springboot.app.api.brand.service.NewBrandDTO" alias="newBrandDto"/>
+        <typeAlias type="com.tjint.springboot.app.api.admin.brand.service.NewBrandDTO" alias="newBrandDto"/>
         <typeAlias type="com.tjint.springboot.common.imageFile.NewImageDTO" alias="newImageDto"/>
         <typeAlias type="com.tjint.springboot.common.imageFile.AttachFileDTO" alias="attachFileDto"/>
         <typeAlias type="com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO" alias="newUrlLinkDto"/>
-        <typeAlias type="com.tjint.springboot.app.api.news.service.NewNewsDTO" alias="newNewsDto"/>
-        <typeAlias type="com.tjint.springboot.app.api.recruit.service.NewRecruitDTO" alias="newRecruitDto"/>
-        <typeAlias type="com.tjint.springboot.app.api.brand.service.NewCodeDTO" alias="newCodeDto"/>
+        <typeAlias type="com.tjint.springboot.app.api.admin.news.service.NewNewsDTO" alias="newNewsDto"/>
+        <typeAlias type="com.tjint.springboot.app.api.admin.recruit.service.NewRecruitDTO" alias="newRecruitDto"/>
+        <typeAlias type="com.tjint.springboot.app.api.admin.brand.service.NewCodeDTO" alias="newCodeDto"/>
     </typeAliases>
 
 </configuration>

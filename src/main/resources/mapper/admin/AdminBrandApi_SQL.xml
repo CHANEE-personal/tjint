@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.tjint.springboot.app.api.brand.service.impl.AdminBrandApiMapper">
+<mapper namespace="com.tjint.springboot.app.api.admin.brand.service.impl.AdminBrandApiMapper">
 	<resultMap type="newBrandDto" id="brandResult">
 		<result column="brandSeq" property="brandSeq"/>
 		<result column="categoryCd" property="categoryCd"/>

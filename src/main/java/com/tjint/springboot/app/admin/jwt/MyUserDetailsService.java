@@ -1,6 +1,6 @@
 package com.tjint.springboot.app.admin.jwt;
 
-import com.tjint.springboot.app.api.admin.service.impl.AdminLoginApiMapper;
+import com.tjint.springboot.app.api.admin.login.service.impl.AdminLoginApiMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
