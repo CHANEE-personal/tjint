@@ -14,7 +14,7 @@
 		<result column="updater" property="updater"/>
 		<result column="updateTime" property="updateTime"/>
 		<collection property="snsLinkList" column="brandSeq" javaType="java.util.ArrayList" ofType="newUrlLinkDto"
-					select="getSnsLinkList"/>
+					select="getBrandSnsLinkList"/>
 		<collection property="imageList" column="brandSeq" javaType="java.util.ArrayList" ofType="attachFileDto"
 					select="getImageList"/>
 	</resultMap>
