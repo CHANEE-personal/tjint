@@ -19,7 +19,7 @@
 					select="getImageList"/>
 	</resultMap>
 	<select id="getBrandList" parameterType="hashMap" resultMap="brandResult">
-		/*[FrontBusinessApi.xml].[getBrandList] */
+		/*[FrontBusinessApi_SQL.xml].[getBrandList] */
 		SELECT
 		a.brand_seq as brandSeq
 		, a.category_cd as categoryCd
@@ -63,29 +63,29 @@
 	</select>
 
 	<select id="getSnsLinkList" parameterType="Integer" resultType="newUrlLinkDto">
-		/*[FrontBusinessApi.xml].[getSnsLinkList] */
+		/*[FrontBusinessApi_SQL.xml].[getSnsLinkList] */
 		SELECT *
 		FROM app_url_link_info
 		WHERE board_seq = #{brandIdx}
 		  AND visible = 'Y'
-		  AND link_type_cd IN ('lnkt001','lnkt003', 'lnkt004', 'lnkt005', 'lnkt006')
+		  AND link_type_cd IN ('lnkt001', 'lnkt003', 'lnkt004', 'lnkt005', 'lnkt006')
 		ORDER BY sort_order ASC
 	</select>
 
 	<select id="getImageList" parameterType="Integer" resultType="attachFileDto">
-		/*[FrontBusinessApi.xml].[getImageList] */
+		/*[FrontBusinessApi_SQL.xml].[getImageList] */
 		SELECT file_id,
 			   file_seq,
 			   file_name,
 			   file_size,
 			   board_seq,
 			   file_mask,
-			   concat('http://tjinternational.kr/file/image/',file_mask) AS file_path,
-		       download_count,
-		       download_expire_date,
-		       download_limit_count,
-		       reg_date,
-		       delete_yn
+			   concat('http://tjinternational.kr/file/image/', file_mask) AS file_path,
+			   download_count,
+			   download_expire_date,
+			   download_limit_count,
+			   reg_date,
+			   delete_yn
 		FROM app_image_file_info,
 			 J_ATTACHFILE ja
 		WHERE image_file_id = FILE_ID

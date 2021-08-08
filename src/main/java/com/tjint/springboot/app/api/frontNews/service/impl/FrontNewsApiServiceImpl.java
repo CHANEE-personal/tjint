@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service("FrontNewsApiService")
 @RequiredArgsConstructor
@@ -62,8 +63,28 @@ public class FrontNewsApiServiceImpl implements FrontNewsApiService {
      * @return
      * @throws Exception
      */
-    public Map<String, Object> frontNewsInfo(NewNewsDTO newNewsDTO) throws Exception {
-        return frontNewsApiMapper.frontNewsInfo(newNewsDTO);
+    public ConcurrentHashMap<String, Object> frontNewsInfo(NewNewsDTO newNewsDTO) throws Exception {
+
+        ConcurrentHashMap<String, Object> newsMap = new ConcurrentHashMap<>();
+
+        Integer newsSeq = newNewsDTO.getNewsSeq();
+
+        // 이전 글 상세 조회
+        newsMap.put("prevIdx", this.frontNewsApiMapper.frontNewsPrevIdx(newsSeq));
+        newNewsDTO.setNewsSeq(this.frontNewsApiMapper.frontNewsPrevIdx(newsSeq));
+        newsMap.put("newsPrevInfo", this.frontNewsApiMapper.frontNewsInfo(newNewsDTO));
+
+        // 다음 글 상세 조회
+        newsMap.put("nextIdx", this.frontNewsApiMapper.frontNewsNextIdx(newsSeq));
+        newNewsDTO.setNewsSeq(this.frontNewsApiMapper.frontNewsNextIdx(newsSeq));
+        newsMap.put("newsNextInfo", this.frontNewsApiMapper.frontNewsInfo(newNewsDTO));
+
+        newNewsDTO.setNewsSeq(newsSeq);
+
+        // 뉴스 상세 조회
+        newsMap.put("newsInfo", this.frontNewsApiMapper.frontNewsInfo(newNewsDTO));
+
+        return newsMap;
     }
 
     /**

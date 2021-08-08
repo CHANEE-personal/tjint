@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public interface FrontBusinessApiService {
@@ -19,11 +20,11 @@ public interface FrontBusinessApiService {
 	 * 5. 작성일       : 2021. 06. 30.
 	 * </pre>
 	 *
-	 * @param brandMap
-	 * @return
+	 * @param  brandMap
+	 * @return ConcurrentHashMap
 	 * @throws Exception
 	 */
-	public Map<String, Object> getBrandList(Map<String, Object> brandMap) throws Exception;
+	public ConcurrentHashMap<String, Object> getBrandList(Map<String, Object> brandMap) throws Exception;
 
 	/**
 	 * <pre>

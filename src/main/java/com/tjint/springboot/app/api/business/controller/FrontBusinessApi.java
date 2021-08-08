@@ -6,18 +6,20 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.rmi.ServerError;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Api(tags = "FRONT BUSINESS API")
 @RequestMapping(value = "/api/business")
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 public class FrontBusinessApi {
 
     private final FrontBusinessApiService frontBusinessApiService;
@@ -28,16 +30,14 @@ public class FrontBusinessApi {
             @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
-    @GetMapping(value = "/brandPage/{menuCd}")
-    @ResponseBody
-    public Map<String, Object> brandPage(@PathVariable("menuCd") Integer menuCd) throws Exception {
-        Map<String, Object> resultMap = new HashMap<>();
+    @GetMapping(value = "/{menuCd}")
+    public ConcurrentHashMap<String, Object> brandPage(@PathVariable("menuCd") Integer menuCd) throws Exception {
 
-        Map<String, Object> brandMap = new HashMap<>();
+        ConcurrentHashMap<String, Object> brandMap = new ConcurrentHashMap<>();
 
         brandMap.put("menuCd", menuCd);
 
-        resultMap = this.frontBusinessApiService.getBrandList(brandMap);
+        ConcurrentHashMap resultMap = this.frontBusinessApiService.getBrandList(brandMap);
 
         return resultMap;
     }

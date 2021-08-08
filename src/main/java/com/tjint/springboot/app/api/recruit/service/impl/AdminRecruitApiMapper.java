@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Mapper
 public interface AdminRecruitApiMapper {
@@ -53,7 +54,7 @@ public interface AdminRecruitApiMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, Object> getRecruitInfo(NewRecruitDTO newRecruitDTO) throws Exception;
+	public ConcurrentHashMap<String, Object> getRecruitInfo(NewRecruitDTO newRecruitDTO) throws Exception;
 
 	/**
 	 * <pre>

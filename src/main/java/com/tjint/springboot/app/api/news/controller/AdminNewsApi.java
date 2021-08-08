@@ -11,18 +11,17 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import net.sf.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.rmi.ServerError;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-@RequestMapping(value = "/api/news")
+@RequestMapping(value = "/api/admin-news")
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "News관리관련 API")
@@ -31,11 +30,11 @@ public class AdminNewsApi {
 	private final AdminNewsApiService adminNewsApiService;
 
 	@ApiOperation(value = "News 조회", notes = "News를 조회한다.")
-	@GetMapping(value = "/getNewsList")
-	public JSONObject getNewsList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, Page page) throws Exception {
+	@GetMapping(value = "/lists")
+	public ConcurrentHashMap getNewsList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword, Page page) throws Exception {
 
-		JSONObject jsonObject = new JSONObject();
-		Map<String, Object> searchMap = new HashMap<>();
+		ConcurrentHashMap<String, Object> newsMap = new ConcurrentHashMap<>();
+		ConcurrentHashMap<String, Object> searchMap = new ConcurrentHashMap<>();
 
 		Integer pageCnt = StringUtil.getInt(page.getPage(), 1);
 		Integer pageSize = StringUtil.getInt(page.getSize(), 10);
@@ -53,15 +52,15 @@ public class AdminNewsApi {
 		}
 
 		// 리스트 수
-		jsonObject.put("pageSize", page.getSize());
+		newsMap.put("pageSize", page.getSize());
 		// 전체 페이지 수
-		jsonObject.put("perPageListCnt", Math.ceil((newsListCnt - 1) / page.getSize() + 1));
+		newsMap.put("perPageListCnt", Math.ceil((newsListCnt - 1) / page.getSize() + 1));
 		// 전체 아이템 수
-		jsonObject.put("newsInfoListTotalCnt", newsListCnt);
+		newsMap.put("newsInfoListTotalCnt", newsListCnt);
 
-		jsonObject.put("newsInfoList", newsInfoList);
+		newsMap.put("newsInfoList", newsInfoList);
 
-		return jsonObject;
+		return newsMap;
 	}
 
 	@ApiOperation(value = "News 등록", notes = "News를 등록한다.")
@@ -70,7 +69,7 @@ public class AdminNewsApi {
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
-	@PostMapping(value = "/addNews", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	@PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public String addNews(NewNewsDTO newNewsDTO,
 						  NewImageDTO newImageDTO,
 						  AttachFileDTO attachFileDTO,
@@ -87,13 +86,15 @@ public class AdminNewsApi {
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
-	@GetMapping(value = "/getNewsInfo/{newsSeq}")
+	@GetMapping(value = "/{newsSeq}")
 	public Map<String, Object> getNewsInfo(@PathVariable("newsSeq") Integer newsSeq) throws Exception {
-		Map<String, Object> newsMap;
+		ConcurrentHashMap<String, Object> newsMap;
+
 		NewNewsDTO newNewsDTO = new NewNewsDTO();
 		newNewsDTO.setNewsSeq(newsSeq);
 
 		newsMap = this.adminNewsApiService.getNewsInfo(newNewsDTO);
+
 		return newsMap;
 	}
 
@@ -103,7 +104,7 @@ public class AdminNewsApi {
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
-	@PostMapping(value = "/updateNews/{newsSeq}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	@PostMapping(value = "/{newsSeq}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public String updateNews(@PathVariable(value = "newsSeq") Integer newsSeq,
 							 NewNewsDTO newNewsDTO,
 							 NewImageDTO newImageDTO,

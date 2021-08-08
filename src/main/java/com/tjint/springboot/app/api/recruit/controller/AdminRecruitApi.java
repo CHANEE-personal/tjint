@@ -10,14 +10,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import net.sf.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.rmi.ServerError;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RequestMapping(value = "/api/recruit")
 @RestController
@@ -33,11 +32,10 @@ public class AdminRecruitApi {
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
-	@GetMapping(value = "/getRecruitList")
-	public JSONObject getRecruitList (@RequestParam(value = "searchKeyword", required = false) String searchKeyword, Page page) throws Exception {
-		JSONObject jsonObject = new JSONObject();
-
-		Map<String, Object> searchMap = new HashMap<>();
+	@GetMapping(value = "/lists")
+	public ConcurrentHashMap<String, Object> getRecruitList (@RequestParam(value = "searchKeyword", required = false) String searchKeyword, Page page) throws Exception {
+		ConcurrentHashMap<String, Object> recruitMap = new ConcurrentHashMap<>();
+		ConcurrentHashMap<String, Object> searchMap = new ConcurrentHashMap<>();
 
 		Integer pageCnt = StringUtil.getInt(page.getPage(), 1);
 		Integer pageSize = StringUtil.getInt(page.getSize(), 10);
@@ -56,16 +54,15 @@ public class AdminRecruitApi {
 		}
 
 		// 리스트 수
-		jsonObject.put("pageSize", page.getSize());
+		recruitMap.put("pageSize", page.getSize());
 		// 전체 페이지 수
-		jsonObject.put("perPageListCnt", Math.ceil((recruitListCnt - 1) / page.getSize() + 1));
+		recruitMap.put("perPageListCnt", Math.ceil((recruitListCnt - 1) / page.getSize() + 1));
 		// 전체 아이템 수
-		jsonObject.put("recruitListTotalCnt", recruitListCnt);
+		recruitMap.put("recruitListTotalCnt", recruitListCnt);
 
-		jsonObject.put("recruitList", recruitList);
+		recruitMap.put("recruitList", recruitList);
 
-
-		return jsonObject;
+		return recruitMap;
 	}
 
 	@ApiOperation(value = "채용공고 상세", notes = "채용공고 상세 조회")
@@ -74,15 +71,16 @@ public class AdminRecruitApi {
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
-	@GetMapping(value = "/getRecruitInfo/{recruitSeq}")
-	public Map<String, Object> getRecruitInfo(@PathVariable("recruitSeq") Integer recruitSeq) throws Exception {
-		Map<String, Object> resultMap = new HashMap<>();
-		Map<String, Object> recruitMap;
+	@GetMapping(value = "/{recruitSeq}")
+	public ConcurrentHashMap<String, Object> getRecruitInfo(@PathVariable("recruitSeq") Integer recruitSeq) throws Exception {
+		ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
+
 		NewRecruitDTO newRecruitDTO = new NewRecruitDTO();
 		NewUrlLinkDTO newUrlLinkDTO = new NewUrlLinkDTO();
 		newRecruitDTO.setRecruitSeq(recruitSeq);
 
-		recruitMap = this.adminRecruitApiService.getRecruitInfo(newRecruitDTO, newUrlLinkDTO);
+		ConcurrentHashMap<String, Object> recruitMap = this.adminRecruitApiService.getRecruitInfo(newRecruitDTO, newUrlLinkDTO);
+
 		resultMap.put("recruitMap", recruitMap.get("recruitInfo"));
 		resultMap.put("urlLinkList", recruitMap.get("urlLinkList"));
 
@@ -95,7 +93,7 @@ public class AdminRecruitApi {
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
-	@PostMapping(value = "/addRecruit")
+	@PostMapping
 	public String addRecruit(@RequestBody NewRecruitDTO newRecruitDTO) throws Exception {
 
 		String result = this.adminRecruitApiService.addRecruit(newRecruitDTO);

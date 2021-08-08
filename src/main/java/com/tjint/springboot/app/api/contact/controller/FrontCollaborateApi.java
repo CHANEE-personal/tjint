@@ -9,8 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import net.sf.json.JSONObject;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,15 +16,14 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.rmi.ServerError;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Api(tags = "FRONT CONTACT API")
 @RequestMapping(value = "/api/contact")
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 public class FrontCollaborateApi {
 
     private final AdminRecruitApiService adminRecruitApiService;
@@ -37,11 +34,9 @@ public class FrontCollaborateApi {
             @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
-    @GetMapping(value = "/collaborate")
-    public JSONObject collaborate(HttpServletRequest request) throws Exception {
-        JSONObject jsonObject = new JSONObject();
-
-        return jsonObject;
+    @GetMapping(value = "/collaborates")
+    public String collaborates() throws Exception {
+        return "collaborates";
     }
 
     @ApiOperation(value = "Front 인재채용 페이지", notes = "Front 인재채용 페이지")
@@ -50,11 +45,11 @@ public class FrontCollaborateApi {
             @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
-    @GetMapping(value = "/recruitList")
-    public JSONObject recruitList(HttpServletRequest request, Page page) throws Exception {
-        JSONObject jsonObject = new JSONObject();
+    @GetMapping(value = "/recruits")
+    public ConcurrentHashMap recruits(HttpServletRequest request, Page page) throws Exception {
 
-        Map<String, Object> searchMap = new HashMap<>();
+        ConcurrentHashMap<String, Object> recruitMap = new ConcurrentHashMap<>();
+        ConcurrentHashMap<String, Object> searchMap = new ConcurrentHashMap<>();
 
         Integer pageCnt = StringUtil.getInt(page.getPage(), 1);
         Integer pageSize = StringUtil.getInt(page.getSize(), 10);
@@ -72,16 +67,15 @@ public class FrontCollaborateApi {
         }
 
         // 리스트 수
-        jsonObject.put("pageSize", page.getSize());
+        recruitMap.put("pageSize", page.getSize());
         // 전체 페이지 수
-        jsonObject.put("perPageListCnt", Math.ceil((recruitListCnt - 1) / page.getSize() + 1));
+        recruitMap.put("perPageListCnt", Math.ceil((recruitListCnt - 1) / page.getSize() + 1));
         // 전체 아이템 수
-        jsonObject.put("recruitListTotalCnt", recruitListCnt);
+        recruitMap.put("recruitListTotalCnt", recruitListCnt);
 
-        jsonObject.put("recruitList", recruitList);
+        recruitMap.put("recruitList", recruitList);
 
-
-        return jsonObject;
+        return recruitMap;
     }
 
     @ApiOperation(value = "Front 윤리경영 페이지", notes = "Front 윤리경영 페이지")
@@ -90,11 +84,9 @@ public class FrontCollaborateApi {
             @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
-    @GetMapping(value = "/ethicsCommittee")
-    public JSONObject ethicsCommittee(HttpServletRequest request) throws Exception {
-        JSONObject jsonObject = new JSONObject();
-
-        return jsonObject;
+    @GetMapping(value = "/ethics-committees")
+    public String ethicsCommittees() throws Exception {
+        return "ethicsCommittees";
     }
 
     @ApiOperation(value = "Front 오시는 길 페이지", notes = "Front 오시는 길 페이지")
@@ -104,9 +96,7 @@ public class FrontCollaborateApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @GetMapping(value = "/map")
-    public JSONObject map(HttpServletRequest request) throws Exception {
-        JSONObject jsonObject = new JSONObject();
-
-        return jsonObject;
+    public String map() throws Exception {
+        return "map";
     }
 }

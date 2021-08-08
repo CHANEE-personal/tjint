@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service("AdminNewsApiService")
 @RequiredArgsConstructor
@@ -151,7 +152,7 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, Object> getNewsInfo(NewNewsDTO newNewsDTO) throws Exception {
+	public ConcurrentHashMap<String, Object> getNewsInfo(NewNewsDTO newNewsDTO) throws Exception {
 		return adminNewsApiMapper.getNewsInfo(newNewsDTO);
 	}
 

@@ -2,7 +2,6 @@ package com.tjint.springboot.app.api.brand.service.impl;
 
 import com.tjint.springboot.app.api.brand.service.NewBrandDTO;
 import com.tjint.springboot.app.api.brand.service.NewCodeDTO;
-import com.tjint.springboot.common.BrandInfoVo;
 import com.tjint.springboot.common.imageFile.NewImageDTO;
 import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import org.apache.ibatis.annotations.Mapper;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Mapper
@@ -44,7 +44,7 @@ public interface AdminBrandApiMapper {
      * @return
      * @throws Exception
      */
-    List<BrandInfoVo> getBrandList(Map<String, Object> searchMap) throws Exception;
+    List<NewBrandDTO> getBrandList(Map<String, Object> searchMap) throws Exception;
 
     /**
      * <pre>
@@ -89,7 +89,7 @@ public interface AdminBrandApiMapper {
      * @return
      * @throws Exception
      */
-    public Map<String, Object> getCategoryInfo(NewCodeDTO newCodeDTO) throws Exception;
+    public ConcurrentHashMap<String, Object> getCategoryInfo(NewCodeDTO newCodeDTO) throws Exception;
 
     /**
      * <pre>

@@ -6,14 +6,13 @@ import com.tjint.springboot.app.admin.jwt.JwtUtil;
 import com.tjint.springboot.app.admin.jwt.MyUserDetailsService;
 import com.tjint.springboot.app.api.admin.service.AdminLoginApiService;
 import com.tjint.springboot.app.api.admin.service.NewUserDTO;
-import com.tjint.springboot.common.UserInfoVo;
 import com.tjint.springboot.common.paging.Page;
+import com.tjint.springboot.common.utils.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import net.sf.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,22 +20,24 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.rmi.ServerError;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Api(tags = "회원관련 API")
 @RequestMapping(value = "/api/auth")
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 public class adminLoginApi {
 
     private final AuthenticationManager authenticationManager;
@@ -50,15 +51,18 @@ public class adminLoginApi {
             @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
-    @PostMapping(value = "/adminUser")
-    public List<UserInfoVo> getUserList(Page page) throws Exception {
-
+    @PostMapping(value = "/users")
+    public List<NewUserDTO> getUserList(Page page) throws Exception {
+        ConcurrentHashMap userMap = new ConcurrentHashMap();
         // 페이지 정보
-        Map<String, Object> userMap = new HashMap<>();
-        userMap.put("page", page.getPage());
-        userMap.put("size", page.getSize());
+        Integer pageCnt = StringUtil.getInt(page.getPage(), 1);
+        Integer pageSize = StringUtil.getInt(page.getSize(), 10);
+        page.setPage(pageCnt);
+        page.setSize(pageSize);
+        userMap.put("startPage", page.getStartPage());
+        userMap.put("size", pageSize);
 
-        List<UserInfoVo> userInfoList = this.adminLoginApiService.getUserList(userMap);
+        List<NewUserDTO> userInfoList = this.adminLoginApiService.getUserList(userMap);
 
         return userInfoList;
     }
@@ -69,9 +73,10 @@ public class adminLoginApi {
             @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
-    @PostMapping(value = "/adminLogin")
-    @ResponseBody
-    public JSONObject adminLogin(@RequestBody AuthenticationRequest authenticationRequest, HttpServletRequest request, final HttpServletResponse response) throws Exception {
+    @PostMapping(value = "/login")
+    public ConcurrentHashMap adminLogin(@RequestBody AuthenticationRequest authenticationRequest,
+                                 HttpServletRequest request,
+                                 HttpServletResponse response) throws Exception {
 
         NewUserDTO newUserDTO = new NewUserDTO();
 
@@ -80,14 +85,15 @@ public class adminLoginApi {
 
         String resultValue = adminLoginApiService.adminLogin(newUserDTO, request);
 
-        JSONObject jsonObject = new JSONObject();
+        ConcurrentHashMap<String, Object> userMap = new ConcurrentHashMap<>();
+
         if("Y".equals(resultValue)) {
-            jsonObject.put("loginYn", resultValue);
-            jsonObject.put("userId", newUserDTO.getUserId());
-            jsonObject.put("token", createAuthenticationToken(authenticationRequest));
+            userMap.put("loginYn", resultValue);
+            userMap.put("userId", newUserDTO.getUserId());
+            userMap.put("token", createAuthenticationToken(authenticationRequest));
         }
 
-        return jsonObject;
+        return userMap;
     }
 
     @ApiIgnore

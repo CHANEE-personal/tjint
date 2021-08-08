@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public interface FrontNewsApiService {
@@ -48,11 +49,11 @@ public interface FrontNewsApiService {
      * 5. 작성일       : 2021. 06. 30.
      * </pre>
      *
-     * @param newNewsDTO
-     * @return
+     * @param  newNewsDTO
+     * @return ConcurrentHashMap
      * @throws Exception
      */
-    public Map<String, Object> frontNewsInfo (NewNewsDTO newNewsDTO) throws Exception;
+    public ConcurrentHashMap<String, Object> frontNewsInfo (NewNewsDTO newNewsDTO) throws Exception;
 
     /**
      * <pre>

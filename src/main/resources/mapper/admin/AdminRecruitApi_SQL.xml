@@ -2,159 +2,151 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tjint.springboot.app.api.recruit.service.impl.AdminRecruitApiMapper">
 
-    <select id="getRecruitListCnt" parameterType="newRecruitDto" resultType="Integer">
-        /*[AdminRecruitMgmt_SQL.xml].[getRecruitCnt] */
-        SELECT  count(*) total
-        FROM  app_board_recruit
-        <where>
-            AND visible != 'D'
-            <if test="searchKeyword != null and searchKeyword !=''">
-                AND recruit_title LIKE CONCAT ('%', #{searchKeyword},'%')
-            </if>
-        </where>
-    </select>
+	<select id="getRecruitListCnt" parameterType="newRecruitDto" resultType="Integer">
+		/*[AdminRecruitApi_SQL.xml].[getRecruitListCnt] */
+		SELECT count(*) total
+		FROM app_board_recruit
+		<where>
+			AND visible != 'D'
+			<if test="searchKeyword != null and searchKeyword !=''">
+				AND recruit_title LIKE CONCAT ('%', #{searchKeyword},'%')
+			</if>
+		</where>
+	</select>
 
-    <select id="getRecruitList" parameterType="hashMap" resultType="hashMap">
-        /*[AdminPrMgmt_SQL.xml].[selectNewsList] */
-        SELECT  recruit_seq,
-        recruit_title,
-        recruit_description,
-        DATE_FORMAT(opening_date, '%Y-%m-%d') as openingDate,
-        DATE_FORMAT(closing_date, '%Y-%m-%d') as closingDate,
-        visible,
-        creator,
-        case when NOW() BETWEEN opening_date AND DATE_ADD(closing_date, INTERVAL 1 DAY) then 'Y'
-        ELSE 'N' END as recruitDateYn,
-        create_time,
-        updater,
-        update_time
-        FROM  app_board_recruit
-        <where>
-            AND visible != 'D'
-            <if test="recruitSeq != null and recruitSeq !=''">
-                AND recruit_seq = #{recruitSeq}
-            </if>
-            <if test="searchKeyword != null and searchKeyword !=''">
-                AND recruit_title LIKE CONCAT ('%', #{searchKeyword},'%')
-            </if>
-            <choose>
-                <when test="searchCondition == 1">
-                    AND NOW() BETWEEN opening_date AND DATE_ADD(closing_date, INTERVAL 1 DAY)
-                </when>
-                <when test="searchCondition == 2">
-                    AND !(NOW() BETWEEN opening_date AND DATE_ADD(closing_date, INTERVAL 1 DAY))
-                </when>
-                <otherwise>
-                </otherwise>
-            </choose>
-        </where>
-        ORDER BY recruitDateYn DESC, recruit_seq DESC
-        LIMIT #{startPage}, #{size}
-    </select>
+	<select id="getRecruitList" parameterType="hashMap" resultType="hashMap">
+		/*[AdminRecruitApi_SQL.xml].[getRecruitList] */
+		SELECT recruit_seq,
+		recruit_title,
+		recruit_description,
+		DATE_FORMAT(opening_date, '%Y-%m-%d') as openingDate,
+		DATE_FORMAT(closing_date, '%Y-%m-%d') as closingDate,
+		visible,
+		creator,
+		case when NOW() BETWEEN opening_date AND DATE_ADD(closing_date, INTERVAL 1 DAY) then 'Y'
+		ELSE 'N' END as recruitDateYn,
+		create_time,
+		updater,
+		update_time
+		FROM app_board_recruit
+		<where>
+			AND visible != 'D'
+			<if test="recruitSeq != null and recruitSeq !=''">
+				AND recruit_seq = #{recruitSeq}
+			</if>
+			<if test="searchKeyword != null and searchKeyword !=''">
+				AND recruit_title LIKE CONCAT ('%', #{searchKeyword},'%')
+			</if>
+			<choose>
+				<when test="searchCondition == 1">
+					AND NOW() BETWEEN opening_date AND DATE_ADD(closing_date, INTERVAL 1 DAY)
+				</when>
+				<when test="searchCondition == 2">
+					AND !(NOW() BETWEEN opening_date AND DATE_ADD(closing_date, INTERVAL 1 DAY))
+				</when>
+				<otherwise>
+				</otherwise>
+			</choose>
+		</where>
+		ORDER BY recruitDateYn DESC, recruit_seq DESC
+		LIMIT #{startPage}, #{size}
+	</select>
 
-    <select id="getRecruitInfo" parameterType="newRecruitDto" resultType="java.util.HashMap">
-        SELECT  recruit_seq,
-        recruit_title,
-        recruit_description,
-        DATE_FORMAT(opening_date, '%Y-%m-%d') as openingDate,
-        DATE_FORMAT(closing_date, '%Y-%m-%d') as closingDate,
-        visible,
-        creator,
-        case when NOW() BETWEEN opening_date AND DATE_ADD(closing_date, INTERVAL 1 DAY) then 'Y'
-        ELSE 'N' END as recruitDateYn,
-        create_time,
-        updater,
-        update_time
-        FROM  app_board_recruit
-        WHERE recruit_seq = #{recruitSeq}
-    </select>
+	<select id="getRecruitInfo" parameterType="newRecruitDto" resultType="java.util.HashMap">
+		/*[AdminRecruitApi_SQL.xml].[getRecruitInfo] */
+		SELECT recruit_seq,
+			   recruit_title,
+			   recruit_description,
+			   DATE_FORMAT(opening_date, '%Y-%m-%d') as openingDate,
+			   DATE_FORMAT(closing_date, '%Y-%m-%d') as closingDate,
+			   visible,
+			   creator,
+			   case
+				   when NOW() BETWEEN opening_date AND DATE_ADD(closing_date, INTERVAL 1 DAY) then 'Y'
+				   ELSE 'N' END                      as recruitDateYn,
+			   create_time,
+			   updater,
+			   update_time
+		FROM app_board_recruit
+		WHERE recruit_seq = #{recruitSeq}
+	</select>
 
-    <select id="getRecruitLinkList" resultType="newUrlLinkDto">
-        /* [AdminRecruitMgmt_SQL.xml].[getRecruitLinkList] */
-        SELECT
-            A.code_name snsName
-             , B.link_seq
-             , B.board_type_cd
-             , B.board_seq
-             , IFNULL(B.link_type_cd,A.code_id) as linkTypeCd
-             , B.link_address
-             , B.sort_order
-             , B.visible
-             , B.creator
-             , B.create_time
-             , B.updater
-             , B.update_time
-             , A.property1
-        FROM app_code A
-                 LEFT OUTER JOIN app_url_link_info B ON A.code_id = B.link_type_cd
-            AND B.board_seq = #{boardSeq}
-            AND B.board_type_cd = #{boardTypeCd}
-            AND B.link_type_cd !='rect001'
-        WHERE A.parent_cd = 'rect001'
-    </select>
+	<select id="getRecruitLinkList" resultType="newUrlLinkDto">
+		/*[AdminRecruitApi_SQL.xml].[getRecruitLinkList] */
+		SELECT A.code_name                          snsName
+			 , B.link_seq
+			 , B.board_type_cd
+			 , B.board_seq
+			 , IFNULL(B.link_type_cd, A.code_id) as linkTypeCd
+			 , B.link_address
+			 , B.sort_order
+			 , B.visible
+			 , B.creator
+			 , B.create_time
+			 , B.updater
+			 , B.update_time
+			 , A.property1
+		FROM app_code A
+				 LEFT OUTER JOIN app_url_link_info B ON A.code_id = B.link_type_cd
+			AND B.board_seq = #{boardSeq}
+			AND B.board_type_cd = #{boardTypeCd}
+			AND B.link_type_cd !='rect001'
+		WHERE A.parent_cd = 'rect001'
+	</select>
 
-    <select id="getRecruitUrlInfo" parameterType="HashMap" resultType="HashMap">
-        /* [AdminRecruitApi_SQL.xml].[getRecruitUrlInfo] */
-        SELECT *
-        FROM app_code
-        WHERE code_id = #{codeId}
-    </select>
+	<select id="getRecruitUrlInfo" parameterType="HashMap" resultType="HashMap">
+		/* [AdminRecruitApi_SQL.xml].[getRecruitUrlInfo] */
+		SELECT *
+		FROM app_code
+		WHERE code_id = #{codeId}
+	</select>
 
-    <insert id="insertRecruitInfo" parameterType="newRecruitDto" useGeneratedKeys="true" keyProperty="recruitSeq">
-        /* [AdminRecruitMgmt_SQL.xml].[insertRecruitInfo] */
-        INSERT INTO app_board_recruit_test
-        (
-            recruit_title,
-            recruit_description,
-            opening_date,
-            closing_date,
-            visible,
-            creator,
-            create_time,
-            updater,
-            update_time
-        )
-        VALUES
-        (
-            #{recruitTitle},
-            '',
-            #{time1},
-            #{time2},
-            #{visible},
-            #{updater},
-            now(),
-            #{updater},
-            now()
-        )
-    </insert>
+	<insert id="insertRecruitInfo" parameterType="newRecruitDto" useGeneratedKeys="true" keyProperty="recruitSeq">
+		/* [AdminRecruitApi_SQL.xml].[insertRecruitInfo] */
+		INSERT INTO app_board_recruit_test
+		(recruit_title,
+		 recruit_description,
+		 opening_date,
+		 closing_date,
+		 visible,
+		 creator,
+		 create_time,
+		 updater,
+		 update_time)
+		VALUES (#{recruitTitle},
+				'',
+				#{time1},
+				#{time2},
+				#{visible},
+				#{updater},
+				now(),
+				#{updater},
+				now())
+	</insert>
 
-    <insert id="addRecruitUrlLink" parameterType="newUrlLinkDto" useGeneratedKeys="true" keyProperty="linkSeq">
-        INSERT INTO app_url_link_info_test
-        (
-            board_type_cd,
-            board_seq,
-            link_type_cd,
-            link_address,
-            sort_order,
-            visible,
-            creator,
-            create_time,
-            updater,
-            update_time
-        )
-        VALUES
-        (
-            #{boardTypeCd},
-            #{boardSeq},
-            #{linkTypeCd},
-            #{linkAddress},
-            #{sortOrder},
-            #{visible},
-            #{updater},
-            NOW(),
-            #{updater},
-            NOW()
-        )
-    </insert>
+	<insert id="addRecruitUrlLink" parameterType="newUrlLinkDto" useGeneratedKeys="true" keyProperty="linkSeq">
+		/* [AdminRecruitApi_SQL.xml].[addRecruitUrlLink] */
+		INSERT INTO app_url_link_info_test
+		(board_type_cd,
+		 board_seq,
+		 link_type_cd,
+		 link_address,
+		 sort_order,
+		 visible,
+		 creator,
+		 create_time,
+		 updater,
+		 update_time)
+		VALUES (#{boardTypeCd},
+				#{boardSeq},
+				#{linkTypeCd},
+				#{linkAddress},
+				#{sortOrder},
+				#{visible},
+				#{updater},
+				NOW(),
+				#{updater},
+				NOW())
+	</insert>
 
 </mapper>

@@ -7,9 +7,9 @@ import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service("FrontBusinessApiService")
 @RequiredArgsConstructor
@@ -26,12 +26,12 @@ public class FrontBusinessApiServiceImpl implements FrontBusinessApiService {
 	 * 5. 작성일       : 2021. 06. 30.
 	 * </pre>
 	 *
-	 * @param brandMap
-	 * @return
+	 * @param  brandMap
+	 * @return ConcurrentHashMap
 	 * @throws Exception
 	 */
-	public Map<String, Object> getBrandList(Map<String, Object> brandMap) throws Exception {
-		Map<String, Object> resultMap = new HashMap();
+	public ConcurrentHashMap<String, Object> getBrandList(Map<String, Object> brandMap) throws Exception {
+		ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
 
 		NewBrandDTO newBrandDTO = new NewBrandDTO();
 

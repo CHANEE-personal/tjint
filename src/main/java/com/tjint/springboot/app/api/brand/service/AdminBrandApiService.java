@@ -1,6 +1,5 @@
 package com.tjint.springboot.app.api.brand.service;
 
-import com.tjint.springboot.common.BrandInfoVo;
 import com.tjint.springboot.common.imageFile.NewImageDTO;
 import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import org.springframework.stereotype.Service;
@@ -9,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public interface AdminBrandApiService {
@@ -40,7 +40,7 @@ public interface AdminBrandApiService {
      * @return
      * @throws Exception
      */
-    public List<BrandInfoVo> getBrandList(Map<String, Object> searchMap) throws Exception;
+    public List<NewBrandDTO> getBrandList(Map<String, Object> searchMap) throws Exception;
 
     /**
      * <pre>
@@ -94,12 +94,11 @@ public interface AdminBrandApiService {
      * 4. 작성자       : CHO
      * 5. 작성일       : 2021. 04. 23.
      * </pre>
-     *
-     * @param newBrandDTO
-     * @return
+     * @param  brandSeq
+     * @return ConcurrentHashMap
      * @throws Exception
      */
-    public Map<String, Object> getBrandInfo(NewBrandDTO newBrandDTO) throws Exception;
+    public ConcurrentHashMap<String, Object> getBrandInfo(Integer brandSeq) throws Exception;
 
     /**
      * <pre>
@@ -144,7 +143,7 @@ public interface AdminBrandApiService {
      * @return
      * @throws Exception
      */
-    public Map<String, Object> getCategoryInfo(NewCodeDTO newCodeDTO) throws Exception;
+    public ConcurrentHashMap<String, Object> getCategoryInfo(NewCodeDTO newCodeDTO) throws Exception;
 
     /**
      * <pre>
@@ -245,5 +244,18 @@ public interface AdminBrandApiService {
      * @throws Exception
      */
     public Integer addSns(NewCodeDTO newCodeDTO, MultipartFile files) throws Exception;
+
+    /**
+     * <pre>
+     * 1. MethodName : getBrandRegist
+     * 2. ClassName  : AdminBrandApiService.java
+     * 3. Comment    : 브랜드 등록 페이지 정보
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 07. 18.
+     * </pre>
+     *
+     * @throws Exception
+     */
+    public ConcurrentHashMap<String, Object> getBrandRegist() throws Exception;
 
 }

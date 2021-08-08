@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Mapper
 public interface AdminNewsApiMapper {
@@ -80,9 +81,9 @@ public interface AdminNewsApiMapper {
      * 5. 작성일       : 2021. 06. 17.
      * </pre>
      *
-     * @param newNewsDTO
-     * @return
+     * @param  newNewsDTO
+     * @return ConcurrentHashMap
      * @throws Exception
      */
-    public Map<String, Object> getNewsInfo(NewNewsDTO newNewsDTO) throws Exception;
+    public ConcurrentHashMap<String, Object> getNewsInfo(NewNewsDTO newNewsDTO) throws Exception;
 }

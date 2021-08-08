@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public interface AdminNewsApiService {
@@ -68,11 +69,11 @@ public interface AdminNewsApiService {
 	 * 5. 작성일       : 2021. 06. 17.
 	 * </pre>
 	 *
-	 * @param newNewsDTO
-	 * @return
+	 * @param  newNewsDTO
+	 * @return ConcurrentHashMap
 	 * @throws Exception
 	 */
-	public Map<String, Object> getNewsInfo(NewNewsDTO newNewsDTO) throws Exception;
+	public ConcurrentHashMap<String, Object> getNewsInfo(NewNewsDTO newNewsDTO) throws Exception;
 
 	/**
 	 * <pre>

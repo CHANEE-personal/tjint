@@ -5,12 +5,11 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import net.sf.json.JSON;
-import net.sf.json.JSONObject;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
-import javax.servlet.http.HttpServletRequest;
 import java.rmi.ServerError;
 import java.util.Map;
 
@@ -18,7 +17,6 @@ import java.util.Map;
 @RequestMapping(value = "/api/about")
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin
 public class FrontAboutApi {
     @ApiOperation(value = "Front Mission 페이지", notes = "Front Mission 페이지")
     @ApiResponses({
@@ -27,10 +25,8 @@ public class FrontAboutApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @GetMapping(value = "/mission")
-    public JSONObject mission(HttpServletRequest request) throws Exception {
-        JSONObject jsonObject = new JSONObject();
-
-        return jsonObject;
+    public String mission() throws Exception {
+        return "mission";
     }
 
     @ApiOperation(value = "Front Ceo 페이지", notes = "Front Ceo 페이지")
@@ -40,10 +36,8 @@ public class FrontAboutApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @GetMapping(value = "/ceo")
-    public JSONObject ceo(HttpServletRequest request) throws Exception {
-        JSONObject jsonObject = new JSONObject();
-
-        return jsonObject;
+    public String ceo() throws Exception {
+        return "ceo";
     }
 
     @ApiOperation(value = "Front History 페이지", notes = "Front History 페이지")
@@ -52,11 +46,9 @@ public class FrontAboutApi {
             @ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
-    @GetMapping(value = "/corpHistory")
-    public JSONObject corpHistory(HttpServletRequest request) throws Exception {
-        JSONObject jsonObject = new JSONObject();
-
-        return jsonObject;
+    @GetMapping(value = "/corp-history")
+    public String corpHistory() throws Exception {
+        return "corp-history";
     }
 
     @ApiOperation(value = "Front Ci 페이지", notes = "Front Ci 페이지")
@@ -66,10 +58,8 @@ public class FrontAboutApi {
             @ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
     })
     @GetMapping(value = "/ci")
-    public JSONObject ci(HttpServletRequest request) throws Exception {
-        JSONObject jsonObject = new JSONObject();
-
-        return jsonObject;
+    public String ci() throws Exception {
+        return "ci";
     }
 
 }

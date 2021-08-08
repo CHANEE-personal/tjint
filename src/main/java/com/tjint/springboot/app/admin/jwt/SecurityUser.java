@@ -1,62 +1,59 @@
 package com.tjint.springboot.app.admin.jwt;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class SecurityUser implements UserDetails {
 
-    private String userId;
-    private Collection<? extends GrantedAuthority> authorities;
-
-    public SecurityUser(String userId, List<String> roles) {
-        this.userId = userId;
-        this.authorities = Optional.ofNullable(roles)
-                .orElse(Collections.emptyList())
-                .stream()
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
-    }
+    private String id;
+    private String password;
+    private String authority;
+    private boolean enabled;
+    private String name;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.authorities;
+        return Collections.emptyList();
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return id;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return enabled;
     }
 
+    public String getNAME() {
+        return name;
+    }
+
+    public void setNAME(String name) {
+        this.name = name;
+    }
 }

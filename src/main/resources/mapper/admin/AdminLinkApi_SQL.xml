@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjint.springboot.common.urlLink.service.impl.UrlLinkMapper">
+	<insert id="addUrlLink" parameterType="newUrlLinkDto">
+		/*[AdminLinkApi_SQL.xml].[addUrlLink] */
+		INSERT INTO app_url_link_info_test
+		( board_type_cd
+		, board_seq
+		, link_type_cd
+		, link_address
+		, sort_order
+		, visible
+		, creator
+		, create_time
+		, updater
+		, update_time)
+		VALUES ( #{boardTypeCd}
+			   , #{boardSeq}
+			   , #{linkTypeCd}
+			   , #{linkAddress}
+			   , #{sortOrder}
+			   , #{visible}
+			   , #{updater}
+			   , NOW()
+			   , #{updater}
+			   , NOW())
+	</insert>
+
+	<update id="updateUrlLink" parameterType="newUrlLinkDto">
+		/*[AdminLinkApi_SQL.xml].[updateUrlLink] */
+		UPDATE app_url_link_info_test
+		SET
+		<if test="boardTypeCd != null and boardTypeCd != ''">board_type_cd = #{boardTypeCd},</if>
+		<if test="boardSeq != null and boardSeq != ''">board_seq = #{boardSeq},</if>
+		<if test="linkTypeCd != null and linkTypeCd != ''">link_type_cd = #{linkTypeCd},</if>
+		<if test="linkAddress != null and linkAddress != ''">link_address = #{linkAddress},</if>
+		<if test="sortOrder != null and sortOrder != ''">sort_order = #{sortOrder},</if>
+		<if test="visible != null and visible != ''">visible = #{visible},</if>
+		<if test="updater != null and updater != ''">updater = #{updater},</if>
+		update_time = NOW()
+		<where>
+			<if test="linkSeq != null and linkSeq != ''">AND link_seq = #{linkSeq}</if>
+			<if test="boardTypeCd != null and boardTypeCd != ''">AND board_type_cd = #{boardTypeCd}</if>
+			<if test="boardSeq != null and boardSeq != ''">AND board_seq = #{boardSeq}</if>
+			<if test="linkTypeCd != null and linkTypeCd != ''">AND link_type_cd = #{linkTypeCd}</if>
+		</where>
+	</update>
+</mapper>

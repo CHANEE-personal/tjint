@@ -2,111 +2,105 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tjint.springboot.app.api.frontNews.service.impl.FrontNewsApiMapper">
 
-    <select id="frontNewsList" parameterType="hashMap" resultType="hashMap">
-        /*[AdminPrMgmt_SQL.xml].[selectNewsList] */
-        <![CDATA[
-           SELECT
-              A.news_seq,
-              A.news_title,
-              A.news_description,
-              A.visible,
-              A.creator,
-              (SELECT name from app_user_info where user_seq = creator) as creatorNm,
-              DATE_FORMAT(A.create_time, '%Y.%m.%d') as create_time,
-              A.updater,
-              (SELECT name from app_user_info where user_seq = updater) as updaterNm,
-              DATE_FORMAT(A.update_time, '%Y.%m.%d') as update_time,
-              file_id,
-              file_mask,
-              file_path
-           FROM
-              app_board_news A
-           left OUTER join
-             (select * from app_image_file_info where board_type_cd = 'brdt002' AND visible = 'Y') B
-             ON A.news_seq = B.board_seq
-                 left outer join
-             J_ATTACHFILE C
-             on B.image_file_id = C.file_id
-             WHERE A.visible = 'Y'
-        ]]>
-        <choose>
-            <when test="searchCondition == 0">
-                <![CDATA[ AND news_title LIKE CONCAT ('%', #{searchKeyword},'%')         ]]>
-            </when>
-            <when test="searchCondition == 1">
-                <![CDATA[ AND news_description LIKE CONCAT ('%', #{searchKeyword},'%')         ]]>
-            </when>
-        </choose>
-        <![CDATA[
-            ORDER BY news_seq DESC
-            LIMIT #{startPage}, #{size}
-        ]]>
-    </select>
+	<select id="frontNewsList" parameterType="hashMap" resultType="hashMap">
+		/*[FrontNewsApi_SQL.xml].[frontNewsList] */
+		SELECT
+		A.news_seq,
+		A.news_title,
+		A.news_description,
+		A.visible,
+		A.creator,
+		(SELECT name from app_user_info where user_seq = creator) as creatorNm,
+		DATE_FORMAT(A.create_time, '%Y.%m.%d') as create_time,
+		A.updater,
+		(SELECT name from app_user_info where user_seq = updater) as updaterNm,
+		DATE_FORMAT(A.update_time, '%Y.%m.%d') as update_time,
+		file_id,
+		file_mask,
+		file_path
+		FROM
+		app_board_news_test A
+		left OUTER join
+		(select * from app_image_file_info_test where board_type_cd = 'brdt002' AND visible = 'Y') B
+		ON A.news_seq = B.board_seq
+		left outer join
+		J_ATTACHFILE_TEST C
+		on B.image_file_id = C.file_id
+		WHERE A.visible = 'Y'
+		<choose>
+			<when test="searchCondition == 0">
+				<![CDATA[ AND news_title LIKE CONCAT ('%', #{searchKeyword},'%')         ]]>
+			</when>
+			<when test="searchCondition == 1">
+				<![CDATA[ AND news_description LIKE CONCAT ('%', #{searchKeyword},'%')         ]]>
+			</when>
+		</choose>
+		ORDER BY news_seq DESC
+		LIMIT #{startPage}, #{size}
+	</select>
 
-    <select id="frontNewsInfo" parameterType="newNewsDto" resultType="java.util.HashMap">
-        /*[AdminPrMgmt_SQL.xml].[getNewsInfo] */
-        <![CDATA[
-        SELECT news_seq,
-               news_title,
-               news_description,
-               A.visible,
-               A.creator,
-               A.create_time,
-               A.updater,
-               A.update_time,
-               B.image_file_id as imageFileId,
-               C.FILE_NAME     as fileName,
-               C.FILE_PATH     as filePath
-        FROM app_board_news A
-                 left OUTER JOIN
-             (select * from app_image_file_info where board_type_cd = 'brdt002' AND visible = 'Y') B
-             ON A.news_seq = B.board_seq
-                 left outer join
-             J_ATTACHFILE C
-             on B.image_file_id = C.file_id
-        WHERE news_seq = #{newsSeq}
-        ]]>
+	<select id="frontNewsInfo" parameterType="newNewsDto" resultType="java.util.HashMap">
+		/*[FrontNewsApi_SQL.xml].[frontNewsInfo] */
+		SELECT news_seq,
+			   news_title,
+			   news_description,
+			   A.visible,
+			   A.creator,
+			   A.create_time,
+			   A.updater,
+			   A.update_time,
+			   B.image_file_id as imageFileId,
+			   C.FILE_NAME     as fileName,
+			   C.FILE_PATH     as filePath
+		FROM app_board_news_test A
+				 left OUTER JOIN
+			 (select * from app_image_file_info_test where board_type_cd = 'brdt002' AND visible = 'Y') B
+			 ON A.news_seq = B.board_seq
+				 left outer join
+			 J_ATTACHFILE_TEST C
+			 on B.image_file_id = C.file_id
+		WHERE news_seq = #{newsSeq}
+	</select>
 
-    </select>
+	<select id="frontNewsListCnt" parameterType="hashMap" resultType="Integer">
+		/*[FrontNewsApi_SQL.xml].[frontNewsListCnt] */
+		SELECT
+		COUNT(*) AS TOT
+		FROM
+		app_board_news_test
+		where visible = 'Y'
+		<choose>
+			<when test="searchCondition == 0">
+				<![CDATA[ AND news_title LIKE CONCAT ('%', #{searchKeyword},'%')         ]]>
+			</when>
+			<when test="searchCondition == 1">
+				<![CDATA[ AND news_description LIKE CONCAT ('%', #{searchKeyword},'%')         ]]>
+			</when>
+		</choose>
+	</select>
 
-    <select id="frontNewsListCnt" parameterType="hashMap" resultType="Integer">
-        /*[AdminPrMgmt_SQL.xml].[selectNewsListCnt] */
-        <![CDATA[
-            SELECT
-                COUNT(*) AS TOT
-            FROM
-                app_board_news
-            where visible = 'Y'
-        ]]>
-        <choose>
-            <when test="searchCondition == 0">
-                <![CDATA[ AND news_title LIKE CONCAT ('%', #{searchKeyword},'%')         ]]>
-            </when>
-            <when test="searchCondition == 1">
-                <![CDATA[ AND news_description LIKE CONCAT ('%', #{searchKeyword},'%')         ]]>
-            </when>
-        </choose>
-    </select>
+	<select id="frontSnsLinkList" parameterType="Integer" resultType="newUrlLinkDto">
+		/*[FrontNewsApi_SQL.xml].[frontSnsLinkList] */
+		SELECT *
+		FROM app_url_link_info_test
+		WHERE board_type_cd = 'brdt001'
+		  AND board_seq = #{newsSeq}
+	</select>
 
-    <select id="frontSnsLinkList" parameterType="Integer" resultType="newUrlLinkDto">
-        SELECT *
-        FROM app_url_link_info
-        WHERE board_type_cd = 'brdt001'
-        AND board_seq = #{newsSeq}
-    </select>
+	<select id="frontNewsPrevIdx" parameterType="Integer" resultType="Integer">
+		/*[FrontNewsApi_SQL.xml].[frontNewsPrevIdx] */
+		SELECT max(news_seq)
+		FROM app_board_news_test
+		WHERE news_seq <![CDATA[<]]> #{newsSeq}
+		  AND visible = 'Y'
+	</select>
 
-    <select id="frontNewsPrevIdx" parameterType="Integer" resultType="Integer">
-        SELECT max(news_seq)
-        FROM app_board_news
-        WHERE news_seq <![CDATA[<]]> #{newsSeq}
-        AND visible = 'Y'
-    </select>
-
-    <select id="frontNewsNextIdx" parameterType="Integer" resultType="Integer">
-        SELECT min(news_seq)
-        FROM app_board_news
-        WHERE news_seq <![CDATA[>]]> #{newsSeq}
-        AND visible = 'Y';
-    </select>
+	<select id="frontNewsNextIdx" parameterType="Integer" resultType="Integer">
+		/*[FrontNewsApi_SQL.xml].[frontNewsNextIdx] */
+		SELECT min(news_seq)
+		FROM app_board_news_test
+		WHERE news_seq <![CDATA[>]]> #{newsSeq}
+		  AND visible = 'Y';
+	</select>
 
 </mapper>

@@ -19,7 +19,7 @@
 					select="getImageList"/>
 	</resultMap>
 	<select id="getBrandList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-		/* [AdminBrand_SQL.xml].[getBrandList] */
+		/* [AdminBrandApi_SQL.xml].[getBrandList] */
 		SELECT
 		@ROWNUM := @ROWNUM + 1 AS RNUM
 		, a.brand_seq as brandSeq
@@ -65,7 +65,7 @@
 	</select>
 
 	<select id="getBrandInfo" parameterType="newBrandDto" resultType="java.util.HashMap">
-		/* [AdminBrand_SQL.xml].[getBrandInfo] */
+		/* [AdminBrandApi_SQL.xml].[getBrandInfo] */
 		SELECT
 		a.brand_seq as brandSeq
 		, a.category_cd as categoryCd
@@ -133,7 +133,7 @@
 	</select>
 
 	<select id="getBrandListCnt" parameterType="java.util.HashMap" resultType="Integer">
-		/* [AdminBrand_SQL.xml].[getBrandList] */
+		/* [AdminBrandApi_SQL.xml].[getBrandListCnt] */
 		SELECT
 		count(*) as total
 		FROM app_board_brand_test a
@@ -156,6 +156,7 @@
 	</select>
 
 	<select id="getSnsLinkList" parameterType="newUrlLinkDTO" resultType="newUrlLinkDto">
+		/* [AdminBrandApi_SQL.xml].[getSnsLinkList] */
 		SELECT
 		A.code_name snsName
 		, B.link_seq
@@ -185,8 +186,8 @@
 		ORDER BY A.sort_order
 	</select>
 
-	<update id="`modifyBrand" parameterType="newBrandDto">
-		/* [AdminBrand_SQL.xml].[modifyBrand] */
+	<update id="modifyBrand" parameterType="newBrandDto">
+		/* [AdminBrandApi_SQL.xml].[modifyBrand] */
 		UPDATE app_board_brand_test
 		SET
 		<if test="categoryCd != null and categoryCd != ''">category_cd = #{categoryCd},</if>
@@ -199,7 +200,7 @@
 	</update>
 
 	<insert id="addBrand" parameterType="newBrandDto" useGeneratedKeys="true" keyProperty="brandSeq">
-		/* [AdminBrand_SQL.xml].[addBrand] */
+		/* [AdminBrandApi_SQL.xml].[addBrand] */
 		INSERT INTO app_board_brand_test
 		( category_cd
 		, menu_category_cd
@@ -238,6 +239,7 @@
 	</update>
 
 	<delete id="deleteBrand" parameterType="newBrandDto">
+		/* [AdminBrandApi_SQL.xml].[deleteBrand] */
 		UPDATE app_board_brand_test
 		SET
 		<if test="categoryCd != null and categoryCd != ''">category_cd = #{categoryCd},</if>
@@ -248,62 +250,6 @@
 		update_time = NOW()
 		WHERE brand_seq = #{brandSeq}
 	</delete>
-
-	<select id="selectLatestFileId" resultType="java.lang.String">
-		/* [AdminBrand_SQL.xml].[selectLatestFileId] */
-		SELECT FILE_ID
-		FROM J_ATTACHFILE
-		ORDER BY REG_DATE DESC LIMIT 1
-	</select>
-
-	<insert id="addImageFileInfo" parameterType="newImageDto">
-		/* [AdminBrand_SQL.xml].[addImageFileInfo] */
-		INSERT INTO app_image_file_info
-		( board_type_cd
-		, board_seq
-		, image_type_cd
-		, image_file_id
-		, image_file_seq
-		, sort_order
-		, visible
-		, creator
-		, create_time
-		, updater
-		, update_time)
-		VALUES ( #{boardTypeCd}
-			   , #{boardSeq}
-			   , #{imageTypeCd}
-			   , #{imageFileId}
-			   , #{imageFileSeq}
-			   , #{sortOrder}
-			   , #{visible}
-			   , #{updater}
-			   , NOW()
-			   , #{updater}
-			   , NOW())
-	</insert>
-
-	<!--    <update id="modifyImageFileInfo" parameterType="app.cmm.imageFile.service.ImageFileVo">-->
-	<!--        /* [AdminBrand_SQL.xml].[modifyImageFileInfo] */-->
-	<!--        UPDATE app_image_file_info-->
-	<!--        SET-->
-	<!--        <if test="boardTypeCd != null and boardTypeCd != ''">board_type_cd = #{boardTypeCd},</if>-->
-	<!--        <if test="boardSeq != null and boardSeq != ''">board_seq = #{boardSeq},</if>-->
-	<!--        <if test="imageTypeCd != null and imageTypeCd != ''">image_type_cd = #{imageTypeCd},</if>-->
-	<!--        <if test="imageFileId != null and imageFileId != ''">image_file_id = #{imageFileId},</if>-->
-	<!--        <if test="imageFileSeq != null and imageFileSeq != ''">image_file_seq = #{imageFileSeq},</if>-->
-	<!--        <if test="sortOrder != null and sortOrder != ''">sort_order = #{sortOrder},</if>-->
-	<!--        <if test="visible != null and visible != ''">visible = #{visible},</if>-->
-	<!--        <if test="updater != null and updater != ''">updater = #{updater},</if>-->
-	<!--        update_time = NOW()-->
-	<!--        <where>-->
-	<!--            <if test="imageFileInfoSeq != null and imageFileInfoSeq != ''">AND image_file_info_seq = #{imageFileInfoSeq}</if>-->
-	<!--            <if test="boardTypeCd != null and boardTypeCd != ''">AND board_type_cd = #{boardTypeCd}</if>-->
-	<!--            <if test="boardSeq != null and boardSeq != ''">AND board_seq = #{boardSeq}</if>-->
-	<!--            <if test="imageTypeCd != null and imageTypeCd != ''">AND image_type_cd = #{imageTypeCd}</if>-->
-	<!--            <if test="sortOrder != null and sortOrder != ''">AND sort_order = #{sortOrder}</if>-->
-	<!--        </where>-->
-	<!--    </update>-->
 
 	<select id="getCategoryListCnt" parameterType="java.util.HashMap" resultType="java.lang.Integer">
 		/* [AdminBrand_SQL.xml].[getCodeListCnt] */
@@ -460,46 +406,4 @@
 			)
 	</insert>
 
-	<!--    <select id="getLatestSnsId" resultType="java.lang.String">-->
-	<!--        /* [AdminBrand_SQL.xml].[getLatestSnsId] */-->
-	<!--        SELECT code_id-->
-	<!--        FROM app_code-->
-	<!--        WHERE parent_cd = #{parentCd}-->
-	<!--        ORDER BY code_id DESC-->
-	<!--            LIMIT 1-->
-	<!--    </select>-->
-
-	<!--    <select id="getSnsLinkList" resultType="app.cmm.urlLink.service.UrlLinkVo">-->
-	<!--        /* [AdminBrand_SQL.xml].[getSnsLinkList] */-->
-	<!--        SELECT-->
-	<!--        A.code_name snsName-->
-	<!--        , B.link_seq-->
-	<!--        , B.board_type_cd-->
-	<!--        , B.board_seq-->
-	<!--        , IFNULL(B.link_type_cd,A.code_id) as linkTypeCd-->
-	<!--        , B.link_address-->
-	<!--        , B.sort_order-->
-	<!--        , B.visible-->
-	<!--        , B.creator-->
-	<!--        , B.create_time-->
-	<!--        , B.updater-->
-	<!--        , B.update_time-->
-	<!--        , C.FILE_ID-->
-	<!--        , C.FILE_NAME-->
-	<!--        , C.FILE_PATH-->
-	<!--        FROM app_code A-->
-	<!--        LEFT OUTER JOIN app_url_link_info B ON A.code_id = B.link_type_cd-->
-	<!--        AND B.board_seq = #{boardSeq}-->
-	<!--        AND B.board_type_cd = #{boardTypeCd}-->
-	<!--        AND B.link_type_cd NOT IN ('lnkt001', 'lnkt002')-->
-	<!--        LEFT OUTER JOIN J_ATTACHFILE C ON A.property1 = C.FILE_ID-->
-	<!--        WHERE A.parent_cd = 'lnkt002'-->
-	<!--        <if test="codeVisible != null and codeVisible != ''">-->
-	<!--            AND A.visible = #{codeVisible}-->
-	<!--        </if>-->
-	<!--        <if test="visible != null and visible != ''">-->
-	<!--            AND B.visible = #{visible}-->
-	<!--        </if>-->
-	<!--        ORDER BY A.sort_order-->
-	<!--    </select>-->
 </mapper>

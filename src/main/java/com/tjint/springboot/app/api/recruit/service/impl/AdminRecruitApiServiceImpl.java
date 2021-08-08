@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service("AdminRecruitApiService")
 @RequiredArgsConstructor
@@ -64,9 +65,11 @@ public class AdminRecruitApiServiceImpl implements AdminRecruitApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, Object> getRecruitInfo(NewRecruitDTO newRecruitDTO, NewUrlLinkDTO newUrlLinkDTO) throws Exception {
-		Map<String, Object> resultMap = new HashMap<>();
-		Map<String, Object> recruitMap;
+	public ConcurrentHashMap<String, Object> getRecruitInfo(NewRecruitDTO newRecruitDTO, NewUrlLinkDTO newUrlLinkDTO) throws Exception {
+
+		ConcurrentHashMap<String, Object> resultMap = new ConcurrentHashMap<>();
+		ConcurrentHashMap<String, Object> recruitMap;
+
 		List<NewUrlLinkDTO> urlLinkList = null;
 		recruitMap = this.adminRecruitApiMapper.getRecruitInfo(newRecruitDTO);
 

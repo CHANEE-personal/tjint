@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public interface AdminRecruitApiService {
@@ -52,7 +53,7 @@ public interface AdminRecruitApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, Object> getRecruitInfo(NewRecruitDTO newRecruitDTO, NewUrlLinkDTO newUrlLinkDTO) throws Exception;
+	public ConcurrentHashMap<String, Object> getRecruitInfo(NewRecruitDTO newRecruitDTO, NewUrlLinkDTO newUrlLinkDTO) throws Exception;
 
 	/**
 	 * <pre>
