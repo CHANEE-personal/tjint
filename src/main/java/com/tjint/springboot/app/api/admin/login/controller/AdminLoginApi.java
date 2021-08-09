@@ -92,7 +92,7 @@ public class AdminLoginApi {
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
-	@PostMapping(value = "/login")
+	@PostMapping(value = "/admin-login")
 	public ConcurrentHashMap adminLogin(@RequestBody AuthenticationRequest authenticationRequest,
 										HttpServletRequest request,
 										HttpServletResponse response) throws Exception {
