@@ -1,6 +1,6 @@
 package com.tjint.springboot.app.api.admin.brand.controller;
 
-import com.tjint.springboot.app.api.admin.brand.service.AdminBrandApiService;
+import com.tjint.springboot.app.api.admin.brand.service.AdminCategoryApiService;
 import com.tjint.springboot.app.api.admin.brand.service.NewCodeDTO;
 import com.tjint.springboot.app.api.common.SearchCommon;
 import com.tjint.springboot.common.paging.Page;
@@ -22,9 +22,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "SNS관리관련 API")
-public class adminSnsApi {
+public class AdminSnsApi {
 
-	private final AdminBrandApiService adminBrandApiService;
+	private final AdminCategoryApiService adminCategoryApiService;
 	private final SearchCommon searchcommon;
 
 	@ApiOperation(value = "SNS 등록", notes = "SNS를 등록한다.")
@@ -38,7 +38,7 @@ public class adminSnsApi {
 						 @RequestParam(value = "fileName") MultipartFile files) throws Exception {
 		String result = "";
 
-		if(this.adminBrandApiService.addSns(newCodeDTO, files) > 0) {
+		if(this.adminCategoryApiService.addSns(newCodeDTO, files) > 0) {
 			result = "Y";
 		} else {
 			result = "N";
@@ -62,12 +62,12 @@ public class adminSnsApi {
 		ConcurrentHashMap<String, Object> searchMap = searchcommon.searchCommon(page, searchKeyword);
 		searchMap.put("parentCd", "lnkt002");
 
-		Integer snsListCnt = this.adminBrandApiService.getCategoryListCnt(searchMap);
+		Integer snsListCnt = this.adminCategoryApiService.getCategoryListCnt(searchMap);
 
 		List<NewCodeDTO> snsList = null;
 
 		if(snsListCnt > 0) {
-			snsList = this.adminBrandApiService.getCategoryList(searchMap);
+			snsList = this.adminCategoryApiService.getCategoryList(searchMap);
 		}
 
 		// 리스트 수

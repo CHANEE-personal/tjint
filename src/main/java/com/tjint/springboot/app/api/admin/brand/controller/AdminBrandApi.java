@@ -24,11 +24,25 @@ import java.util.concurrent.ConcurrentHashMap;
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "브랜드관리관련 API")
-public class adminBrandApi {
+public class AdminBrandApi {
 
 	private final AdminBrandApiService adminBrandApiService;
 	private final SearchCommon searchCommon;
 
+	/**
+	 * <pre>
+	 * 1. MethodName : lists
+	 * 2. ClassName  : AdminBrandApi.java
+	 * 3. Comment    : 브랜드 리스트 조회
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 04. 23.
+	 * </pre>
+	 *
+	 * @param searchKeyword
+	 * @param page
+	 * @return
+	 * @throws Exception
+	 */
 	@ApiOperation(value = "브랜드 조회", notes = "브랜드를 조회한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
@@ -64,20 +78,44 @@ public class adminBrandApi {
 		return brandMap;
 	}
 
+	/**
+	 * <pre>
+	 * 1. MethodName : brand-register
+	 * 2. ClassName  : AdminBrandApi.java
+	 * 3. Comment    : 브랜드 등록 페이지
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 04. 23.
+	 * </pre>
+	 *
+	 * @return resultMap
+	 * @throws Exception
+	 */
 	@ApiOperation(value = "브랜드 등록페이지", notes = "브랜드를 등록페이지", position = 1)
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
-	@GetMapping(value = "/brand-regist")
-	public ConcurrentHashMap brandRegist() throws Exception {
+	@GetMapping(value = "/brand-register")
+	public ConcurrentHashMap brandRegister() throws Exception {
 
-		ConcurrentHashMap<String, Object> resultMap = this.adminBrandApiService.getBrandRegist();
+		ConcurrentHashMap<String, Object> brandMap = this.adminBrandApiService.getBrandRegist();
 
-		return resultMap;
+		return brandMap;
 	}
 
+	/**
+	 * <pre>
+	 * 1. MethodName : brandInfo
+	 * 2. ClassName  : AdminBrandApi.java
+	 * 3. Comment    : 브랜드 상세 페이지
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 04. 23.
+	 * </pre>
+	 *
+	 * @return resultMap
+	 * @throws Exception
+	 */
 	@ApiOperation(value = "브랜드 상세", notes = "브랜드를 상세페이지")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
@@ -87,11 +125,23 @@ public class adminBrandApi {
 	@GetMapping(value = "/{brandSeq}")
 	public ConcurrentHashMap<String, Object> brandInfo(@PathVariable("brandSeq") Integer brandSeq) throws Exception {
 
-		ConcurrentHashMap<String, Object> resultMap = this.adminBrandApiService.getBrandInfo(brandSeq);
+		ConcurrentHashMap<String, Object> brandMap = this.adminBrandApiService.getBrandInfo(brandSeq);
 
-		return resultMap;
+		return brandMap;
 	}
 
+	/**
+	 * <pre>
+	 * 1. MethodName : addBrand
+	 * 2. ClassName  : AdminBrandApi.java
+	 * 3. Comment    : 브랜드 등록
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 04. 23.
+	 * </pre>
+	 *
+	 * @return result
+	 * @throws Exception
+	 */
 	@ApiOperation(value = "브랜드 등록", notes = "브랜드를 등록한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "브랜드 등록성공", response = Map.class),
@@ -115,6 +165,18 @@ public class adminBrandApi {
 		return result;
 	}
 
+	/**
+	 * <pre>
+	 * 1. MethodName : updateBrand
+	 * 2. ClassName  : AdminBrandApi.java
+	 * 3. Comment    : 브랜드 수정
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 04. 23.
+	 * </pre>
+	 *
+	 * @return result
+	 * @throws Exception
+	 */
 	@ApiOperation(value = "브랜드 수정", notes = "브랜드를 수정한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "브랜드 수정성공", response = Map.class),
@@ -139,6 +201,18 @@ public class adminBrandApi {
 		return result;
 	}
 
+	/**
+	 * <pre>
+	 * 1. MethodName : deleteBrand
+	 * 2. ClassName  : AdminBrandApi.java
+	 * 3. Comment    : 브랜드 삭제
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 04. 23.
+	 * </pre>
+	 *
+	 * @return result
+	 * @throws Exception
+	 */
 	@ApiOperation(value = "브랜드 삭제", notes = "브랜드를 삭제한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "브랜드 삭제성공", response = Map.class),

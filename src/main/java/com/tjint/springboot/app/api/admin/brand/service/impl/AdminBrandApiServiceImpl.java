@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class AdminBrandApiServiceImpl implements AdminBrandApiService {
     private final AdminBrandApiMapper adminBrandApiMapper;
+    private final AdminCategoryApiMapper adminCategoryApiMapper;
     private final ImageService imageService;
     private final UrlLinkService urlLinkService;
 
@@ -56,113 +57,6 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
      */
     public List<NewBrandDTO> getBrandList(Map<String, Object> searchMap) throws Exception {
         return adminBrandApiMapper.getBrandList(searchMap);
-    }
-
-    /**
-     * <pre>
-     * 1. MethodName : getCategoryListCnt
-     * 2. ClassName  : AdminBrandApiServiceImpl.java
-     * 3. Comment    : 분야 리스트 갯수
-     * 4. 작성자       : CHO
-     * 5. 작성일       : 2021. 07. 07.
-     * </pre>
-     *
-     * @param searchMap
-     * @return
-     * @throws Exception
-     */
-    public Integer getCategoryListCnt(Map<String, Object> searchMap) throws Exception {
-        return adminBrandApiMapper.getCategoryListCnt(searchMap);
-    }
-
-    /**
-     * <pre>
-     * 1. MethodName : getCategoryList
-     * 2. ClassName  : AdminBrandApiServiceImpl.java
-     * 3. Comment    : 분야 리스트
-     * 4. 작성자       : CHO
-     * 5. 작성일       : 2021. 07. 07.
-     * </pre>
-     *
-     * @param searchMap
-     * @return
-     * @throws Exception
-     */
-    public List<NewCodeDTO> getCategoryList(Map<String, Object> searchMap) throws Exception {
-        return adminBrandApiMapper.getCategoryList(searchMap);
-    }
-
-    /**
-     * <pre>
-     * 1. MethodName : getCategoryInfo
-     * 2. ClassName  : AdminBrandApiServiceImpl.java
-     * 3. Comment    : 분야 상세
-     * 4. 작성자       : CHO
-     * 5. 작성일       : 2021. 07. 08.
-     * </pre>
-     *
-     * @param newCodeDTO
-     * @return
-     * @throws Exception
-     */
-    public ConcurrentHashMap<String, Object> getCategoryInfo(NewCodeDTO newCodeDTO) throws Exception {
-        ConcurrentHashMap<String, Object> categoryMap = new ConcurrentHashMap<>();
-        categoryMap.put("categoryInfo", adminBrandApiMapper.getCategoryInfo(newCodeDTO));
-        return categoryMap;
-    }
-
-    /**
-     * <pre>
-     * 1. MethodName : insertCategory
-     * 2. ClassName  : AdminBrandApiServiceImpl.java
-     * 3. Comment    : 분야 등록
-     * 4. 작성자       : CHO
-     * 5. 작성일       : 2021. 07. 08.
-     * </pre>
-     *
-     * @param newCodeDTO
-     * @return
-     * @throws Exception
-     */
-    public String insertCategory(NewCodeDTO newCodeDTO) throws Exception {
-        String result = "";
-
-        newCodeDTO.setDescription(newCodeDTO.getCodeName());
-        newCodeDTO.setParentCd("ct000");
-        newCodeDTO.setCodeValue(" ");
-        newCodeDTO.setCreator(1);
-        newCodeDTO.setUpdater(1);
-        if(this.adminBrandApiMapper.insertCategory(newCodeDTO) > 0) {
-            result = "Y";
-        } else {
-            result = "N";
-        }
-
-        return result;
-    }
-
-    /**
-     * <pre>
-     * 1. MethodName : updateCategory
-     * 2. ClassName  : AdminBrandApiServiceImpl.java
-     * 3. Comment    : 분야 수정
-     * 4. 작성자       : CHO
-     * 5. 작성일       : 2021. 07. 08.
-     * </pre>
-     *
-     * @param newCodeDTO
-     * @return
-     * @throws Exception
-     */
-    public String updateCategory(NewCodeDTO newCodeDTO) throws Exception {
-        String result = "";
-        if(this.adminBrandApiMapper.updateCategory(newCodeDTO) > 0) {
-            result = "Y";
-        } else {
-            result = "N";
-        }
-
-        return result;
     }
 
     /**
@@ -264,7 +158,7 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
             newCodeDTO.setCodeId("mu003");
         }
 
-        newBrandDTO.setMenuCategoryNm(StringUtil.getString(this.adminBrandApiMapper.getCategoryInfo(newCodeDTO).get("code_name"),""));
+        newBrandDTO.setMenuCategoryNm(StringUtil.getString(this.adminCategoryApiMapper.getCategoryInfo(newCodeDTO).get("code_name"),""));
 
         String flag = "A";
         if (adminBrandApiMapper.addBrand(newBrandDTO) > 0) {
@@ -321,7 +215,7 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
             newCodeDTO.setCodeId("mu003");
         }
 
-        newBrandDTO.setMenuCategoryNm(StringUtil.getString(this.adminBrandApiMapper.getCategoryInfo(newCodeDTO).get("code_name"),""));
+        newBrandDTO.setMenuCategoryNm(StringUtil.getString(this.adminCategoryApiMapper.getCategoryInfo(newCodeDTO).get("code_name"),""));
 
         String flag = "U";
         if (adminBrandApiMapper.updateBrand(newBrandDTO) > 0) {
@@ -364,24 +258,6 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
 
     /**
      * <pre>
-     * 1. MethodName : addSns
-     * 2. ClassName  : AdminBrandApiServiceImpl.java
-     * 3. Comment    : SNS 등록
-     * 4. 작성자       : CHO
-     * 5. 작성일       : 2021. 07. 18.
-     * </pre>
-     *
-     * @param newCodeDTO
-     * @param files
-     * @return
-     * @throws Exception
-     */
-    public Integer addSns(NewCodeDTO newCodeDTO, MultipartFile files) throws Exception {
-        return this.adminBrandApiMapper.addSns(newCodeDTO);
-    }
-
-    /**
-     * <pre>
      * 1. MethodName : getBrandRegist
      * 2. ClassName  : AdminBrandApiServiceImpl.java
      * 3. Comment    : 브랜드 등록 페이지 정보
@@ -401,29 +277,29 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
         searchMap.put("parentCd", "ct000");
         searchMap.put("visible","Y");
 
-        Integer categoryListCnt = this.adminBrandApiMapper.getCategoryListCnt(searchMap);
+        Integer categoryListCnt = this.adminCategoryApiMapper.getCategoryListCnt(searchMap);
         List<NewCodeDTO> categoryList = null;
         if(categoryListCnt > 0) {
-            categoryList = this.adminBrandApiMapper.getCategoryList(searchMap);
+            categoryList = this.adminCategoryApiMapper.getCategoryList(searchMap);
         }
 
         //브랜드 소개 메뉴구분 조회
         searchMap.put("parentCd", "mu000");
         searchMap.put("visible", "Y");
 
-        Integer menuListCnt = this.adminBrandApiMapper.getCategoryListCnt(searchMap);
+        Integer menuListCnt = this.adminCategoryApiMapper.getCategoryListCnt(searchMap);
         List<NewCodeDTO> menuList = null;
         if(menuListCnt > 0) {
-            menuList = this.adminBrandApiMapper.getCategoryList(searchMap);
+            menuList = this.adminCategoryApiMapper.getCategoryList(searchMap);
         }
 
         //브랜드 소개 SNS List 조회
         searchMap.put("parentCd", "lnkt002");
         searchMap.put("visible", "Y");
-        Integer snsLinkListCnt = this.adminBrandApiMapper.getCategoryListCnt(searchMap);
+        Integer snsLinkListCnt = this.adminCategoryApiMapper.getCategoryListCnt(searchMap);
         List<NewCodeDTO> snsLinkList = null;
         if(snsLinkListCnt > 0) {
-            snsLinkList = this.adminBrandApiMapper.getCategoryList(searchMap);
+            snsLinkList = this.adminCategoryApiMapper.getCategoryList(searchMap);
         }
 
         resultMap.put("categoryList", categoryList);

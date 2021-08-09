@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjint.springboot.app.api.admin.brand.service.impl.AdminCategoryApiMapper">
+
+	<select id="getCategoryListCnt" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+		/* [AdminCategoryApi_SQL.xml].[getCategoryListCnt] */
+		SELECT count(*) totCnt
+		FROM app_code_test a
+		WHERE parent_cd = #{parentCd}
+		<if test='parentCd == "lnkt002" or visible == "Y"'>
+			AND visible = 'Y'
+		</if>
+		<if test="codeId != null and codeId != ''">
+			AND a.code_id = #{codeId}
+		</if>
+	</select>
+
+	<select id="getCategoryList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		/* [AdminCategoryApi_SQL.xml].[getCategoryList] */
+		SELECT
+		a.code_id as codeId
+		, a.code_name as codeName
+		, a.code_value as codeValue
+		, a.description as codeDesc
+		, a.parent_cd as parentCd
+		, a.property1 as property1
+		, a.property2 as property2
+		, a.property3 as property3
+		, a.sort_order as sortOrder
+		, a.visible as visible
+		, a.creator as creator
+		, (select name from app_user_info where user_seq = 1) as creatorName
+		, DATE_FORMAT(a.create_time, '%Y-%m-%d') as createTime
+		, a.updater as updater
+		, DATE_FORMAT(a.update_time, '%Y-%m-%d') as updateTime
+		, (select FILE_NAME from J_ATTACHFILE_TEST where file_id = a.property1) as fileName
+		, (select FILE_PATH from J_ATTACHFILE_TEST where file_id = a.property1) as filePath
+		, (select concat('http://tjinternational.kr/file/image/',file_mask) from J_ATTACHFILE_TEST where file_id =
+		a.property1) AS newFilePath
+		FROM app_code_test a
+		WHERE parent_cd = #{parentCd}
+		<if test='parentCd == "lnkt002" or visible == "Y"'>
+			AND visible = 'Y'
+		</if>
+		<if test="codeId != null and codeId != ''">
+			AND a.code_id = #{codeId}
+		</if>
+		<choose>
+			<when test="parentCd == 'lnkt002'">
+				ORDER BY sortOrder DESC
+			</when>
+			<otherwise>
+				ORDER BY sortOrder
+			</otherwise>
+		</choose>
+		<if test="startPage != null and !startPage.equals('') ">
+			LIMIT #{startPage}, #{size}
+		</if>
+	</select>
+
+	<select id="getCategoryInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		/* [AdminCategoryApi_SQL.xml].[getCategoryInfo] */
+		SELECT *
+		FROM app_code_test
+		WHERE code_id = #{codeId}
+	</select>
+
+	<insert id="insertCategory" parameterType="newCodeDto" useGeneratedKeys="true" keyProperty="codeId">
+		/* [AdminCategoryApi_SQL.xml].[insertCategory] */
+		INSERT INTO app_code_test
+		( code_id
+		, code_name
+		, code_value
+		, description
+		, parent_cd
+		, property1
+		, property2
+		, property3
+		, sort_order
+		, visible
+		, creator
+		, create_time
+		, updater
+		, update_time)
+		VALUES ((select concat('ct', lpad(right(code_id, 3) + 1, 3, '0'))
+				 from app_code_test a
+				 where parent_cd = 'ct000'
+				 order by code_id desc limit 1)
+			 , #{codeName}
+			 , #{codeValue}
+			 , #{description}
+			 , #{parentCd}
+			 , #{property1}
+			 , #{property2}
+			 , #{property3}
+			 , (select sort_order + 1 from app_code_test b where parent_cd = 'ct000' order by code_id desc limit 1)
+			 , 'Y'
+			 , #{updater}
+			 , NOW()
+			 , #{updater}
+			 , NOW()
+			)
+	</insert>
+
+	<update id="updateCategory" parameterType="newCodeDto">
+		/* [AdminCategoryApi_SQL.xml].[updateCategory] */
+		UPDATE app_code_test
+		SET
+		<if test="codeName != null and codeName != ''">code_name = #{codeName},</if>
+		<if test="codeValue != null and codeValue != ''">code_value = #{codeValue},</if>
+		<if test="description != null and description != ''">description = #{description},</if>
+		<if test="parentCd != null and parentCd != ''">parent_cd = #{parentCd},</if>
+		<if test="property1 != null and property1 != ''">property1 = #{property1},</if>
+		<if test="property2 != null and property2 != ''">property2 = #{property2},</if>
+		<if test="property3 != null and property3 != ''">property3 = #{property3},</if>
+		<if test="sortOrder != null and sortOrder != ''">sort_order = #{sortOrder},</if>
+		<if test="visible != null and visible != ''">visible = #{visible},</if>
+		<if test="updater != null and updater != ''">updater = #{updater},</if>
+		update_time = NOW()
+		WHERE code_id = #{codeId}
+	</update>
+
+</mapper>

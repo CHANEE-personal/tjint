@@ -20,7 +20,7 @@ public interface AdminLoginApiService {
      * @param userMap
      * @throws Exception
      */
-    public List<NewUserDTO> getUserList(ConcurrentHashMap<String, Object> userMap) throws Exception;
+    List<NewUserDTO> getUserList(ConcurrentHashMap<String, Object> userMap) throws Exception;
 
     /**
      * <pre>

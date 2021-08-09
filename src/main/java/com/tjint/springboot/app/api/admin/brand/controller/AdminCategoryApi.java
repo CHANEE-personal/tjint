@@ -1,6 +1,6 @@
 package com.tjint.springboot.app.api.admin.brand.controller;
 
-import com.tjint.springboot.app.api.admin.brand.service.AdminBrandApiService;
+import com.tjint.springboot.app.api.admin.brand.service.AdminCategoryApiService;
 import com.tjint.springboot.app.api.admin.brand.service.NewCodeDTO;
 import com.tjint.springboot.app.api.common.SearchCommon;
 import com.tjint.springboot.common.paging.Page;
@@ -21,11 +21,25 @@ import java.util.concurrent.ConcurrentHashMap;
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "분야관리관련 API")
-public class adminCategoryApi {
+public class AdminCategoryApi {
 
-	private final AdminBrandApiService adminBrandApiService;
+	private final AdminCategoryApiService adminCategoryApiService;
 	private final SearchCommon searchCommon;
 
+	/**
+	 * <pre>
+	 * 1. MethodName : categoryList
+	 * 2. ClassName  : AdminCategoryApi.java
+	 * 3. Comment    : 분야 리스트 조회
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 07. 07.
+	 * </pre>
+	 *
+	 * @param searchKeyword
+	 * @param page
+	 * @return
+	 * @throws Exception
+	 */
 	@ApiOperation(value = "분야 조회", notes = "분야를 조회한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
@@ -42,11 +56,11 @@ public class adminCategoryApi {
 		ConcurrentHashMap<String, Object> searchMap = searchCommon.searchCommon(page, searchKeyword);
 		searchMap.put("parentCd", "ct000");
 
-		Integer categoryListCnt = this.adminBrandApiService.getCategoryListCnt(searchMap);
+		Integer categoryListCnt = this.adminCategoryApiService.getCategoryListCnt(searchMap);
 		List<NewCodeDTO> categoryList = null;
 
 		if(categoryListCnt > 0) {
-			categoryList = this.adminBrandApiService.getCategoryList(searchMap);
+			categoryList = this.adminCategoryApiService.getCategoryList(searchMap);
 		}
 
 		// 리스트 수
@@ -61,6 +75,19 @@ public class adminCategoryApi {
 		return categoryMap;
 	}
 
+	/**
+	 * <pre>
+	 * 1. MethodName : categoryInfo
+	 * 2. ClassName  : AdminCategoryApi.java
+	 * 3. Comment    : 분야 상세
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 07. 07.
+	 * </pre>
+	 *
+	 * @param  codeId
+	 * @return categoryMap
+	 * @throws Exception
+	 */
 	@ApiOperation(value = "분야 상세", notes = "분야 상세를 조회한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
@@ -73,11 +100,24 @@ public class adminCategoryApi {
 		NewCodeDTO newCodeDTO = new NewCodeDTO();
 		newCodeDTO.setCodeId(codeId);
 
-		ConcurrentHashMap categoryMap = this.adminBrandApiService.getCategoryInfo(newCodeDTO);
+		ConcurrentHashMap categoryMap = this.adminCategoryApiService.getCategoryInfo(newCodeDTO);
 
 		return categoryMap;
 	}
 
+	/**
+	 * <pre>
+	 * 1. MethodName : insertCategory
+	 * 2. ClassName  : AdminCategoryApi.java
+	 * 3. Comment    : 분야 상세
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 07. 07.
+	 * </pre>
+	 *
+	 * @param  newCodeDTO
+	 * @return result
+	 * @throws Exception
+	 */
 	@ApiOperation(value = "분야 등록", notes = "분야를 등록한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
@@ -88,11 +128,25 @@ public class adminCategoryApi {
 	public String insertCategory(NewCodeDTO newCodeDTO) throws Exception {
 		String result = "";
 
-		result = this.adminBrandApiService.insertCategory(newCodeDTO);
+		result = this.adminCategoryApiService.insertCategory(newCodeDTO);
 
 		return result;
 	}
 
+	/**
+	 * <pre>
+	 * 1. MethodName : updateCategory
+	 * 2. ClassName  : AdminCategoryApi.java
+	 * 3. Comment    : 분야 수정
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 07. 07.
+	 * </pre>
+	 *
+	 * @param  newCodeDTO
+	 * @param  codeId
+	 * @return result
+	 * @throws Exception
+	 */
 	@ApiOperation(value = "분야 수정", notes = "분야를 수정한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
@@ -106,7 +160,7 @@ public class adminCategoryApi {
 
 		newCodeDTO.setCodeId(codeId);
 
-		result = this.adminBrandApiService.updateCategory(newCodeDTO);
+		result = this.adminCategoryApiService.updateCategory(newCodeDTO);
 
 		return result;
 	}

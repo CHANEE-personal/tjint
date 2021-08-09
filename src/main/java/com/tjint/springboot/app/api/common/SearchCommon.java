@@ -26,11 +26,13 @@ public class SearchCommon {
 	public ConcurrentHashMap<String, Object> searchCommon(Page page, String searchKeyword) {
 
 		ConcurrentHashMap<String, Object> searchMap = new ConcurrentHashMap<>();
+
 		// 페이징 처리
 		Integer pageCnt = StringUtil.getInt(page.getPage(), 1);
 		Integer pageSize = StringUtil.getInt(page.getSize(), 10);
 		page.setPage(pageCnt);
 		page.setSize(pageSize);
+
 		// 검색 조건
 		searchMap.put("searchKeyword", StringUtil.getString(searchKeyword, ""));
 		searchMap.put("startPage", page.getStartPage());
