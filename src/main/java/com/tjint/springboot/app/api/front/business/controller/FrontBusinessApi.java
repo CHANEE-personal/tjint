@@ -24,6 +24,19 @@ public class FrontBusinessApi {
 
     private final FrontBusinessApiService frontBusinessApiService;
 
+    /**
+     * <pre>
+     * 1. MethodName : brandPage
+     * 2. ClassName  : FrontBusinessApi.java
+     * 3. Comment    : brandPage
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 30.
+     * </pre>
+     *
+     * @param  menuCd
+     * @return brandMap
+     * @throws Exception
+     */
     @ApiOperation(value = "Front Mission 페이지", notes = "Front Mission 페이지")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = Map.class),

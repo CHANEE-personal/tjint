@@ -18,6 +18,19 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 public class FrontAboutApi {
+    /**
+     * <pre>
+     * 1. MethodName : mission
+     * 2. ClassName  : FrontAboutApi.java
+     * 3. Comment    : misson 페이지
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 30.
+     * </pre>
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
     @ApiOperation(value = "Front Mission 페이지", notes = "Front Mission 페이지")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = Map.class),
@@ -29,6 +42,19 @@ public class FrontAboutApi {
         return "mission";
     }
 
+    /**
+     * <pre>
+     * 1. MethodName : ceo
+     * 2. ClassName  : FrontAboutApi.java
+     * 3. Comment    : ceo 페이지
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 30.
+     * </pre>
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
     @ApiOperation(value = "Front Ceo 페이지", notes = "Front Ceo 페이지")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = Map.class),
@@ -40,6 +66,19 @@ public class FrontAboutApi {
         return "ceo";
     }
 
+    /**
+     * <pre>
+     * 1. MethodName : corpHistory
+     * 2. ClassName  : FrontAboutApi.java
+     * 3. Comment    : history 페이지
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 30.
+     * </pre>
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
     @ApiOperation(value = "Front History 페이지", notes = "Front History 페이지")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = Map.class),
@@ -51,6 +90,19 @@ public class FrontAboutApi {
         return "corp-history";
     }
 
+    /**
+     * <pre>
+     * 1. MethodName : ci
+     * 2. ClassName  : FrontAboutApi.java
+     * 3. Comment    : ci 페이지
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 30.
+     * </pre>
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
     @ApiOperation(value = "Front Ci 페이지", notes = "Front Ci 페이지")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = Map.class),

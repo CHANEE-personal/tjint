@@ -27,7 +27,7 @@ public class FrontBusinessApiServiceImpl implements FrontBusinessApiService {
 	 * </pre>
 	 *
 	 * @param  brandMap
-	 * @return ConcurrentHashMap
+	 * @return resultMap
 	 * @throws Exception
 	 */
 	public ConcurrentHashMap<String, Object> getBrandList(Map<String, Object> brandMap) throws Exception {

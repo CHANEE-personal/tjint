@@ -26,6 +26,21 @@ public class FrontNewsApi {
     private final FrontNewsApiService frontNewsApiService;
     private final SearchCommon searchCommon;
 
+    /**
+     * <pre>
+     * 1. MethodName : frontNewsList
+     * 2. ClassName  : FrontNewsApi.java
+     * 3. Comment    : News 리스트 조회
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 29.
+     * </pre>
+     *
+     * @param  searchCondition
+     * @param  searchKeyword
+     * @param  page
+     * @return newsMap
+     * @throws Exception
+     */
     @ApiOperation(value = "Front News 페이지", notes = "Front News 페이지")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = Map.class),
@@ -61,6 +76,19 @@ public class FrontNewsApi {
         return newsMap;
     }
 
+    /**
+     * <pre>
+     * 1. MethodName : frontNewsInfo
+     * 2. ClassName  : FrontNewsApi.java
+     * 3. Comment    : News 상세페이지
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 29.
+     * </pre>
+     *
+     * @param  newsSeq
+     * @return newsMap
+     * @throws Exception
+     */
     @ApiOperation(value = "Front News 상세페이지", notes = "Front News 상세페이지")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = Map.class),
@@ -78,6 +106,19 @@ public class FrontNewsApi {
         return newsMap;
     }
 
+    /**
+     * <pre>
+     * 1. MethodName : society
+     * 2. ClassName  : FrontNewsApi.java
+     * 3. Comment    : SOCIETY 페이지
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 29.
+     * </pre>
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
     @ApiOperation(value = "Front SOCIETY 페이지", notes = "Front SOCIETY 페이지")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = Map.class),
@@ -89,6 +130,19 @@ public class FrontNewsApi {
         return "society";
     }
 
+    /**
+     * <pre>
+     * 1. MethodName : culture
+     * 2. ClassName  : FrontNewsApi.java
+     * 3. Comment    : SOCIETY 페이지
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 29.
+     * </pre>
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
     @ApiOperation(value = "Front CULTURE 페이지", notes = "Front CULTURE 페이지")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = Map.class),
