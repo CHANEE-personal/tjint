@@ -58,7 +58,7 @@ public interface AdminNewsApiService {
 	String addNews(NewNewsDTO newNewsDTO,
 				   NewImageDTO newImageDTO,
 				   AttachFileDTO attachFileDTO,
-				   MultipartFile files) throws Exception;
+				   MultipartFile[] files) throws Exception;
 
 	/**
 	 * <pre>
@@ -90,6 +90,5 @@ public interface AdminNewsApiService {
 	 */
 	String updateNews(NewNewsDTO newNewsDTO,
 					  NewImageDTO newImageDTO,
-					  AttachFileDTO attachFileDTO,
-					  MultipartFile files) throws Exception;
+					  MultipartFile[] files) throws Exception;
 }

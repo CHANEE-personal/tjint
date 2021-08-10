@@ -68,7 +68,7 @@ public class AdminNewsApi {
 	public String addNews(NewNewsDTO newNewsDTO,
 						  NewImageDTO newImageDTO,
 						  AttachFileDTO attachFileDTO,
-						  @RequestParam(value = "fileName", required = false) MultipartFile files) throws Exception {
+						  @RequestParam(value = "fileName", required = false) MultipartFile[] files) throws Exception {
 
 		String result = this.adminNewsApiService.addNews(newNewsDTO, newImageDTO, attachFileDTO, files);
 
@@ -103,13 +103,12 @@ public class AdminNewsApi {
 	public String updateNews(@PathVariable(value = "newsSeq") Integer newsSeq,
 							 NewNewsDTO newNewsDTO,
 							 NewImageDTO newImageDTO,
-							 AttachFileDTO attachFileDTO,
-							 @RequestParam(value = "fileName", required = false) MultipartFile files
+							 @RequestParam(value = "fileName", required = false) MultipartFile[] files
 							 ) throws Exception {
 
 		newNewsDTO.setNewsSeq(newsSeq);
 
-		String result = this.adminNewsApiService.updateNews(newNewsDTO, newImageDTO, attachFileDTO, files);
+		String result = this.adminNewsApiService.updateNews(newNewsDTO, newImageDTO, files);
 
 		return result;
 	}

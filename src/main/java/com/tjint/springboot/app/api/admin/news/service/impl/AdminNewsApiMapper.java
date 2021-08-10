@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
+@Transactional
 public interface AdminNewsApiMapper {
     /**
      * <pre>

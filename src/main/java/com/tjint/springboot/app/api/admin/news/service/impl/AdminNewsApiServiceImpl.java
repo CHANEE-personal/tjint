@@ -4,14 +4,14 @@ import com.tjint.springboot.app.api.admin.news.service.AdminNewsApiService;
 import com.tjint.springboot.app.api.admin.news.service.NewNewsDTO;
 import com.tjint.springboot.common.imageFile.AttachFileDTO;
 import com.tjint.springboot.common.imageFile.NewImageDTO;
+import com.tjint.springboot.common.imageFile.service.ImageService;
 import com.tjint.springboot.common.imageFile.service.impl.ImageMapper;
+import com.tjint.springboot.common.urlLink.service.UrlLinkService;
+import com.tjint.springboot.common.utils.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,6 +22,13 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 
 	private final AdminNewsApiMapper adminNewsApiMapper;
 	private final ImageMapper imageMapper;
+	private final ImageService imageService;
+	private final UrlLinkService urlLinkService;
+
+	/**
+	 * 업로드 경로
+	 **/
+	private final String uploadPath = "/Users/tj02/Documents/image/";
 
 	/**
 	 * <pre>
@@ -73,70 +80,29 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 	public String addNews(NewNewsDTO newNewsDTO,
 						  NewImageDTO newImageDTO,
 						  AttachFileDTO attachFileDTO,
-						  MultipartFile files) throws Exception {
+						  MultipartFile[] files) throws Exception {
 
-		// 현재 날짜 구하기
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		Calendar cl = Calendar.getInstance();
-		String strToday = sdf.format(cl.getTime());
-		// 파일 확장자
-		String ext = files.getOriginalFilename().substring(files.getOriginalFilename().lastIndexOf(".") + 1).toLowerCase();
-		// 파일 Id
-		String fileId = strToday.substring(4);
-		// 파일 Mask
-		String fileMask = strToday + '.' + ext;
-		// 파일 Size
-		long fileSize = files.getSize();
+		String resultMsg = "";
 
 		newNewsDTO.setCreator(1);
 		newNewsDTO.setUpdater(1);
 		newImageDTO.setSortOrder(1);
-		if (this.adminNewsApiMapper.addNews(newNewsDTO) > 0) {
-			// 이미지 파일 정보 등록
-			newImageDTO.setBoardTypeCd("brdt002");
-			newImageDTO.setImageTypeCd("imgt001");
+
+		String menuNm = "news";
+		String flag = "A";
+		if (adminNewsApiMapper.addNews(newNewsDTO) > 0) {
 			newImageDTO.setBoardSeq(newNewsDTO.getNewsSeq());
-			newImageDTO.setImageFileId(fileId);
-			newImageDTO.setSortOrder(1);
-			newImageDTO.setCreator(1);
-			newImageDTO.setUpdater(1);
-			newImageDTO.setVisible("Y");
-			newImageDTO.setImageFileSeq(1);
-
-			if (this.imageMapper.addImageFile(newImageDTO) > 0) {
-				// 이미지 경로 및 정보 등록
-				attachFileDTO.setFileId(fileId);
-				attachFileDTO.setFileSeq(1);
-				attachFileDTO.setFileBoardSeq(newNewsDTO.getNewsSeq());
-				attachFileDTO.setFileSize(fileSize);
-				attachFileDTO.setFileMask(fileMask);
-				attachFileDTO.setFilePath("/Users/tj03/Documents/image/" + fileMask);
-				attachFileDTO.setDownloadCnt(0);
-				attachFileDTO.setFilename(files.getOriginalFilename());
-
-				if(!new File("/Users/tj03/Documents/image/").exists()) {
-					try {
-						new File("/Users/tj03/Documents/image/").mkdir();
-					}catch(Exception e) {
-						e.getStackTrace();
-					}
-				}
-
-				String filePath = "/Users/tj03/Documents/image/" + fileMask;
-				files.transferTo(new File(filePath));
-
-				if (this.imageMapper.addAttachFile(attachFileDTO) > 0) {
-					return "Y";       // 등록 성공
-				} else {
-					return "N";
-				}
+			// 이미지 파일 등록
+			if (StringUtil.getInt(imageService.addImageFile(newImageDTO, files, flag, menuNm),0) > 0) {
+				resultMsg = "Y";
 			} else {
-				return "N";       // 등록 실패
+				resultMsg = "N";      // 이미지 파일 정보 insert 실패
 			}
-
 		} else {
-			return "N";       // 등록 실패
+			resultMsg = "N";            // 브랜드 등록 실패
 		}
+
+		return resultMsg;
 	}
 
 	/**
@@ -173,68 +139,27 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 	 */
 	public String updateNews(NewNewsDTO newNewsDTO,
 							 NewImageDTO newImageDTO,
-							 AttachFileDTO attachFileDTO,
-							 MultipartFile files) throws Exception {
-		// 현재 날짜 구하기
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-		Calendar cl = Calendar.getInstance();
-		String strToday = sdf.format(cl.getTime());
-		// 파일 확장자
-		String ext = files.getOriginalFilename().substring(files.getOriginalFilename().lastIndexOf(".") + 1).toLowerCase();
-		// 파일 Id
-		String fileId = strToday.substring(4);
-		// 파일 Mask
-		String fileMask = strToday + '.' + ext;
-		// 파일 Size
-		long fileSize = files.getSize();
+							 MultipartFile[] files) throws Exception {
+		String resultMsg = "";
 
+		newNewsDTO.setCreator(1);
 		newNewsDTO.setUpdater(1);
-		if (this.adminNewsApiMapper.updateNews(newNewsDTO) > 0) {
+		newImageDTO.setSortOrder(1);
 
-			// 이미지 파일 정보 등록
-			newImageDTO.setBoardTypeCd("brdt002");
-			newImageDTO.setImageTypeCd("imgt001");
+		String menuNm = "news";
+		String flag = "U";
+		if (adminNewsApiMapper.updateNews(newNewsDTO) > 0) {
 			newImageDTO.setBoardSeq(newNewsDTO.getNewsSeq());
-			newImageDTO.setImageFileId(fileId);
-			newImageDTO.setSortOrder(1);
-			newImageDTO.setCreator(1);
-			newImageDTO.setUpdater(1);
-			newImageDTO.setVisible("Y");
-			newImageDTO.setImageFileSeq(1);
-			imageMapper.deleteImageFile(newImageDTO);
-
-			if (this.imageMapper.addImageFile(newImageDTO) > 0) {
-				attachFileDTO.setFileBoardSeq(newNewsDTO.getNewsSeq());
-				// 이미지 경로 및 정보 등록
-				imageMapper.deleteAttachFile(attachFileDTO);
-				attachFileDTO.setFileId(fileId);
-				attachFileDTO.setFileSeq(1);
-				attachFileDTO.setFileSize(fileSize);
-				attachFileDTO.setFileMask(fileMask);
-				attachFileDTO.setFilePath("/Users/tj03/Documents/image/" + fileMask);
-				attachFileDTO.setDownloadCnt(0);
-				attachFileDTO.setFilename(files.getOriginalFilename());
-				if(!new File("/Users/tj03/Documents/image/").exists()) {
-					try {
-						new File("/Users/tj03/Documents/image/").mkdir();
-					}catch(Exception e) {
-						e.getStackTrace();
-					}
-				}
-
-				String filePath = "/Users/tj03/Documents/image/" + fileMask;
-				files.transferTo(new File(filePath));
-				if (this.imageMapper.addAttachFile(attachFileDTO) > 0) {
-					return "Y";       // 수정 성공
-				} else {
-					return "N";
-				}
+			// 이미지 파일 등록
+			if (StringUtil.getInt(imageService.addImageFile(newImageDTO, files, flag, menuNm),0) > 0) {
+				resultMsg = "Y";
 			} else {
-				return "N";       // 수정 실패
+				resultMsg = "N";      // 이미지 파일 정보 insert 실패
 			}
-
 		} else {
-			return "N";       // 수정 실패
+			resultMsg = "N";            // 브랜드 등록 실패
 		}
+
+		return resultMsg;
 	}
 }

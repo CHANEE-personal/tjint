@@ -5,7 +5,7 @@
 	<select id="getRecruitListCnt" parameterType="newRecruitDto" resultType="Integer">
 		/*[AdminRecruitApi_SQL.xml].[getRecruitListCnt] */
 		SELECT count(*) total
-		FROM app_board_recruit
+		FROM app_board_recruit_test
 		<where>
 			AND visible != 'D'
 			<if test="searchKeyword != null and searchKeyword !=''">
@@ -28,7 +28,7 @@
 		create_time,
 		updater,
 		update_time
-		FROM app_board_recruit
+		FROM app_board_recruit_test
 		<where>
 			AND visible != 'D'
 			<if test="recruitSeq != null and recruitSeq !=''">
@@ -67,7 +67,7 @@
 			   create_time,
 			   updater,
 			   update_time
-		FROM app_board_recruit
+		FROM app_board_recruit_test
 		WHERE recruit_seq = #{recruitSeq}
 	</select>
 

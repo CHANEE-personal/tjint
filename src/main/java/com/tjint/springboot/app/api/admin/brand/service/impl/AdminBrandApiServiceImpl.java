@@ -160,11 +160,12 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
 
         newBrandDTO.setMenuCategoryNm(StringUtil.getString(this.adminCategoryApiMapper.getCategoryInfo(newCodeDTO).get("code_name"),""));
 
+        String menuNm = "brand";
         String flag = "A";
         if (adminBrandApiMapper.addBrand(newBrandDTO) > 0) {
             newImageDTO.setBoardSeq(newBrandDTO.getBrandSeq());
             // 이미지 파일 등록
-            if (StringUtil.getInt(imageService.addImageFile(newImageDTO, files, flag),0) > 0) {
+            if (StringUtil.getInt(imageService.addImageFile(newImageDTO, files, flag, menuNm),0) > 0) {
                 // URL 링크 등록
                 newUrlLinkDTO.setBoardSeq(newBrandDTO.getBrandSeq());
                 if(StringUtil.getInt(urlLinkService.addUrlLink(newUrlLinkDTO, flag),0) > 0) {
@@ -217,11 +218,12 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
 
         newBrandDTO.setMenuCategoryNm(StringUtil.getString(this.adminCategoryApiMapper.getCategoryInfo(newCodeDTO).get("code_name"),""));
 
+        String menuNm = "brand";
         String flag = "U";
         if (adminBrandApiMapper.updateBrand(newBrandDTO) > 0) {
             newImageDTO.setBoardSeq(newBrandDTO.getBrandSeq());
             // 이미지 파일 등록
-            if (StringUtil.getInt(imageService.addImageFile(newImageDTO, files, flag),0) > 0) {
+            if (StringUtil.getInt(imageService.addImageFile(newImageDTO, files, flag, menuNm),0) > 0) {
                 // URL 링크 등록
                 newUrlLinkDTO.setBoardSeq(newBrandDTO.getBrandSeq());
                 if(StringUtil.getInt(urlLinkService.addUrlLink(newUrlLinkDTO, flag),0) > 0) {

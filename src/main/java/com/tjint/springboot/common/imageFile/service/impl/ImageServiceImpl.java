@@ -39,7 +39,7 @@ public class ImageServiceImpl implements ImageService {
      * @return
      * @throws Exception
      */
-    public Integer addImageFile(NewImageDTO newImageDTO, MultipartFile[] files, String flag) throws Exception {
+    public Integer addImageFile(NewImageDTO newImageDTO, MultipartFile[] files, String flag, String menuNm) throws Exception {
 
         // 확장자
         String ext = "";
@@ -64,7 +64,11 @@ public class ImageServiceImpl implements ImageService {
                     newImageDTO.setImageTypeCd("imgt002");
                 }
 
-                newImageDTO.setBoardTypeCd("brdt001");
+                if("news".equals(menuNm)) {
+                    newImageDTO.setBoardTypeCd("brdt002");
+                } else if("brand".equals(menuNm)){
+                    newImageDTO.setBoardTypeCd("brdt001");
+                }
                 newImageDTO.setSortOrder(1);
                 newImageDTO.setCreator(1);
                 newImageDTO.setVisible("Y");
@@ -89,9 +93,6 @@ public class ImageServiceImpl implements ImageService {
                 fileMask = fileId + '.' + ext;
                 fileSize = file.getSize();
 
-                String filePath = uploadPath + fileMask;
-                file.transferTo(new File(filePath));
-
                 attachFileDTO.setFileId(fileId);                                         // 파일ID
                 attachFileDTO.setFileSeq(0);                                             // 파일구분
                 attachFileDTO.setFilename(file.getOriginalFilename());                   // 파일명
@@ -114,20 +115,22 @@ public class ImageServiceImpl implements ImageService {
             }
         }
 
-        for (int i = files.length; i < 6; i++) {
-            newImageDTO.setImageTypeCd("imgt002");
-            newImageDTO.setImageFileId("");
-            newImageDTO.setSortOrder(i);
-            newImageDTO.setCreator(1);
-            newImageDTO.setUpdater(1);
-            newImageDTO.setVisible("N");
-            newImageDTO.setImageFileSeq(1);
+        if("brand".equals(menuNm)) {
+            for (int i = files.length; i < 6; i++) {
+                newImageDTO.setImageTypeCd("imgt002");
+                newImageDTO.setImageFileId("");
+                newImageDTO.setSortOrder(i);
+                newImageDTO.setCreator(1);
+                newImageDTO.setUpdater(1);
+                newImageDTO.setVisible("N");
+                newImageDTO.setImageFileSeq(1);
 
-            // subImage app_image_file_info 등록
-            if("U".equals(flag)) {
-                imageMapper.updateImageFile(newImageDTO);
-            } else {
-                imageMapper.addImageFile(newImageDTO);
+                // subImage app_image_file_info 등록
+                if("U".equals(flag)) {
+                    imageMapper.updateImageFile(newImageDTO);
+                } else {
+                    imageMapper.addImageFile(newImageDTO);
+                }
             }
         }
 
@@ -135,7 +138,7 @@ public class ImageServiceImpl implements ImageService {
     }
     public String currentDate() throws Exception {
         // 현재 날짜 구하기
-        String rtnStr = null;
+        String rtnStr = "";
         String pattern = "MMddHHmmssSSS";
         SimpleDateFormat sdfCurrent = new SimpleDateFormat(pattern, Locale.KOREA);
         Timestamp ts = new Timestamp(System.currentTimeMillis());
@@ -184,6 +187,14 @@ public class ImageServiceImpl implements ImageService {
                 fileId = strToday;
                 fileMask = strToday + '.' + ext;
                 fileSize = file.getSize();
+
+                if(!new File(uploadPath).exists()) {
+                    try {
+                        new File(uploadPath).mkdir();
+                    }catch(Exception e) {
+                        e.getStackTrace();
+                    }
+                }
 
                 String filePath = uploadPath + fileMask;
                 file.transferTo(new File(filePath));

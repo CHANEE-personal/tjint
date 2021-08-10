@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Mapper
 public interface AdminRecruitApiMapper {
@@ -117,5 +116,5 @@ public interface AdminRecruitApiMapper {
 	 * @return
 	 * @throws Exception
 	 */
-	ConcurrentHashMap<String, Object> getRecruitUrlInfo(Map<String, Object> recruitMap) throws Exception;
+	Map<String, Object> getRecruitUrlInfo(Map<String, Object> recruitMap) throws Exception;
 }

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import javax.transaction.Transactional;
 
 @Mapper
+@Transactional
 public interface ImageMapper {
 
     /**
