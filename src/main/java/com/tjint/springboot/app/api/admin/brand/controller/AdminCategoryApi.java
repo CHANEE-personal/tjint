@@ -125,7 +125,7 @@ public class AdminCategoryApi {
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
 	@PostMapping
-	public String insertCategory(NewCodeDTO newCodeDTO) throws Exception {
+	public String insertCategory(@RequestBody NewCodeDTO newCodeDTO) throws Exception {
 		String result = "";
 
 		result = this.adminCategoryApiService.insertCategory(newCodeDTO);
