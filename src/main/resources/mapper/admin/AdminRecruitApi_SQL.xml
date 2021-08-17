@@ -48,7 +48,7 @@
 				</otherwise>
 			</choose>
 		</where>
-		ORDER BY recruitDateYn DESC, recruit_seq DESC
+		ORDER BY recruit_seq DESC
 		LIMIT #{startPage}, #{size}
 	</select>
 
@@ -73,7 +73,7 @@
 
 	<select id="getRecruitLinkList" resultType="newUrlLinkDto">
 		/*[AdminRecruitApi_SQL.xml].[getRecruitLinkList] */
-		SELECT A.code_name                          snsName
+		SELECT A.code_name
 			 , B.link_seq
 			 , B.board_type_cd
 			 , B.board_seq
@@ -86,8 +86,8 @@
 			 , B.updater
 			 , B.update_time
 			 , A.property1
-		FROM app_code A
-				 LEFT OUTER JOIN app_url_link_info B ON A.code_id = B.link_type_cd
+		FROM app_code_test A
+				 LEFT OUTER JOIN app_url_link_info_test B ON A.code_id = B.link_type_cd
 			AND B.board_seq = #{boardSeq}
 			AND B.board_type_cd = #{boardTypeCd}
 			AND B.link_type_cd !='rect001'
@@ -97,7 +97,7 @@
 	<select id="getRecruitUrlInfo" parameterType="HashMap" resultType="HashMap">
 		/* [AdminRecruitApi_SQL.xml].[getRecruitUrlInfo] */
 		SELECT *
-		FROM app_code
+		FROM app_code_test
 		WHERE code_id = #{codeId}
 	</select>
 
