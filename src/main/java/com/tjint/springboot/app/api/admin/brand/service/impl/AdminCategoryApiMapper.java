@@ -102,4 +102,19 @@ public interface AdminCategoryApiMapper {
 	 * @throws Exception
 	 */
 	Integer addSns(NewCodeDTO newCodeDTO) throws Exception;
+
+	/**
+	 * <pre>
+	 * 1. MethodName : updateSns
+	 * 2. ClassName  : AdminCategoryApiMapper.java
+	 * 3. Comment    : SNS 수정
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 07. 18.
+	 * </pre>
+	 *
+	 * @param newCodeDTO
+	 * @return
+	 * @throws Exception
+	 */
+	Integer updateSns(NewCodeDTO newCodeDTO) throws Exception;
 }

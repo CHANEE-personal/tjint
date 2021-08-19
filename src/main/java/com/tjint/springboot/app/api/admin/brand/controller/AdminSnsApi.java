@@ -27,26 +27,6 @@ public class AdminSnsApi {
 	private final AdminCategoryApiService adminCategoryApiService;
 	private final SearchCommon searchcommon;
 
-	@ApiOperation(value = "SNS 등록", notes = "SNS를 등록한다.")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
-			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
-			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
-	})
-	@PostMapping
-	public String addSns(NewCodeDTO newCodeDTO,
-						 @RequestParam(value = "fileName") MultipartFile files) throws Exception {
-		String result = "";
-
-		if(this.adminCategoryApiService.addSns(newCodeDTO, files) > 0) {
-			result = "Y";
-		} else {
-			result = "N";
-		}
-
-		return result;
-	}
-
 	@ApiOperation(value = "SNS 조회", notes = "SNS를 조회한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
@@ -55,7 +35,7 @@ public class AdminSnsApi {
 	})
 	@GetMapping(value = "/lists")
 	public ConcurrentHashMap<String, Object> snsList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword,
-									   Page page) throws Exception {
+													 Page page) throws Exception {
 		ConcurrentHashMap<String, Object> snsMap = new ConcurrentHashMap<>();
 
 		// 페이징 및 검색
@@ -80,5 +60,45 @@ public class AdminSnsApi {
 		snsMap.put("snsList", snsList);
 
 		return snsMap;
+	}
+
+	@ApiOperation(value = "SNS 등록", notes = "SNS를 등록한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
+			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
+			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
+	})
+	@PostMapping
+	public String addSns(@RequestBody NewCodeDTO newCodeDTO,
+						 @RequestParam(value = "fileName") MultipartFile files) throws Exception {
+		String result = "";
+
+		if(this.adminCategoryApiService.addSns(newCodeDTO, files) > 0) {
+			result = "Y";
+		} else {
+			result = "N";
+		}
+
+		return result;
+	}
+
+	@ApiOperation(value = "SNS 등록", notes = "SNS를 등록한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
+			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
+			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
+	})
+	@PostMapping("update-sns")
+	public String updateSns(@RequestBody NewCodeDTO newCodeDTO,
+							@RequestParam(value = "fileName") MultipartFile files) throws Exception {
+		String result = "";
+
+		if(this.adminCategoryApiService.updateSns(newCodeDTO, files) > 0) {
+			result = "Y";
+		} else {
+			result = "N";
+		}
+
+		return result;
 	}
 }

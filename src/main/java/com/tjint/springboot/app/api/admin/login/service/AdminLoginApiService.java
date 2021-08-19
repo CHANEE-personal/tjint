@@ -1,6 +1,7 @@
 package com.tjint.springboot.app.api.admin.login.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -36,5 +37,5 @@ public interface AdminLoginApiService {
      * @return result
      * @throws Exception
      */
-    String adminLogin(NewUserDTO newUserDTO, HttpServletRequest request) throws Exception;
+    String adminLogin(NewUserDTO newUserDTO, HttpServletRequest request, BindingResult bindingResult) throws Exception;
 }

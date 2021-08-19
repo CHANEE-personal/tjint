@@ -99,4 +99,20 @@ public interface AdminCategoryApiService {
 	 * @throws Exception
 	 */
 	Integer addSns(NewCodeDTO newCodeDTO, MultipartFile files) throws Exception;
+
+	/**
+	 * <pre>
+	 * 1. MethodName : updateSns
+	 * 2. ClassName  : AdminBrandApiService.java
+	 * 3. Comment    : SNS 수정
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 07. 18.
+	 * </pre>
+	 *
+	 * @param newCodeDTO
+	 * @param files
+	 * @return
+	 * @throws Exception
+	 */
+	Integer updateSns(NewCodeDTO newCodeDTO, MultipartFile files) throws Exception;
 }

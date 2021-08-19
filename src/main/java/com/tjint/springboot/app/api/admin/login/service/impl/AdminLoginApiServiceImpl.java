@@ -1,16 +1,22 @@
 package com.tjint.springboot.app.api.admin.login.service.impl;
 
+import com.tjint.springboot.app.admin.session.SessionConst;
 import com.tjint.springboot.app.api.admin.login.service.AdminLoginApiService;
 import com.tjint.springboot.app.api.admin.login.service.NewUserDTO;
 import com.tjint.springboot.common.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Service("AdminLoginApiService")
 @RequiredArgsConstructor
 public class AdminLoginApiServiceImpl implements AdminLoginApiService {
@@ -48,14 +54,20 @@ public class AdminLoginApiServiceImpl implements AdminLoginApiService {
      * @return result
      * @throws Exception
      */
-    public String adminLogin(NewUserDTO newUserDTO, HttpServletRequest request) throws Exception {
+    public String adminLogin(@Validated NewUserDTO newUserDTO, HttpServletRequest request, BindingResult bindingResult) throws Exception {
+
+        if(bindingResult.hasErrors()) {
+            return "redirect:/login";
+        }
+
         final String db_pw = StringUtils.nullStrToStr(this.adminLoginApiMapper.adminLogin(newUserDTO));
 
         String result = "";
         if (passwordEncoder.matches(newUserDTO.getPassword(), db_pw)) {
             result = "Y";
             NewUserDTO newUserDTO1 = selectAdminSeq(newUserDTO);
-            request.getSession().setAttribute("adminVO", newUserDTO1);
+            HttpSession session = request.getSession();
+            session.setAttribute(SessionConst.LOGIN_MEMBER, newUserDTO1);
         }
         else {
 

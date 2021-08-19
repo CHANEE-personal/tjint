@@ -5,8 +5,6 @@ import com.tjint.springboot.app.api.admin.news.service.NewNewsDTO;
 import com.tjint.springboot.common.imageFile.AttachFileDTO;
 import com.tjint.springboot.common.imageFile.NewImageDTO;
 import com.tjint.springboot.common.imageFile.service.ImageService;
-import com.tjint.springboot.common.imageFile.service.impl.ImageMapper;
-import com.tjint.springboot.common.urlLink.service.UrlLinkService;
 import com.tjint.springboot.common.utils.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,14 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 
 	private final AdminNewsApiMapper adminNewsApiMapper;
-	private final ImageMapper imageMapper;
 	private final ImageService imageService;
-	private final UrlLinkService urlLinkService;
-
-	/**
-	 * 업로드 경로
-	 **/
-	private final String uploadPath = "/Users/tj02/Documents/image/";
 
 	/**
 	 * <pre>

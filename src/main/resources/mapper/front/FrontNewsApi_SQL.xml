@@ -100,7 +100,7 @@
 		SELECT min(news_seq)
 		FROM app_board_news_test
 		WHERE news_seq <![CDATA[>]]> #{newsSeq}
-		  AND visible = 'Y';
+		  AND visible = 'Y'
 	</select>
 
 </mapper>

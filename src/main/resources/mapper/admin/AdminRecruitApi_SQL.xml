@@ -21,16 +21,19 @@
 		recruit_description,
 		DATE_FORMAT(opening_date, '%Y-%m-%d') as openingDate,
 		DATE_FORMAT(closing_date, '%Y-%m-%d') as closingDate,
-		visible,
-		creator,
+		rt.visible,
+		rt.creator,
 		case when NOW() BETWEEN opening_date AND DATE_ADD(closing_date, INTERVAL 1 DAY) then 'Y'
 		ELSE 'N' END as recruitDateYn,
-		create_time,
-		updater,
-		update_time
-		FROM app_board_recruit_test
+		rt.create_time,
+		rt.updater,
+		rt.update_time,
+		GROUP_CONCAT(it.link_address) AS link_address
+		FROM app_board_recruit_test rt, app_url_link_info_test it
 		<where>
-			AND visible != 'D'
+			AND rt.recruit_seq = it.board_seq
+			AND link_type_cd IN ('rect002','rect003')
+			AND rt.visible != 'D'
 			<if test="recruitSeq != null and recruitSeq !=''">
 				AND recruit_seq = #{recruitSeq}
 			</if>
@@ -48,6 +51,7 @@
 				</otherwise>
 			</choose>
 		</where>
+		GROUP BY recruit_seq
 		ORDER BY recruit_seq DESC
 		LIMIT #{startPage}, #{size}
 	</select>

@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @RequestMapping(value = "/api/category")
 @RestController
 @RequiredArgsConstructor
@@ -48,8 +50,10 @@ public class AdminCategoryApi {
 	})
 	@GetMapping(value = "/lists")
 	@ResponseBody
-	public ConcurrentHashMap<String, Object> categoryList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword,
-											Page page) throws Exception {
+	public ConcurrentHashMap<String, Object> categoryList(
+			@RequestParam(value = "searchKeyword", required = false) String searchKeyword
+			,Page page) throws Exception {
+
 		ConcurrentHashMap<String, Object> categoryMap = new ConcurrentHashMap<>();
 
 		// 페이징 및 검색
@@ -109,7 +113,7 @@ public class AdminCategoryApi {
 	 * <pre>
 	 * 1. MethodName : insertCategory
 	 * 2. ClassName  : AdminCategoryApi.java
-	 * 3. Comment    : 분야 상세
+	 * 3. Comment    : 분야 등록
 	 * 4. 작성자       : CHO
 	 * 5. 작성일       : 2021. 07. 07.
 	 * </pre>

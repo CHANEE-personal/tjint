@@ -69,15 +69,21 @@ public class FrontNewsApiServiceImpl implements FrontNewsApiService {
 
         Integer newsSeq = newNewsDTO.getNewsSeq();
 
+        Integer prevIdx = this.frontNewsApiMapper.frontNewsPrevIdx(newsSeq);
         // 이전 글 상세 조회
-        newsMap.put("prevIdx", this.frontNewsApiMapper.frontNewsPrevIdx(newsSeq));
-        newNewsDTO.setNewsSeq(this.frontNewsApiMapper.frontNewsPrevIdx(newsSeq));
-        newsMap.put("newsPrevInfo", this.frontNewsApiMapper.frontNewsInfo(newNewsDTO));
+        if(prevIdx != null) {
+            newsMap.put("prevIdx", prevIdx);
+            newNewsDTO.setNewsSeq(prevIdx);
+            newsMap.put("newsPrevInfo", this.frontNewsApiMapper.frontNewsInfo(newNewsDTO));
+        }
 
+        Integer nextIdx = this.frontNewsApiMapper.frontNewsNextIdx(newsSeq);
         // 다음 글 상세 조회
-        newsMap.put("nextIdx", this.frontNewsApiMapper.frontNewsNextIdx(newsSeq));
-        newNewsDTO.setNewsSeq(this.frontNewsApiMapper.frontNewsNextIdx(newsSeq));
-        newsMap.put("newsNextInfo", this.frontNewsApiMapper.frontNewsInfo(newNewsDTO));
+        if(nextIdx != null) {
+            newsMap.put("nextIdx", nextIdx);
+            newNewsDTO.setNewsSeq(nextIdx);
+            newsMap.put("newsNextInfo", this.frontNewsApiMapper.frontNewsInfo(newNewsDTO));
+        }
 
         newNewsDTO.setNewsSeq(newsSeq);
 

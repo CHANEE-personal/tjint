@@ -138,6 +138,32 @@ public class AdminCategoryApiServiceImpl implements AdminCategoryApiService {
 	 * @throws Exception
 	 */
 	public Integer addSns(NewCodeDTO newCodeDTO, MultipartFile files) throws Exception {
+		newCodeDTO.setParentCd("lnkt002");
+		newCodeDTO.setCodeValue(" ");
+		newCodeDTO.setCreator(1);
+		newCodeDTO.setUpdater(1);
 		return this.adminCategoryApiMapper.addSns(newCodeDTO);
+	}
+
+	/**
+	 * <pre>
+	 * 1. MethodName : updateSns
+	 * 2. ClassName  : AdminBrandApiServiceImpl.java
+	 * 3. Comment    : SNS 수정
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 07. 18.
+	 * </pre>
+	 *
+	 * @param newCodeDTO
+	 * @param files
+	 * @return
+	 * @throws Exception
+	 */
+	public Integer updateSns(NewCodeDTO newCodeDTO, MultipartFile files) throws Exception {
+		newCodeDTO.setParentCd("lnkt002");
+		newCodeDTO.setCodeValue(" ");
+		newCodeDTO.setCreator(1);
+		newCodeDTO.setUpdater(1);
+		return this.adminCategoryApiMapper.updateSns(newCodeDTO);
 	}
 }
