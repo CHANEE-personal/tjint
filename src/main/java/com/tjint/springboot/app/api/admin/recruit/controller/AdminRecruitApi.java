@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.rmi.ServerError;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,7 @@ public class AdminRecruitApi {
 															 Page page) throws Exception {
 		ConcurrentHashMap<String, Object> recruitMap = new ConcurrentHashMap<>();
 
+		// 페이징 및 검색
 		ConcurrentHashMap<String, Object> searchMap = searchCommon.searchCommon(page, searchKeyword);
 
 		Integer recruitListCnt = this.adminRecruitApiService.getRecruitListCnt(searchMap);
@@ -89,9 +91,9 @@ public class AdminRecruitApi {
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
 	@PostMapping
-	public String addRecruit(@RequestBody NewRecruitDTO newRecruitDTO) throws Exception {
+	public String addRecruit(@RequestBody NewRecruitDTO newRecruitDTO, HttpServletRequest request) throws Exception {
 
-		String result = this.adminRecruitApiService.addRecruit(newRecruitDTO);
+		String result = this.adminRecruitApiService.addRecruit(newRecruitDTO, request);
 
 		return result;
 	}

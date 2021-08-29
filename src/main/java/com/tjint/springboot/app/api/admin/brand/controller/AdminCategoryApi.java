@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.rmi.ServerError;
 import java.util.List;
 import java.util.Map;
@@ -129,10 +130,12 @@ public class AdminCategoryApi {
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
 	@PostMapping
-	public String insertCategory(@RequestBody NewCodeDTO newCodeDTO) throws Exception {
+	public String insertCategory(@RequestBody NewCodeDTO newCodeDTO, HttpServletRequest request) throws Exception {
 		String result = "";
 
-		result = this.adminCategoryApiService.insertCategory(newCodeDTO);
+		searchCommon.giveAuth(request, newCodeDTO);
+
+		result = this.adminCategoryApiService.insertCategory(newCodeDTO, request);
 
 		return result;
 	}
@@ -159,12 +162,14 @@ public class AdminCategoryApi {
 	})
 	@PutMapping(value = "/{codeId}")
 	public String updateCategory(@RequestBody NewCodeDTO newCodeDTO,
-								 @PathVariable(name = "codeId") String codeId) throws Exception {
+								 @PathVariable(name = "codeId") String codeId, HttpServletRequest request) throws Exception {
 		String result = "";
+
+		searchCommon.giveAuth(request, newCodeDTO);
 
 		newCodeDTO.setCodeId(codeId);
 
-		result = this.adminCategoryApiService.updateCategory(newCodeDTO);
+		result = this.adminCategoryApiService.updateCategory(newCodeDTO, request);
 
 		return result;
 	}

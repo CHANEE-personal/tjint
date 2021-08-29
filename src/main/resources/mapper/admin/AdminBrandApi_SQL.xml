@@ -14,7 +14,7 @@
 		<result column="updater" property="updater"/>
 		<result column="updateTime" property="updateTime"/>
 		<collection property="snsLinkList" column="brandSeq" javaType="java.util.ArrayList" ofType="newUrlLinkDto"
-					select="getBrandSnsLinkList"/>
+					select="getSnsLinkList"/>
 		<collection property="imageList" column="brandSeq" javaType="java.util.ArrayList" ofType="attachFileDto"
 					select="getImageList"/>
 	</resultMap>
@@ -130,7 +130,7 @@
 		FROM app_url_link_info_test
 		WHERE board_seq = #{boardSeq}
 		  AND visible = 'Y'
-		  AND link_type_cd IN ('lnkt001', 'lnkt003', 'lnkt004', 'lnkt005', 'lnkt006')
+		  AND link_type_cd IN ('lnkt001', 'lnkt003', 'lnkt004', 'lnkt005', 'lnkt006', 'lnkt007')
 		ORDER BY sort_order ASC
 	</select>
 
@@ -152,6 +152,7 @@
 			 J_ATTACHFILE_TEST ja
 		WHERE image_file_id = FILE_ID
 		  AND board_seq = #{boardSeq}
+		  AND image_type_cd = 'imgt002'
 		  AND visible = 'Y'
 		ORDER BY sort_order ASC
 	</select>
@@ -181,10 +182,7 @@
 		AND B.link_type_cd NOT IN ('lnkt001', 'lnkt002')
 		LEFT OUTER JOIN J_ATTACHFILE_TEST C ON A.property1 = C.FILE_ID
 		WHERE A.parent_cd = 'lnkt002'
-		<if test="visible != null and visible != ''">
-			AND B.visible = #{visible}
-		</if>
-		ORDER BY A.sort_order
+		ORDER BY sort_order asc
 	</select>
 
 	<insert id="addBrand" parameterType="newBrandDto" useGeneratedKeys="true" keyProperty="brandSeq">
@@ -218,6 +216,7 @@
 		SET
 		<if test="categoryCd != null and categoryCd != ''">category_cd = #{categoryCd},</if>
 		<if test="menuCategoryCd != null and menuCategoryCd != ''">menu_category_cd = #{menuCategoryCd},</if>
+		<if test="menuCategoryNm != null and menuCategoryNm != ''">menu_category_nm = #{menuCategoryNm},</if>
 		<if test="brandName != null and brandName != ''">brand_name = #{brandName},</if>
 		<if test="brandDescription != null and brandDescription != ''">brand_description = #{brandDescription},</if>
 		<if test="visible != null and visible != ''">visible = #{visible},</if>

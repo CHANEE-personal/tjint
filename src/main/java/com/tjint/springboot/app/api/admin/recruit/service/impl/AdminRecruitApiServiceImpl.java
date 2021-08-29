@@ -7,6 +7,7 @@ import com.tjint.springboot.common.utils.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,7 +95,7 @@ public class AdminRecruitApiServiceImpl implements AdminRecruitApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public String addRecruit(NewRecruitDTO newRecruitDTO) throws Exception {
+	public String addRecruit(NewRecruitDTO newRecruitDTO, HttpServletRequest request) throws Exception {
 
 		//채용사이트 구분
 		String result = "";
@@ -103,8 +104,12 @@ public class AdminRecruitApiServiceImpl implements AdminRecruitApiService {
 		Map<String, Object> recruitMap = new HashMap<>();
 		Map<String, Object> urlMap;
 
-		newRecruitDTO.setCreator(1);
-		newRecruitDTO.setUpdater(1);
+		// JWT token 값 존재 시 유저 인증 값 부여
+		if(request.getHeader("Authorization") != null) {
+			newRecruitDTO.setCreator(1);
+			newRecruitDTO.setUpdater(1);
+		}
+
 		if(this.adminRecruitApiMapper.insertRecruitInfo(newRecruitDTO) > 0) {
 			String[] snsArr = newRecruitDTO.getJobsValues().split(",");
 			for(int i = 0; i < snsArr.length; i++) {

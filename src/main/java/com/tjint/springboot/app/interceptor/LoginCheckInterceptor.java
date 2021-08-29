@@ -1,30 +1,75 @@
 package com.tjint.springboot.app.interceptor;
 
-import com.tjint.springboot.app.admin.session.SessionConst;
+import com.tjint.springboot.app.admin.jwt.JwtUtil;
+import com.tjint.springboot.app.admin.jwt.MyUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @Slf4j
+@Component
 public class LoginCheckInterceptor implements HandlerInterceptor {
+
+	@Autowired
+	private JwtUtil jwtUtil;
+
+	@Autowired
+	private MyUserDetailsService userDetailsService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-		String requestURI = request.getRequestURI();
+		log.info("Interceptor 호출{}");
 
-		log.info("인증 체크 인터셉터 실행 {}", requestURI);
+		// Request Header에서 토큰 값 가져온다
+		String authorizationHeader = request.getHeader("Authorization");
+		String token = null;
+		String userName = null;
 
-		HttpSession session = request.getSession();
+		if (authorizationHeader != null) {
+			token = authorizationHeader;
+			userName = jwtUtil.extractUserName(token);
+		}
 
-		if(session == null || session.getAttribute(SessionConst.LOGIN_MEMBER) == null) {
-			log.info("미인증 사용자 요청");
+		if (StringUtils.equals(request.getMethod(), "OPTIONS")) {
+			log.debug("if request options method is options, return true");
+
+			return true;
+		}
+
+		if (userName != null && token != null) {
+			log.info("인증 사용자");
+			UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
+
+			// 유효한 토큰인지 검증
+			if (jwtUtil.validateToken(token, userDetails)) {
+				// 토큰이 유효할 시 고객 정보 받아온다
+				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+						new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+				usernamePasswordAuthenticationToken
+						.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+				// 받아온 고객 정보 SecurityContext에 저장
+				SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+
+			}
+
+			return true;
+		} else {
+			log.info("미인증 사용자");
+			response.sendRedirect("/api/auth/login");
 			return false;
 		}
 
-		return true;
 	}
 }

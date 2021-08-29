@@ -2,6 +2,8 @@ package com.tjint.springboot.common.urlLink.service;
 
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Service
 public interface UrlLinkService {
     /**
@@ -17,5 +19,5 @@ public interface UrlLinkService {
      * @return
      * @throws Exception
      */
-    Integer addUrlLink(NewUrlLinkDTO newUrlLinkDTO, String flag) throws Exception;
+    Integer addUrlLink(HttpServletRequest request, NewUrlLinkDTO newUrlLinkDTO, String flag) throws Exception;
 }

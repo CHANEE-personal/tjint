@@ -28,11 +28,17 @@
 		WHERE USER_ID = #{userId}
 	</select>
 
-	<select id="selectAdminSeq" parameterType="newUserDto" resultType="newUserDto">
+	<select id="selectAdminSeq" parameterType="String" resultType="String">
 		/*[AdminLoginApi_SQL.xml].[selectAdminSeq] */
 		SELECT USER_SEQ as userSeq,
 			   name
 		FROM app_user_info
-		WHERE USER_ID = #{userId}
+		WHERE user_token = #{userToken}
 	</select>
+
+	<insert id="insertUserToken" parameterType="newUserDto">
+		/*[AdminLoginApi_SQL.xml].[insertUserToken] */
+		UPDATE app_user_info SET user_token = #{userToken}
+		WHERE USER_ID = #{userId}
+	</insert>
 </mapper>

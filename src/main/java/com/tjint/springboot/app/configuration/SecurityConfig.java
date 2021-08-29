@@ -1,6 +1,5 @@
 package com.tjint.springboot.app.configuration;
 
-import com.tjint.springboot.app.admin.jwt.JwtFilter;
 import com.tjint.springboot.app.admin.jwt.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final MyUserDetailsService userDetailsService;
-    private final JwtFilter jwtFilter;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -82,15 +80,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http.csrf().disable();
 
-//        http.csrf().disable().authorizeRequests()
-//                .antMatchers("/authentication")
-//                .permitAll().anyRequest().authenticated()
-//                .and().exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint()).and().sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+/*        http.csrf().disable().authorizeRequests()
+                .antMatchers("/api/auth/**")
+                .permitAll().anyRequest().authenticated()
+                .and().exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint()).and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);*/
     }
 
     @Bean

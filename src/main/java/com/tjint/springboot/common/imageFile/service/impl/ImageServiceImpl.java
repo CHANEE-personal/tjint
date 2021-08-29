@@ -1,9 +1,12 @@
 package com.tjint.springboot.common.imageFile.service.impl;
 
+import com.tjint.springboot.app.api.common.SearchCommon;
 import com.tjint.springboot.common.imageFile.AttachFileDTO;
 import com.tjint.springboot.common.imageFile.NewImageDTO;
 import com.tjint.springboot.common.imageFile.service.ImageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,17 +17,42 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+@Slf4j
 @Service("ImageService")
 @RequiredArgsConstructor
 public class ImageServiceImpl implements ImageService {
 
-    private final ImageMapper imageMapper;
-
     /**
      * 업로드 경로
      **/
-    private final String uploadPath = "/Users/tj02/Documents/image/";
+    @Value("${image.uploadPath}")
+    private String uploadPath;
 
+    private final ImageMapper imageMapper;
+    private final SearchCommon searchCommon;
+
+    /**
+     * <pre>
+     * 1. MethodName : currentDate
+     * 2. ClassName  : ImageServiceImpl.java
+     * 3. Comment    : 현재 날짜 구하기
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 06. 02.
+     * </pre>
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
+    public String currentDate() throws Exception {
+        // 현재 날짜 구하기
+        String rtnStr = "";
+        String pattern = "MMddHHmmssSSS";
+        SimpleDateFormat sdfCurrent = new SimpleDateFormat(pattern, Locale.KOREA);
+        Timestamp ts = new Timestamp(System.currentTimeMillis());
+        rtnStr = sdfCurrent.format(Long.valueOf(ts.getTime()));
+        return rtnStr;
+    }
 
     /**
      * <pre>
@@ -39,7 +67,10 @@ public class ImageServiceImpl implements ImageService {
      * @return
      * @throws Exception
      */
-    public Integer addImageFile(NewImageDTO newImageDTO, MultipartFile[] files, String flag, String menuNm) throws Exception {
+    public Integer addImageFile(HttpServletRequest request,
+                                NewImageDTO newImageDTO,
+                                MultipartFile[] files,
+                                String flag) throws Exception {
 
         // 확장자
         String ext = "";
@@ -55,95 +86,59 @@ public class ImageServiceImpl implements ImageService {
         attachFileDTO.setJBoardSeq(newImageDTO.getBoardSeq());
         imageMapper.deleteAttachFile(attachFileDTO);
 
-        for (MultipartFile file : files) {
-            fileId = currentDate();
-            if(file.getSize() > 0) {
-                if(mainCnt == 1) {
-                    newImageDTO.setImageTypeCd("imgt001");
-                } else {
-                    newImageDTO.setImageTypeCd("imgt002");
-                }
-
-                if("news".equals(menuNm)) {
-                    newImageDTO.setBoardTypeCd("brdt002");
-                } else if("brand".equals(menuNm)){
-                    newImageDTO.setBoardTypeCd("brdt001");
-                }
-                newImageDTO.setSortOrder(1);
-                newImageDTO.setCreator(1);
-                newImageDTO.setVisible("Y");
-                newImageDTO.setUpdater(1);
-                newImageDTO.setImageFileSeq(1);
-
-                // mainImage app_image_file_info 등록
-                if("U".equals(flag)) {
-                    newImageDTO.setImageFileId(fileId);
-                    if (imageMapper.updateImageFile(newImageDTO) > 0) {
-                        mainCnt++;
+        if(files != null) {
+            for (MultipartFile file : files) {
+                fileId = currentDate();
+                if(file.getSize() > 0) {
+                    if(mainCnt == 1) {
+                        newImageDTO.setImageTypeCd("imgt001");
+                    } else {
+                        newImageDTO.setImageTypeCd("imgt002");
                     }
-                } else {
-                    newImageDTO.setImageFileId(fileId);
-                    if (imageMapper.addImageFile(newImageDTO) > 0) {
-                        mainCnt++;
+
+                    // creator, updater 인증 부여
+                    searchCommon.giveAuth(request, newImageDTO);
+
+                    newImageDTO.setSortOrder(1);
+                    newImageDTO.setVisible("Y");
+                    newImageDTO.setImageFileSeq(1);
+
+                    // mainImage app_image_file_info 등록
+                    if("U".equals(flag)) {
+                        newImageDTO.setImageFileId(fileId);
+                        if (imageMapper.updateImageFile(newImageDTO) > 0) {
+                            mainCnt++;
+                        }
+                    } else {
+                        newImageDTO.setImageFileId(fileId);
+                        if (imageMapper.addImageFile(newImageDTO) > 0) {
+                            mainCnt++;
+                        }
                     }
-                }
 
-                ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1).toLowerCase();
+                    ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1).toLowerCase();
 
-                fileMask = fileId + '.' + ext;
-                fileSize = file.getSize();
+                    fileMask = fileId + '.' + ext;
+                    fileSize = file.getSize();
 
-                attachFileDTO.setFileId(fileId);                                         // 파일ID
-                attachFileDTO.setFileSeq(0);                                             // 파일구분
-                attachFileDTO.setFilename(file.getOriginalFilename());                   // 파일명
-                attachFileDTO.setFileSize(fileSize);  // 파일Size
-                attachFileDTO.setFileMask(fileMask);                                     // 파일Mask
-                attachFileDTO.setFilePath(uploadPath + fileMask);
-                attachFileDTO.setDownloadCnt(0);
-                attachFileDTO.setFilename(file.getOriginalFilename());
+                    attachFileDTO.setFileId(fileId);                                         // 파일ID
+                    attachFileDTO.setFileSeq(0);                                             // 파일구분
+                    attachFileDTO.setFilename(file.getOriginalFilename());                   // 파일명
+                    attachFileDTO.setFileSize(fileSize);  // 파일Size
+                    attachFileDTO.setFileMask(fileMask);                                     // 파일Mask
+                    attachFileDTO.setFilePath(uploadPath + fileMask);
+                    attachFileDTO.setDownloadCnt(0);
+                    attachFileDTO.setFilename(file.getOriginalFilename());
 
-                // 이미지 정보 insert
-                if("U".equals(flag)) {
+                    // 이미지 정보 insert
                     if(imageMapper.addAttachFile(attachFileDTO)>0) {
                         mainCnt++;
                     }
-                } else {
-                    if(imageMapper.addAttachFile(attachFileDTO)>0) {
-                        mainCnt++;
-                    }
-                }
-            }
-        }
-
-        if("brand".equals(menuNm)) {
-            for (int i = files.length; i < 6; i++) {
-                newImageDTO.setImageTypeCd("imgt002");
-                newImageDTO.setImageFileId("");
-                newImageDTO.setSortOrder(i);
-                newImageDTO.setCreator(1);
-                newImageDTO.setUpdater(1);
-                newImageDTO.setVisible("N");
-                newImageDTO.setImageFileSeq(1);
-
-                // subImage app_image_file_info 등록
-                if("U".equals(flag)) {
-                    imageMapper.updateImageFile(newImageDTO);
-                } else {
-                    imageMapper.addImageFile(newImageDTO);
                 }
             }
         }
 
         return mainCnt;
-    }
-    public String currentDate() throws Exception {
-        // 현재 날짜 구하기
-        String rtnStr = "";
-        String pattern = "MMddHHmmssSSS";
-        SimpleDateFormat sdfCurrent = new SimpleDateFormat(pattern, Locale.KOREA);
-        Timestamp ts = new Timestamp(System.currentTimeMillis());
-        rtnStr = sdfCurrent.format(Long.valueOf(ts.getTime()));
-        return rtnStr;
     }
 
     /**
@@ -181,39 +176,41 @@ public class ImageServiceImpl implements ImageService {
             dir.mkdirs();
         }
 
-        for (MultipartFile file : files) {
-            try {
-                ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1).toLowerCase();
-                fileId = strToday;
-                fileMask = strToday + '.' + ext;
-                fileSize = file.getSize();
+        if(files != null) {
+            for (MultipartFile file : files) {
+                try {
+                    ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1).toLowerCase();
+                    fileId = strToday;
+                    fileMask = strToday + '.' + ext;
+                    fileSize = file.getSize();
 
-                if(!new File(uploadPath).exists()) {
-                    try {
-                        new File(uploadPath).mkdir();
-                    }catch(Exception e) {
-                        e.getStackTrace();
+                    if(!new File(uploadPath).exists()) {
+                        try {
+                            new File(uploadPath).mkdir();
+                        }catch(Exception e) {
+                            e.getStackTrace();
+                        }
                     }
+
+                    String filePath = uploadPath + fileMask;
+                    file.transferTo(new File(filePath));
+
+                    AttachFileDTO attachFileDTO = new AttachFileDTO();
+                    attachFileDTO.setFileId(fileId);                                         // 파일ID
+                    attachFileDTO.setFileSeq(0);                                             // 파일구분
+                    attachFileDTO.setFilename(file.getOriginalFilename());                   // 파일명
+                    attachFileDTO.setFileSize(fileSize);  // 파일Size
+                    attachFileDTO.setFileMask(fileMask);                                        // 파일Mask
+                    attachFileDTO.setFilePath(uploadPath + fileMask);
+                    attachFileDTO.setDownloadCnt(0);
+                    attachFileDTO.setFilename(file.getOriginalFilename());
+
+                    // 이미지 정보 insert
+                    imageMapper.addAttachFile(attachFileDTO);
+
+                } catch (Exception e) {
+                    throw new Exception();
                 }
-
-                String filePath = uploadPath + fileMask;
-                file.transferTo(new File(filePath));
-
-                AttachFileDTO attachFileDTO = new AttachFileDTO();
-                attachFileDTO.setFileId(fileId);                                         // 파일ID
-                attachFileDTO.setFileSeq(0);                                             // 파일구분
-                attachFileDTO.setFilename(file.getOriginalFilename());                   // 파일명
-                attachFileDTO.setFileSize(fileSize);  // 파일Size
-                attachFileDTO.setFileMask(fileMask);                                        // 파일Mask
-                attachFileDTO.setFilePath(uploadPath + fileMask);
-                attachFileDTO.setDownloadCnt(0);
-                attachFileDTO.setFilename(file.getOriginalFilename());
-
-                // 이미지 정보 insert
-                imageMapper.addAttachFile(attachFileDTO);
-
-            } catch (Exception e) {
-                throw new Exception();
             }
         }
 

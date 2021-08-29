@@ -3,6 +3,7 @@ package com.tjint.springboot.app.api.admin.recruit.service;
 import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -68,5 +69,5 @@ public interface AdminRecruitApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	String addRecruit(NewRecruitDTO newRecruitDTO) throws Exception;
+	String addRecruit(NewRecruitDTO newRecruitDTO, HttpServletRequest request) throws Exception;
 }

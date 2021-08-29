@@ -1,14 +1,18 @@
 package com.tjint.springboot.common.urlLink.service.impl;
 
+import com.tjint.springboot.app.api.common.SearchCommon;
 import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import com.tjint.springboot.common.urlLink.service.UrlLinkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Service("UrlLinkService")
 @RequiredArgsConstructor
 public class UrlLinkServiceImpl implements UrlLinkService {
     private final UrlLinkMapper urlLinkMapper;
+    private final SearchCommon searchCommon;
 
     /**
      * <pre>
@@ -23,15 +27,17 @@ public class UrlLinkServiceImpl implements UrlLinkService {
      * @return
      * @throws Exception
      */
-    public Integer addUrlLink(NewUrlLinkDTO newUrlLinkDTO, String flag) throws Exception {
+    public Integer addUrlLink(HttpServletRequest request, NewUrlLinkDTO newUrlLinkDTO, String flag) throws Exception {
 
         if("Y".equals(newUrlLinkDTO.getBrandLinkVisible())) {
             newUrlLinkDTO.setBoardTypeCd("brdt001");
             newUrlLinkDTO.setLinkTypeCd("lnkt001");
             newUrlLinkDTO.setLinkAddress(newUrlLinkDTO.getBrandLink());
             newUrlLinkDTO.setSortOrder(1);
-            newUrlLinkDTO.setCreator(1);
-            newUrlLinkDTO.setUpdater(1);
+
+            // creator, updater 인증 부여
+            searchCommon.giveAuth(request, newUrlLinkDTO);
+
             newUrlLinkDTO.setVisible("Y");
 
             // 홈페이지 링크 등록
@@ -46,8 +52,6 @@ public class UrlLinkServiceImpl implements UrlLinkService {
         for(int i = 0; i < snsArr.length; i++) {
             newUrlLinkDTO.setBoardTypeCd("brdt001");
             newUrlLinkDTO.setSortOrder(i+1);
-            newUrlLinkDTO.setCreator(1);
-            newUrlLinkDTO.setUpdater(1);
             String[] sns = snsArr[i].split(",");
             if(i == 0) {
                 if ("Y".equals(sns[1])) {

@@ -9,7 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -20,6 +22,9 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     @Autowired
     ApplicationContext applicationContext;
+
+    @Autowired
+    private HandlerInterceptor loginCheckInterceptor;
 
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS =
             {"classpath:/static/",
@@ -32,25 +37,25 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:28080", "http://localhost:8080")
-                .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH")
+                .allowedOrigins("http://202.8.178.111:8080")
+                .allowedOrigins("http://localhost:8080")
+                .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS")
                 .allowedHeaders("*")
                 .maxAge(3600);
     }
 
-//    @Override
-//    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-//        resolvers.add(new LoginMemberArgumentResolver());
-//    }
-//
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(new LoginCheckInterceptor())
-//                .order(1)
-//                .addPathPatterns("/**")
-//                .excludePathPatterns("/", "/login", "/logout", "/css/**", "/*.ico", "/error", "/swagger-ui.html",
-//                        "/webjars/springfox-swagger-ui/**", "/swagger-resources/**", "/csrf");
-//    }
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(loginCheckInterceptor)
+                .order(1)
+                .excludePathPatterns("/api/auth/admin-login")
+                .excludePathPatterns(
+                        "/v2/api-docs",
+                        "/swagger-resources/**",
+                        "/swagger-ui.html",
+                        "/webjars/**"
+                );
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

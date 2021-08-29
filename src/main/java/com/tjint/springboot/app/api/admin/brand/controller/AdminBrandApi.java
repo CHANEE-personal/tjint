@@ -9,6 +9,7 @@ import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import com.tjint.springboot.common.utils.StringUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @RequestMapping(value = "/api/brand")
 @RestController
 @RequiredArgsConstructor
@@ -27,6 +29,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AdminBrandApi {
 
 	private final AdminBrandApiService adminBrandApiService;
+
+	// 검색 관련 bean 주입
 	private final SearchCommon searchCommon;
 
 	/**
@@ -51,7 +55,8 @@ public class AdminBrandApi {
 	})
 	@GetMapping(value = "/lists")
 	public ConcurrentHashMap<String, Object> getBrandList(@RequestParam(value = "searchKeyword", required = false) String searchKeyword,
-														  Page page) throws Exception {
+														  Page page,
+														  HttpServletRequest request) throws Exception {
 
 		ConcurrentHashMap<String, Object> brandMap = new ConcurrentHashMap<>();
 
@@ -156,6 +161,7 @@ public class AdminBrandApi {
 						   HttpServletRequest request) throws Exception {
 
 		String result = "";
+
 		if("Y".equals(this.adminBrandApiService.addBrand(newBrandDTO, newImageDTO, newUrlLinkDTO, files, request))) {
 			result = "Y";
 		} else {

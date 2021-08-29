@@ -1,5 +1,6 @@
 package com.tjint.springboot.app.api.admin.brand.service;
 
+import com.tjint.springboot.common.NewCommonDTO;
 import com.tjint.springboot.common.imageFile.AttachFileDTO;
 import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import io.swagger.annotations.ApiModel;
@@ -12,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @ApiModel
-public class NewBrandDTO {
+public class NewBrandDTO extends NewCommonDTO {
 
     @ApiModelProperty(required = true, value = "브랜드 IDX", hidden = true)
     private Integer brandSeq;
@@ -35,14 +36,8 @@ public class NewBrandDTO {
     @ApiModelProperty(required = true, value = "노출 여부")
     private String visible;
 
-    @ApiModelProperty(required = true, value = "등록자")
-    private Integer creator;
-
     @ApiModelProperty(required = true, value = "등록시간", hidden = true)
     private String createTime;
-
-    @ApiModelProperty(required = true, value = "수정자")
-    private Integer updater;
 
     @ApiModelProperty(required = true, value = "수정일자", hidden = true)
     private String updateTime;

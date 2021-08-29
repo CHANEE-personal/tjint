@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,10 +22,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -35,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Api(tags = "회원관련 API")
 @RequestMapping(value = "/api/auth")
 @RestController
@@ -46,6 +45,28 @@ public class AdminLoginApi {
 	private final JwtUtil jwtTokenUtil;
 	private final AdminLoginApiService adminLoginApiService;
 	private final SearchCommon searchCommon;
+
+	/**
+	 * <pre>
+	 * 1. MethodName : login
+	 * 2. ClassName  : AdminLoginApi.java
+	 * 3. Comment    : 관리자 로그인 화면
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 04. 23.
+	 * </pre>
+	 *
+	 * @throws Exception
+	 */
+	@ApiOperation(value = "로그인 화면", notes = "로그인 화면")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공", response = Map.class),
+			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
+			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
+	})
+	@GetMapping(value = "/login")
+	public String login() throws Exception {
+		return "login";
+	}
 
 	/**
 	 * <pre>
@@ -67,6 +88,7 @@ public class AdminLoginApi {
 	})
 	@PostMapping(value = "/users")
 	public List<NewUserDTO> getUserList(Page page) throws Exception {
+		// 페이징 및 검색
 		ConcurrentHashMap userMap = searchCommon.searchCommon(page, "");
 
 		List<NewUserDTO> userInfoList = this.adminLoginApiService.getUserList(userMap);
@@ -76,7 +98,7 @@ public class AdminLoginApi {
 
 	/**
 	 * <pre>
-	 * 1. MethodName : adminLogin
+	 * 1. MethodName : admin-login
 	 * 2. ClassName  : AdminLoginApi.java
 	 * 3. Comment    : 관리자 로그인 처리
 	 * 4. 작성자       : CHO
@@ -112,6 +134,12 @@ public class AdminLoginApi {
 			userMap.put("loginYn", resultValue);
 			userMap.put("userId", newUserDTO.getUserId());
 			userMap.put("token", createAuthenticationToken(authenticationRequest));
+
+			// 로그인 완료 시 생성된 token 값 DB에 저장
+			UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUserId());
+			String token = jwtTokenUtil.generateToken(userDetails);
+			newUserDTO.setUserToken(token);
+			adminLoginApiService.insertUserToken(newUserDTO);
 		}
 
 		return userMap;

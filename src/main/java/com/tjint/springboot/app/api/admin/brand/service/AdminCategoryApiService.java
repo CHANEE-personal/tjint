@@ -3,6 +3,7 @@ package com.tjint.springboot.app.api.admin.brand.service;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -67,7 +68,7 @@ public interface AdminCategoryApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	String insertCategory(NewCodeDTO newCodeDTO) throws Exception;
+	String insertCategory(NewCodeDTO newCodeDTO, HttpServletRequest request) throws Exception;
 
 	/**
 	 * <pre>
@@ -82,7 +83,7 @@ public interface AdminCategoryApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	String updateCategory(NewCodeDTO newCodeDTO) throws Exception;
+	String updateCategory(NewCodeDTO newCodeDTO, HttpServletRequest request) throws Exception;
 
 	/**
 	 * <pre>
@@ -98,7 +99,7 @@ public interface AdminCategoryApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	Integer addSns(NewCodeDTO newCodeDTO, MultipartFile files) throws Exception;
+	Integer addSns(NewCodeDTO newCodeDTO, MultipartFile files, HttpServletRequest request) throws Exception;
 
 	/**
 	 * <pre>
@@ -114,5 +115,5 @@ public interface AdminCategoryApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	Integer updateSns(NewCodeDTO newCodeDTO, MultipartFile files) throws Exception;
+	Integer updateSns(NewCodeDTO newCodeDTO, MultipartFile files, HttpServletRequest request) throws Exception;
 }

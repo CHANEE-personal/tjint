@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -82,14 +83,13 @@ public class AdminCategoryApiServiceImpl implements AdminCategoryApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public String insertCategory(NewCodeDTO newCodeDTO) throws Exception {
+	public String insertCategory(NewCodeDTO newCodeDTO, HttpServletRequest request) throws Exception {
 		String result = "";
 
 		newCodeDTO.setDescription(newCodeDTO.getCodeName());
 		newCodeDTO.setParentCd("ct000");
 		newCodeDTO.setCodeValue(" ");
-		newCodeDTO.setCreator(1);
-		newCodeDTO.setUpdater(1);
+
 		if(this.adminCategoryApiMapper.insertCategory(newCodeDTO) > 0) {
 			result = "Y";
 		} else {
@@ -112,8 +112,9 @@ public class AdminCategoryApiServiceImpl implements AdminCategoryApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public String updateCategory(NewCodeDTO newCodeDTO) throws Exception {
+	public String updateCategory(NewCodeDTO newCodeDTO, HttpServletRequest request) throws Exception {
 		String result = "";
+
 		if(this.adminCategoryApiMapper.updateCategory(newCodeDTO) > 0) {
 			result = "Y";
 		} else {
@@ -137,11 +138,10 @@ public class AdminCategoryApiServiceImpl implements AdminCategoryApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Integer addSns(NewCodeDTO newCodeDTO, MultipartFile files) throws Exception {
+	public Integer addSns(NewCodeDTO newCodeDTO, MultipartFile files, HttpServletRequest request) throws Exception {
 		newCodeDTO.setParentCd("lnkt002");
 		newCodeDTO.setCodeValue(" ");
-		newCodeDTO.setCreator(1);
-		newCodeDTO.setUpdater(1);
+
 		return this.adminCategoryApiMapper.addSns(newCodeDTO);
 	}
 
@@ -159,11 +159,10 @@ public class AdminCategoryApiServiceImpl implements AdminCategoryApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Integer updateSns(NewCodeDTO newCodeDTO, MultipartFile files) throws Exception {
+	public Integer updateSns(NewCodeDTO newCodeDTO, MultipartFile files, HttpServletRequest request) throws Exception {
 		newCodeDTO.setParentCd("lnkt002");
 		newCodeDTO.setCodeValue(" ");
-		newCodeDTO.setCreator(1);
-		newCodeDTO.setUpdater(1);
+
 		return this.adminCategoryApiMapper.updateSns(newCodeDTO);
 	}
 }

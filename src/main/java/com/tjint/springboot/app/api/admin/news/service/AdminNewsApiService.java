@@ -1,10 +1,12 @@
 package com.tjint.springboot.app.api.admin.news.service;
 
+import com.tjint.springboot.app.exception.ApiException;
 import com.tjint.springboot.common.imageFile.AttachFileDTO;
 import com.tjint.springboot.common.imageFile.NewImageDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -58,7 +60,8 @@ public interface AdminNewsApiService {
 	String addNews(NewNewsDTO newNewsDTO,
 				   NewImageDTO newImageDTO,
 				   AttachFileDTO attachFileDTO,
-				   MultipartFile[] files) throws Exception;
+				   MultipartFile[] files,
+				   HttpServletRequest request) throws Exception;
 
 	/**
 	 * <pre>
@@ -90,5 +93,6 @@ public interface AdminNewsApiService {
 	 */
 	String updateNews(NewNewsDTO newNewsDTO,
 					  NewImageDTO newImageDTO,
-					  MultipartFile[] files) throws Exception;
+					  MultipartFile[] files,
+					  HttpServletRequest request) throws Exception;
 }

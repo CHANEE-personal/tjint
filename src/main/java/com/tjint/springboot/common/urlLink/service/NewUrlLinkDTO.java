@@ -1,5 +1,6 @@
 package com.tjint.springboot.common.urlLink.service;
 
+import com.tjint.springboot.common.NewCommonDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -8,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel
-public class NewUrlLinkDTO {
+public class NewUrlLinkDTO extends NewCommonDTO {
     @ApiModelProperty(required = true, value = "링크 IDX", hidden = true)
     private Integer linkSeq;
 
@@ -29,12 +30,6 @@ public class NewUrlLinkDTO {
 
     @ApiModelProperty(required = true, value = "노출 여부", hidden = true)
     private String visible;
-
-    @ApiModelProperty(required = true, value = "등록자", hidden = true)
-    private Integer creator;
-
-    @ApiModelProperty(required = true, value = "수정자", hidden = true)
-    private Integer updater;
 
     @ApiModelProperty(required = false, value = "홈페이지 링크", hidden = true)
     private String brandLink;

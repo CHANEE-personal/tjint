@@ -22,7 +22,8 @@ public interface ImageService {
      * @return
      * @throws Exception
      */
-    Integer addImageFile(NewImageDTO newImageDTO, MultipartFile[] files, String flag, String menuNm) throws Exception;
+    Integer addImageFile(HttpServletRequest request,
+                         NewImageDTO newImageDTO, MultipartFile[] files, String flag) throws Exception;
 
     /**
      * <pre>

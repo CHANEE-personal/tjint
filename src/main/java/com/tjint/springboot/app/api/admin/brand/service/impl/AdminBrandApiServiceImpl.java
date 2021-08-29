@@ -3,12 +3,14 @@ package com.tjint.springboot.app.api.admin.brand.service.impl;
 import com.tjint.springboot.app.api.admin.brand.service.AdminBrandApiService;
 import com.tjint.springboot.app.api.admin.brand.service.NewBrandDTO;
 import com.tjint.springboot.app.api.admin.brand.service.NewCodeDTO;
+import com.tjint.springboot.app.api.common.SearchCommon;
 import com.tjint.springboot.common.imageFile.NewImageDTO;
 import com.tjint.springboot.common.imageFile.service.ImageService;
 import com.tjint.springboot.common.urlLink.service.NewUrlLinkDTO;
 import com.tjint.springboot.common.urlLink.service.UrlLinkService;
 import com.tjint.springboot.common.utils.StringUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,13 +19,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 @Service("AdminBrandApiService")
 @RequiredArgsConstructor
 public class AdminBrandApiServiceImpl implements AdminBrandApiService {
+
     private final AdminBrandApiMapper adminBrandApiMapper;
     private final AdminCategoryApiMapper adminCategoryApiMapper;
     private final ImageService imageService;
     private final UrlLinkService urlLinkService;
+    private final SearchCommon searchCommon;
 
     /**
      * <pre>
@@ -93,40 +98,6 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
 
     /**
      * <pre>
-     * 1. MethodName : getImageList
-     * 2. ClassName  : AdminBrandApiServiceImpl.java
-     * 3. Comment    : 브랜드 상세 이미지 리스트
-     * 4. 작성자       : CHO
-     * 5. 작성일       : 2021. 07. 15.
-     * </pre>
-     *
-     * @param newImageDTO
-     * @return
-     * @throws Exception
-     */
-    public List<NewImageDTO> getImageList(NewImageDTO newImageDTO) throws Exception {
-        return adminBrandApiMapper.getImageList(newImageDTO);
-    }
-
-    /**
-     * <pre>
-     * 1. MethodName : getSnsLinkList
-     * 2. ClassName  : AdminBrandApiServiceImpl.java
-     * 3. Comment    : 브랜드 상세 SNS LIST
-     * 4. 작성자       : CHO
-     * 5. 작성일       : 2021. 07. 15.
-     * </pre>
-     *
-     * @param newUrlLinkDTO
-     * @return
-     * @throws Exception
-     */
-    public List<NewUrlLinkDTO> getSnsLinkList(NewUrlLinkDTO newUrlLinkDTO) throws Exception {
-        return adminBrandApiMapper.getSnsLinkList(newUrlLinkDTO);
-    }
-
-    /**
-     * <pre>
      * 1. MethodName : addBrand
      * 2. ClassName  : AdminBrandApiServiceImpl.java
      * 3. Comment    : 브랜드 등록
@@ -146,29 +117,27 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
         String resultMsg = "";
 
         NewCodeDTO newCodeDTO = new NewCodeDTO();
-        newBrandDTO.setCreator(1);
-        newBrandDTO.setUpdater(1);
-        newImageDTO.setSortOrder(1);
 
-        if("0".equals(newBrandDTO.getMenuCategoryCd())) {
-            newCodeDTO.setCodeId("mu001");
-        } else if("1".equals(newBrandDTO.getMenuCategoryCd())) {
-            newCodeDTO.setCodeId("mu002");
-        } else if("2".equals(newBrandDTO.getMenuCategoryCd())) {
-            newCodeDTO.setCodeId("mu003");
-        }
+        // creator, updater 인증 부여
+        searchCommon.giveAuth(request, newBrandDTO);
+
+        newImageDTO.setSortOrder(1);
+        newImageDTO.setBoardTypeCd("brdt002");
+
+        Integer codeId = StringUtil.getInt(newBrandDTO.getMenuCategoryCd(),0)+1;
+        String codeNm = "mu00"+codeId;
+        newCodeDTO.setCodeId(codeNm);
 
         newBrandDTO.setMenuCategoryNm(StringUtil.getString(this.adminCategoryApiMapper.getCategoryInfo(newCodeDTO).get("code_name"),""));
 
-        String menuNm = "brand";
         String flag = "A";
         if (adminBrandApiMapper.addBrand(newBrandDTO) > 0) {
             newImageDTO.setBoardSeq(newBrandDTO.getBrandSeq());
             // 이미지 파일 등록
-            if (StringUtil.getInt(imageService.addImageFile(newImageDTO, files, flag, menuNm),0) > 0) {
+            if (StringUtil.getInt(imageService.addImageFile(request,newImageDTO, files, flag),0) > 0) {
                 // URL 링크 등록
                 newUrlLinkDTO.setBoardSeq(newBrandDTO.getBrandSeq());
-                if(StringUtil.getInt(urlLinkService.addUrlLink(newUrlLinkDTO, flag),0) > 0) {
+                if(StringUtil.getInt(urlLinkService.addUrlLink(request,newUrlLinkDTO, flag),0) > 0) {
                     resultMsg = "Y";      // 등록 성공
                 } else {
                     resultMsg = "N";     // 등록 실패
@@ -204,29 +173,27 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
         String resultMsg = "";
 
         NewCodeDTO newCodeDTO = new NewCodeDTO();
-        newBrandDTO.setCreator(1);
-        newBrandDTO.setUpdater(1);
-        newImageDTO.setSortOrder(1);
 
-        if("0".equals(newBrandDTO.getMenuCategoryCd())) {
-            newCodeDTO.setCodeId("mu001");
-        } else if("1".equals(newBrandDTO.getMenuCategoryCd())) {
-            newCodeDTO.setCodeId("mu002");
-        } else if("2".equals(newBrandDTO.getMenuCategoryCd())) {
-            newCodeDTO.setCodeId("mu003");
-        }
+        // creator, updater 인증 부여
+        searchCommon.giveAuth(request, newBrandDTO);
+
+        newImageDTO.setSortOrder(1);
+        newImageDTO.setBoardTypeCd("brdt002");
+
+        Integer codeId = StringUtil.getInt(newBrandDTO.getMenuCategoryCd(),0)+1;
+        String codeNm = "mu00"+codeId;
+        newCodeDTO.setCodeId(codeNm);
 
         newBrandDTO.setMenuCategoryNm(StringUtil.getString(this.adminCategoryApiMapper.getCategoryInfo(newCodeDTO).get("code_name"),""));
 
-        String menuNm = "brand";
         String flag = "U";
         if (adminBrandApiMapper.updateBrand(newBrandDTO) > 0) {
             newImageDTO.setBoardSeq(newBrandDTO.getBrandSeq());
             // 이미지 파일 등록
-            if (StringUtil.getInt(imageService.addImageFile(newImageDTO, files, flag, menuNm),0) > 0) {
+            if (StringUtil.getInt(imageService.addImageFile(request, newImageDTO, files, flag),0) > 0) {
                 // URL 링크 등록
                 newUrlLinkDTO.setBoardSeq(newBrandDTO.getBrandSeq());
-                if(StringUtil.getInt(urlLinkService.addUrlLink(newUrlLinkDTO, flag),0) > 0) {
+                if(StringUtil.getInt(urlLinkService.addUrlLink(request, newUrlLinkDTO, flag),0) > 0) {
                     resultMsg = "Y";      // 등록 성공
                 } else {
                     resultMsg = "N";     // 등록 실패

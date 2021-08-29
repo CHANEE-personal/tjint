@@ -8709,7 +8709,7 @@ if ( xhrSupported ) {
 					callback = function( _, isAbort ) {
 						var status, responseHeaders, statusText, responses;
 
-						// Firefox throws exceptions when accessing properties
+						// Firefox throws Exceptions when accessing properties
 						// of an xhr when a network error occurred
 						// http://helpful.knobs-dials.com/index.php/Component_returned_failure_code:_0x80040111_(NS_ERROR_NOT_AVAILABLE)
 						try {

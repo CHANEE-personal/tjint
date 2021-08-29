@@ -1,5 +1,6 @@
 package com.tjint.springboot.app.api.admin.brand.service;
 
+import com.tjint.springboot.common.NewCommonDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -8,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel
-public class NewCodeDTO {
+public class NewCodeDTO extends NewCommonDTO {
 	@ApiModelProperty(required = true, value = "code Id", hidden = true)
 	private String codeId;
 
@@ -45,14 +46,8 @@ public class NewCodeDTO {
 	@ApiModelProperty(required = true, value = "노출여부")
 	private String visible;
 
-	@ApiModelProperty(required = true, value = "등록자", hidden = true)
-	private Integer creator;
-
 	@ApiModelProperty(required = true, value = "등록시간", hidden = true)
 	private String createTime;
-
-	@ApiModelProperty(required = true, value = "수정자", hidden = true)
-	private Integer updater;
 
 	@ApiModelProperty(required = true, value = "수정일자", hidden = true)
 	private String updateTime;

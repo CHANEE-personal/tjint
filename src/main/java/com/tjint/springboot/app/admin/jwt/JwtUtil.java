@@ -3,6 +3,7 @@ package com.tjint.springboot.app.admin.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Slf4j
 @Component
 public class JwtUtil {
 	@Value("${spring.jwt.secret}")
@@ -34,14 +36,53 @@ public class JwtUtil {
 		return claimsResolver.apply(claims);
 	}
 
+	/**
+	 * <pre>
+	 * 1. MethodName : extractAllClaims
+	 * 2. ClassName  : JwtUtil.java
+	 * 3. Comment    : JWT 토큰이 유효한 토큰인지 검사한 후, 토큰에 담긴 Payload 값을 가져온다
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 07. 07.
+	 * </pre>
+	 *
+	 * @param token
+	 * @return
+	 * @throws Exception
+	 */
 	private Claims extractAllClaims(String token) {
 		return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
 	}
 
+	/**
+	 * <pre>
+	 * 1. MethodName : isTokenExpired
+	 * 2. ClassName  : JwtUtil.java
+	 * 3. Comment    : 만료된 토큰인지 체크
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 07. 07.
+	 * </pre>
+	 *
+	 * @param token
+	 * @return
+	 * @throws Exception
+	 */
 	private Boolean isTokenExpired(String token) {
 		return extractExpiration(token).before(new Date());
 	}
 
+	/**
+	 * <pre>
+	 * 1. MethodName : generateToken
+	 * 2. ClassName  : JwtUtil.java
+	 * 3. Comment    : 토큰 재발급
+	 * 4. 작성자       : CHO
+	 * 5. 작성일       : 2021. 07. 07.
+	 * </pre>
+	 *
+	 * @param userDetails
+	 * @return
+	 * @throws Exception
+	 */
 	public String generateToken(UserDetails userDetails) {
 		Map<String, Object> claims = new HashMap<>();
 		return createToken(claims, userDetails.getUsername());
@@ -84,7 +125,7 @@ public class JwtUtil {
 	 * @throws Exception
 	 */
 	public String resolveToken(HttpServletRequest request) {
-		return request.getHeader("authentication");
+		return request.getHeader("Authorization");
 	}
 
 	/**

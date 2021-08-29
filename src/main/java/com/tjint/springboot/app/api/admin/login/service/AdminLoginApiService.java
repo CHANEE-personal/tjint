@@ -38,4 +38,19 @@ public interface AdminLoginApiService {
      * @throws Exception
      */
     String adminLogin(NewUserDTO newUserDTO, HttpServletRequest request, BindingResult bindingResult) throws Exception;
+
+    /**
+     * <pre>
+     * 1. MethodName : insertUserToken
+     * 2. ClassName  : AdminLoginApiService.java
+     * 3. Comment    : 회원 로그인 후 토큰 등록
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 04. 23.
+     * </pre>
+     *
+     * @param newUserDTO
+     * @return result
+     * @throws Exception
+     */
+    Integer insertUserToken(NewUserDTO newUserDTO) throws Exception;
 }

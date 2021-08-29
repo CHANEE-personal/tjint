@@ -5,6 +5,7 @@ import com.tjint.springboot.app.api.admin.login.service.NewUserDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -54,5 +55,32 @@ public interface AdminLoginApiMapper {
      */
     String adminLogin(NewUserDTO newUserDTO) throws Exception;
 
-    NewUserDTO selectAdminSeq(NewUserDTO newUserDTO) throws Exception;
+    /**
+     * <pre>
+     * 1. MethodName : selectAdminSeq
+     * 2. ClassName  : AdminLoginApiMapper.java
+     * 3. Comment    : 관리자 로그인 처리 후 seq 값 부여
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 04. 23.
+     * </pre>
+     *
+     * @param  userToken
+     * @throws Exception
+     */
+    String selectAdminSeq(String userToken) throws Exception;
+
+    /**
+     * <pre>
+     * 1. MethodName : insertUserToken
+     * 2. ClassName  : AdminLoginApiMapper.java
+     * 3. Comment    : 관리자 로그인 처리 후 seq 값 부여
+     * 4. 작성자       : CHO
+     * 5. 작성일       : 2021. 04. 23.
+     * </pre>
+     *
+     * @param  newUserDTO
+     * @throws Exception
+     */
+    @Transactional
+    Integer insertUserToken(NewUserDTO newUserDTO) throws Exception;
 }

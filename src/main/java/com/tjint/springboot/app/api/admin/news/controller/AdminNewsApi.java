@@ -3,6 +3,7 @@ package com.tjint.springboot.app.api.admin.news.controller;
 import com.tjint.springboot.app.api.admin.news.service.AdminNewsApiService;
 import com.tjint.springboot.app.api.admin.news.service.NewNewsDTO;
 import com.tjint.springboot.app.api.common.SearchCommon;
+import com.tjint.springboot.app.exception.ApiException;
 import com.tjint.springboot.common.imageFile.AttachFileDTO;
 import com.tjint.springboot.common.imageFile.NewImageDTO;
 import com.tjint.springboot.common.paging.Page;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.rmi.ServerError;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +39,7 @@ public class AdminNewsApi {
 
 		ConcurrentHashMap<String, Object> newsMap = new ConcurrentHashMap<>();
 
+		// 페이징 및 검색
 		ConcurrentHashMap<String, Object> searchMap = searchCommon.searchCommon(page, searchKeyword);
 
 		Integer newsListCnt = this.adminNewsApiService.getNewsListCnt(searchMap);
@@ -68,9 +71,9 @@ public class AdminNewsApi {
 	public String addNews(NewNewsDTO newNewsDTO,
 						  NewImageDTO newImageDTO,
 						  AttachFileDTO attachFileDTO,
-						  @RequestParam(value = "fileName", required = false) MultipartFile[] files) throws Exception {
+						  @RequestParam(value = "fileName", required = false) MultipartFile[] files, HttpServletRequest request) throws Exception {
 
-		String result = this.adminNewsApiService.addNews(newNewsDTO, newImageDTO, attachFileDTO, files);
+		String result = this.adminNewsApiService.addNews(newNewsDTO, newImageDTO, attachFileDTO, files, request);
 
 		return result;
 	}
@@ -103,12 +106,11 @@ public class AdminNewsApi {
 	public String updateNews(@PathVariable(value = "newsSeq") Integer newsSeq,
 							 NewNewsDTO newNewsDTO,
 							 NewImageDTO newImageDTO,
-							 @RequestParam(value = "fileName", required = false) MultipartFile[] files
-							 ) throws Exception {
+							 @RequestParam(value = "fileName", required = false) MultipartFile[] files, HttpServletRequest request) throws Exception {
 
 		newNewsDTO.setNewsSeq(newsSeq);
 
-		String result = this.adminNewsApiService.updateNews(newNewsDTO, newImageDTO, files);
+		String result = this.adminNewsApiService.updateNews(newNewsDTO, newImageDTO, files, request);
 
 		return result;
 	}

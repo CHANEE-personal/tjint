@@ -1,5 +1,6 @@
 package com.tjint.springboot.app.api.admin.news.service;
 
+import com.tjint.springboot.common.NewCommonDTO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -8,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel
-public class NewNewsDTO {
+public class NewNewsDTO extends NewCommonDTO {
 
     @ApiModelProperty(required = true, value = "NEWS IDX", hidden = true)
     private Integer newsSeq;
@@ -21,10 +22,4 @@ public class NewNewsDTO {
 
     @ApiModelProperty(required = true, value = "노출 여부")
     private String visible;
-
-    @ApiModelProperty(required = true, value = "등록자", hidden=true)
-    private Integer creator;
-
-    @ApiModelProperty(required = true, value = "수정자", hidden=true)
-    private Integer updater;
 }

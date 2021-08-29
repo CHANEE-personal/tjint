@@ -2,6 +2,7 @@ package com.tjint.springboot.app.api.admin.news.service.impl;
 
 import com.tjint.springboot.app.api.admin.news.service.AdminNewsApiService;
 import com.tjint.springboot.app.api.admin.news.service.NewNewsDTO;
+import com.tjint.springboot.app.api.common.SearchCommon;
 import com.tjint.springboot.common.imageFile.AttachFileDTO;
 import com.tjint.springboot.common.imageFile.NewImageDTO;
 import com.tjint.springboot.common.imageFile.service.ImageService;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -20,6 +22,7 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 
 	private final AdminNewsApiMapper adminNewsApiMapper;
 	private final ImageService imageService;
+	private final SearchCommon searchCommon;
 
 	/**
 	 * <pre>
@@ -71,20 +74,21 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 	public String addNews(NewNewsDTO newNewsDTO,
 						  NewImageDTO newImageDTO,
 						  AttachFileDTO attachFileDTO,
-						  MultipartFile[] files) throws Exception {
+						  MultipartFile[] files, HttpServletRequest request) throws Exception {
 
 		String resultMsg = "";
 
-		newNewsDTO.setCreator(1);
-		newNewsDTO.setUpdater(1);
-		newImageDTO.setSortOrder(1);
+		// JWT token 값 존재 시 유저 인증 값 부여
+		searchCommon.giveAuth(request, newNewsDTO);
 
-		String menuNm = "news";
+		newImageDTO.setSortOrder(1);
+		newImageDTO.setBoardTypeCd("brdt001");
+
 		String flag = "A";
 		if (adminNewsApiMapper.addNews(newNewsDTO) > 0) {
 			newImageDTO.setBoardSeq(newNewsDTO.getNewsSeq());
 			// 이미지 파일 등록
-			if (StringUtil.getInt(imageService.addImageFile(newImageDTO, files, flag, menuNm),0) > 0) {
+			if (StringUtil.getInt(imageService.addImageFile(request, newImageDTO, files, flag),0) > 0) {
 				resultMsg = "Y";
 			} else {
 				resultMsg = "N";      // 이미지 파일 정보 insert 실패
@@ -130,22 +134,28 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 	 */
 	public String updateNews(NewNewsDTO newNewsDTO,
 							 NewImageDTO newImageDTO,
-							 MultipartFile[] files) throws Exception {
+							 MultipartFile[] files,
+							 HttpServletRequest request) throws Exception {
 		String resultMsg = "";
 
-		newNewsDTO.setCreator(1);
-		newNewsDTO.setUpdater(1);
-		newImageDTO.setSortOrder(1);
+		// JWT token 값 존재 시 유저 인증 값 부여
+		searchCommon.giveAuth(request, newNewsDTO);
 
-		String menuNm = "news";
+		newImageDTO.setSortOrder(1);
+		newImageDTO.setBoardTypeCd("brdt001");
+
 		String flag = "U";
 		if (adminNewsApiMapper.updateNews(newNewsDTO) > 0) {
 			newImageDTO.setBoardSeq(newNewsDTO.getNewsSeq());
-			// 이미지 파일 등록
-			if (StringUtil.getInt(imageService.addImageFile(newImageDTO, files, flag, menuNm),0) > 0) {
-				resultMsg = "Y";
+			if(files != null) {
+				// 이미지 파일 등록
+				if (StringUtil.getInt(imageService.addImageFile(request, newImageDTO, files, flag),0) > 0) {
+					resultMsg = "Y";
+				} else {
+					resultMsg = "N";      // 이미지 파일 정보 insert 실패
+				}
 			} else {
-				resultMsg = "N";      // 이미지 파일 정보 insert 실패
+				resultMsg = "Y";
 			}
 		} else {
 			resultMsg = "N";            // 브랜드 등록 실패

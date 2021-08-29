@@ -101,6 +101,7 @@ public interface AdminCategoryApiMapper {
 	 * @return
 	 * @throws Exception
 	 */
+	@Transactional
 	Integer addSns(NewCodeDTO newCodeDTO) throws Exception;
 
 	/**
@@ -116,5 +117,6 @@ public interface AdminCategoryApiMapper {
 	 * @return
 	 * @throws Exception
 	 */
+	@Transactional
 	Integer updateSns(NewCodeDTO newCodeDTO) throws Exception;
 }

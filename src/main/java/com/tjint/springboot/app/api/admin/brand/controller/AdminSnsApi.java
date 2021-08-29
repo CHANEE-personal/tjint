@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.rmi.ServerError;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@RequestMapping(value = "/api/sns/")
+@RequestMapping(value = "/api/sns")
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "SNS관리관련 API")
@@ -70,10 +71,12 @@ public class AdminSnsApi {
 	})
 	@PostMapping
 	public String addSns(@RequestBody NewCodeDTO newCodeDTO,
-						 @RequestParam(value = "fileName") MultipartFile files) throws Exception {
+						 @RequestParam(value = "fileName") MultipartFile files, HttpServletRequest request) throws Exception {
 		String result = "";
 
-		if(this.adminCategoryApiService.addSns(newCodeDTO, files) > 0) {
+		searchcommon.giveAuth(request, newCodeDTO);
+
+		if(this.adminCategoryApiService.addSns(newCodeDTO, files, request) > 0) {
 			result = "Y";
 		} else {
 			result = "N";
@@ -82,7 +85,7 @@ public class AdminSnsApi {
 		return result;
 	}
 
-	@ApiOperation(value = "SNS 등록", notes = "SNS를 등록한다.")
+	@ApiOperation(value = "SNS 수정", notes = "SNS를 수정한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "브랜드 조회성공", response = Map.class),
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
@@ -90,10 +93,12 @@ public class AdminSnsApi {
 	})
 	@PostMapping("update-sns")
 	public String updateSns(@RequestBody NewCodeDTO newCodeDTO,
-							@RequestParam(value = "fileName") MultipartFile files) throws Exception {
+							@RequestParam(value = "fileName") MultipartFile files, HttpServletRequest request) throws Exception {
 		String result = "";
 
-		if(this.adminCategoryApiService.updateSns(newCodeDTO, files) > 0) {
+		searchcommon.giveAuth(request, newCodeDTO);
+
+		if(this.adminCategoryApiService.updateSns(newCodeDTO, files, request) > 0) {
 			result = "Y";
 		} else {
 			result = "N";

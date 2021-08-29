@@ -3,10 +3,12 @@ package com.tjint.springboot.common.imageFile.service.impl;
 import com.tjint.springboot.common.imageFile.AttachFileDTO;
 import com.tjint.springboot.common.imageFile.NewImageDTO;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 
 @Mapper
+@Repository
 @Transactional
 public interface ImageMapper {
 
@@ -23,7 +25,6 @@ public interface ImageMapper {
      * @return
      * @throws Exception
      */
-    @Transactional
     Integer addImageFile(NewImageDTO newImageDTO) throws Exception;
 
     /**
@@ -39,24 +40,7 @@ public interface ImageMapper {
      * @return
      * @throws Exception
      */
-    @Transactional
     Integer updateImageFile(NewImageDTO newImageDTO) throws Exception;
-
-    /**
-     * <pre>
-     * 1. MethodName : deleteImageFile
-     * 2. ClassName  : ImageMapper.java
-     * 3. Comment    : 이미지 파일 삭제
-     * 4. 작성자       : CHO
-     * 5. 작성일       : 2021. 06. 02.
-     * </pre>
-     *
-     * @param newImageDTO
-     * @return
-     * @throws Exception
-     */
-    @Transactional
-    Integer deleteImageFile(NewImageDTO newImageDTO) throws Exception;
 
     /**
      * <pre>
@@ -71,7 +55,6 @@ public interface ImageMapper {
      * @return
      * @throws Exception
      */
-    @Transactional
     Integer addAttachFile(AttachFileDTO attachFileDTO) throws Exception;
 
     /**
@@ -87,6 +70,5 @@ public interface ImageMapper {
      * @return
      * @throws Exception
      */
-    @Transactional
     Integer deleteAttachFile(AttachFileDTO attachFileDTO) throws Exception;
 }
