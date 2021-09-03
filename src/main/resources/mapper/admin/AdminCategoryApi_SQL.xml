@@ -39,9 +39,6 @@
 		a.property1) AS newFilePath
 		FROM app_code_test a
 		WHERE parent_cd = #{parentCd}
-		<if test='parentCd == "lnkt002" or visible == "Y"'>
-			AND visible = 'Y'
-		</if>
 		<if test="codeId != null and codeId != ''">
 			AND a.code_id = #{codeId}
 		</if>

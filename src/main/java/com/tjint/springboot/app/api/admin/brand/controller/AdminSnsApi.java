@@ -124,7 +124,7 @@ public class AdminSnsApi {
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
-	@PostMapping(value="update-sns", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	@PostMapping(value="update-sns/{codeId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
 	public String updateSns(NewCodeDTO newCodeDTO,
 							@RequestParam(value = "fileName") MultipartFile[] files, HttpServletRequest request) throws Exception {
 		String result = "";

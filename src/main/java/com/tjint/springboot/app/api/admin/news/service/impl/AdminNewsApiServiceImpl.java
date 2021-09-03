@@ -82,7 +82,7 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 		searchCommon.giveAuth(request, newNewsDTO);
 
 		newImageDTO.setSortOrder(1);
-		newImageDTO.setBoardTypeCd("brdt001");
+		newImageDTO.setBoardTypeCd("brdt002");
 
 		String flag = "A";
 		if (adminNewsApiMapper.addNews(newNewsDTO) > 0) {
@@ -142,7 +142,7 @@ public class AdminNewsApiServiceImpl implements AdminNewsApiService {
 		searchCommon.giveAuth(request, newNewsDTO);
 
 		newImageDTO.setSortOrder(1);
-		newImageDTO.setBoardTypeCd("brdt001");
+		newImageDTO.setBoardTypeCd("brdt002");
 
 		String flag = "U";
 		if (adminNewsApiMapper.updateNews(newNewsDTO) > 0) {

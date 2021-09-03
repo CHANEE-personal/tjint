@@ -122,13 +122,13 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
         searchCommon.giveAuth(request, newBrandDTO);
 
         newImageDTO.setSortOrder(1);
-        newImageDTO.setBoardTypeCd("brdt002");
+        newImageDTO.setBoardTypeCd("brdt001");
 
         Integer codeId = StringUtil.getInt(newBrandDTO.getMenuCategoryCd(),0)+1;
         String codeNm = "mu00"+codeId;
         newCodeDTO.setCodeId(codeNm);
-
-        newBrandDTO.setMenuCategoryNm(StringUtil.getString(this.adminCategoryApiMapper.getCategoryInfo(newCodeDTO).get("code_name"),""));
+        newCodeDTO.setParentCd("mu000");
+        newBrandDTO.setMenuCategoryNm(StringUtil.getString(this.adminCategoryApiMapper.getCategoryInfo(newCodeDTO).get("codeName"),""));
 
         String flag = "A";
         if (adminBrandApiMapper.addBrand(newBrandDTO) > 0) {
@@ -178,13 +178,14 @@ public class AdminBrandApiServiceImpl implements AdminBrandApiService {
         searchCommon.giveAuth(request, newBrandDTO);
 
         newImageDTO.setSortOrder(1);
-        newImageDTO.setBoardTypeCd("brdt002");
+        newImageDTO.setBoardTypeCd("brdt001");
 
         Integer codeId = StringUtil.getInt(newBrandDTO.getMenuCategoryCd(),0)+1;
         String codeNm = "mu00"+codeId;
         newCodeDTO.setCodeId(codeNm);
+        newCodeDTO.setParentCd("mu000");
 
-        newBrandDTO.setMenuCategoryNm(StringUtil.getString(this.adminCategoryApiMapper.getCategoryInfo(newCodeDTO).get("code_name"),""));
+        newBrandDTO.setMenuCategoryNm(StringUtil.getString(this.adminCategoryApiMapper.getCategoryInfo(newCodeDTO).get("codeName"),""));
 
         String flag = "U";
         if (adminBrandApiMapper.updateBrand(newBrandDTO) > 0) {
