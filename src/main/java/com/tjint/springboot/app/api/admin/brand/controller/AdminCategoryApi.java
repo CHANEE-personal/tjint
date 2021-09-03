@@ -104,6 +104,7 @@ public class AdminCategoryApi {
 
 		NewCodeDTO newCodeDTO = new NewCodeDTO();
 		newCodeDTO.setCodeId(codeId);
+		newCodeDTO.setParentCd("ct000");
 
 		ConcurrentHashMap categoryMap = this.adminCategoryApiService.getCategoryInfo(newCodeDTO);
 

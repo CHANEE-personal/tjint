@@ -49,7 +49,7 @@
 		AND d.board_type_cd = 'brdt001'
 		AND d.link_type_cd = 'lnkt001'
 		<where>
-			a.visible = 'Y'
+			a.visible != 'D'
 			<if test="brandSeq != null and brandSeq != ''">AND a.brand_seq = #{brandSeq}</if>
 			<if test="menuCd != null and menuCd != ''">
 				AND a.menu_category_cd = #{menuCd}
@@ -67,7 +67,7 @@
 		SELECT *
 		FROM app_url_link_info
 		WHERE board_seq = #{brandIdx}
-		  AND visible = 'Y'
+		  AND visible != 'D'
 		  AND link_type_cd IN ('lnkt001', 'lnkt003', 'lnkt004', 'lnkt005', 'lnkt006')
 		ORDER BY sort_order ASC
 	</select>
@@ -90,7 +90,7 @@
 			 J_ATTACHFILE ja
 		WHERE image_file_id = FILE_ID
 		  AND board_seq = #{brandIdx}
-		  AND visible = 'Y'
+		  AND visible != 'D'
 		ORDER BY sort_order ASC
 	</select>
 

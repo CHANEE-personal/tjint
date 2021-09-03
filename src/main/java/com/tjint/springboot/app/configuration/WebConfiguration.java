@@ -38,7 +38,6 @@ public class WebConfiguration implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://202.8.178.111:8080")
-                .allowedOrigins("http://localhost:8080")
                 .allowedMethods("GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS")
                 .allowedHeaders("*")
                 .maxAge(3600);
@@ -48,7 +47,11 @@ public class WebConfiguration implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginCheckInterceptor)
                 .order(1)
-                .excludePathPatterns("/api/auth/admin-login")
+                .excludePathPatterns("/api/auth/admin-login",
+                                     "/api/business/**",
+                                     "/api/front-news/**",
+                                     "/api/contact/**",
+                                     "/api/about/**")
                 .excludePathPatterns(
                         "/v2/api-docs",
                         "/swagger-resources/**",

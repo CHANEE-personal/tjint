@@ -19,14 +19,14 @@
 		file_mask,
 		file_path
 		FROM
-		app_board_news_test A
+		app_board_news A
 		left OUTER join
-		(select * from app_image_file_info_test where board_type_cd = 'brdt002' AND visible = 'Y') B
+		(select * from app_image_file_info where board_type_cd = 'brdt002' AND visible != 'D') B
 		ON A.news_seq = B.board_seq
 		left outer join
 		J_ATTACHFILE_TEST C
 		on B.image_file_id = C.file_id
-		WHERE A.visible = 'Y'
+		WHERE A.visible != 'D'
 		<choose>
 			<when test="searchCondition == 0">
 				<![CDATA[ AND news_title LIKE CONCAT ('%', #{searchKeyword},'%')         ]]>
@@ -52,9 +52,9 @@
 			   B.image_file_id as imageFileId,
 			   C.FILE_NAME     as fileName,
 			   C.FILE_PATH     as filePath
-		FROM app_board_news_test A
+		FROM app_board_news A
 				 left OUTER JOIN
-			 (select * from app_image_file_info_test where board_type_cd = 'brdt002' AND visible = 'Y') B
+			 (select * from app_image_file_info where board_type_cd = 'brdt002' AND visible != 'D') B
 			 ON A.news_seq = B.board_seq
 				 left outer join
 			 J_ATTACHFILE_TEST C
@@ -67,8 +67,8 @@
 		SELECT
 		COUNT(*) AS TOT
 		FROM
-		app_board_news_test
-		where visible = 'Y'
+		app_board_news
+		where visible != 'D'
 		<choose>
 			<when test="searchCondition == 0">
 				<![CDATA[ AND news_title LIKE CONCAT ('%', #{searchKeyword},'%')         ]]>
@@ -82,7 +82,7 @@
 	<select id="frontSnsLinkList" parameterType="Integer" resultType="newUrlLinkDto">
 		/*[FrontNewsApi_SQL.xml].[frontSnsLinkList] */
 		SELECT *
-		FROM app_url_link_info_test
+		FROM app_url_link_info
 		WHERE board_type_cd = 'brdt001'
 		  AND board_seq = #{newsSeq}
 	</select>
@@ -90,17 +90,17 @@
 	<select id="frontNewsPrevIdx" parameterType="Integer" resultType="Integer">
 		/*[FrontNewsApi_SQL.xml].[frontNewsPrevIdx] */
 		SELECT max(news_seq)
-		FROM app_board_news_test
+		FROM app_board_news
 		WHERE news_seq <![CDATA[<]]> #{newsSeq}
-		  AND visible = 'Y'
+		  AND visible != 'D'
 	</select>
 
 	<select id="frontNewsNextIdx" parameterType="Integer" resultType="Integer">
 		/*[FrontNewsApi_SQL.xml].[frontNewsNextIdx] */
 		SELECT min(news_seq)
-		FROM app_board_news_test
+		FROM app_board_news
 		WHERE news_seq <![CDATA[>]]> #{newsSeq}
-		  AND visible = 'Y'
+		  AND visible != 'D'
 	</select>
 
 </mapper>
