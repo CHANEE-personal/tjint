@@ -1,5 +1,7 @@
 package com.tjint.springboot.common.imageFile.service.impl;
 
+import com.tjint.springboot.app.api.admin.brand.service.NewCodeDTO;
+import com.tjint.springboot.app.api.admin.brand.service.impl.AdminCategoryApiMapper;
 import com.tjint.springboot.app.api.common.SearchCommon;
 import com.tjint.springboot.common.imageFile.AttachFileDTO;
 import com.tjint.springboot.common.imageFile.NewImageDTO;
@@ -14,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Locale;
 
 @Slf4j
@@ -30,6 +31,7 @@ public class ImageServiceImpl implements ImageService {
 
     private final ImageMapper imageMapper;
     private final SearchCommon searchCommon;
+    private final AdminCategoryApiMapper adminCategoryApiMapper;
 
     /**
      * <pre>
@@ -155,12 +157,7 @@ public class ImageServiceImpl implements ImageService {
      * @return
      * @throws Exception
      */
-    public String uploadImageFile(MultipartFile[] files, HttpServletRequest request) throws Exception {
-
-        // 현재 날짜 구하기
-        SimpleDateFormat sdf = new SimpleDateFormat("MMddHHmmss");
-        Calendar cl = Calendar.getInstance();
-        String strToday = sdf.format(cl.getTime());
+    public String uploadImageFile(NewCodeDTO newCodeDTO, MultipartFile[] files, HttpServletRequest request) throws Exception {
 
         // 파일 확장자
         String ext = "";
@@ -180,8 +177,9 @@ public class ImageServiceImpl implements ImageService {
             for (MultipartFile file : files) {
                 try {
                     ext = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")+1).toLowerCase();
-                    fileId = strToday;
-                    fileMask = strToday + '.' + ext;
+                    fileId = currentDate();
+                    newCodeDTO.setProperty1(fileId);
+                    fileMask = fileId + '.' + ext;
                     fileSize = file.getSize();
 
                     if(!new File(uploadPath).exists()) {
@@ -204,9 +202,11 @@ public class ImageServiceImpl implements ImageService {
                     attachFileDTO.setFilePath(uploadPath + fileMask);
                     attachFileDTO.setDownloadCnt(0);
                     attachFileDTO.setFilename(file.getOriginalFilename());
+                    attachFileDTO.setJBoardSeq(88);
 
                     // 이미지 정보 insert
                     imageMapper.addAttachFile(attachFileDTO);
+                    adminCategoryApiMapper.updateSns(newCodeDTO);
 
                 } catch (Exception e) {
                     throw new Exception();

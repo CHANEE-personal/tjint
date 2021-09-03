@@ -2,6 +2,8 @@ package com.tjint.springboot.app.api.admin.brand.service.impl;
 
 import com.tjint.springboot.app.api.admin.brand.service.AdminCategoryApiService;
 import com.tjint.springboot.app.api.admin.brand.service.NewCodeDTO;
+import com.tjint.springboot.common.imageFile.service.ImageService;
+import com.tjint.springboot.common.utils.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AdminCategoryApiServiceImpl implements AdminCategoryApiService {
 
 	private final AdminCategoryApiMapper adminCategoryApiMapper;
+	private final ImageService imageService;
 
 	/**
 	 * <pre>
@@ -138,11 +141,23 @@ public class AdminCategoryApiServiceImpl implements AdminCategoryApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Integer addSns(NewCodeDTO newCodeDTO, MultipartFile files, HttpServletRequest request) throws Exception {
+	public String addSns(NewCodeDTO newCodeDTO, MultipartFile[] files, HttpServletRequest request) throws Exception {
 		newCodeDTO.setParentCd("lnkt002");
+		newCodeDTO.setDescription(newCodeDTO.getCodeName());
 		newCodeDTO.setCodeValue(" ");
 
-		return this.adminCategoryApiMapper.addSns(newCodeDTO);
+		String result = "";
+		if(this.adminCategoryApiMapper.addSns(newCodeDTO) > 0) {
+			if ("Y".equals(StringUtil.getString(imageService.uploadImageFile(newCodeDTO, files, request),""))) {
+				result = "Y";
+			} else {
+				result = "N";
+			}
+		} else {
+			result = "N";
+		}
+
+		return result;
 	}
 
 	/**
@@ -159,10 +174,22 @@ public class AdminCategoryApiServiceImpl implements AdminCategoryApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Integer updateSns(NewCodeDTO newCodeDTO, MultipartFile files, HttpServletRequest request) throws Exception {
+	public String updateSns(NewCodeDTO newCodeDTO, MultipartFile[] files, HttpServletRequest request) throws Exception {
 		newCodeDTO.setParentCd("lnkt002");
 		newCodeDTO.setCodeValue(" ");
 
-		return this.adminCategoryApiMapper.updateSns(newCodeDTO);
+		String result = "";
+
+		if(this.adminCategoryApiMapper.updateSns(newCodeDTO) > 0) {
+			if ("Y".equals(StringUtil.getString(imageService.uploadImageFile(newCodeDTO, files, request),""))) {
+				result = "Y";
+			} else {
+				result = "N";
+			}
+		} else {
+			result = "N";
+		}
+
+		return result;
 	}
 }

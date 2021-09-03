@@ -1,5 +1,6 @@
 package com.tjint.springboot.common.imageFile.service;
 
+import com.tjint.springboot.app.api.admin.brand.service.NewCodeDTO;
 import com.tjint.springboot.common.imageFile.NewImageDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,5 +40,5 @@ public interface ImageService {
      * @return
      * @throws Exception
      */
-    String uploadImageFile(MultipartFile[] files, HttpServletRequest request) throws Exception;
+    String uploadImageFile(NewCodeDTO newCodeDTO, MultipartFile[] files, HttpServletRequest request) throws Exception;
 }

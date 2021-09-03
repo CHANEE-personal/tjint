@@ -99,7 +99,7 @@ public interface AdminCategoryApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	Integer addSns(NewCodeDTO newCodeDTO, MultipartFile files, HttpServletRequest request) throws Exception;
+	String addSns(NewCodeDTO newCodeDTO, MultipartFile[] files, HttpServletRequest request) throws Exception;
 
 	/**
 	 * <pre>
@@ -115,5 +115,5 @@ public interface AdminCategoryApiService {
 	 * @return
 	 * @throws Exception
 	 */
-	Integer updateSns(NewCodeDTO newCodeDTO, MultipartFile files, HttpServletRequest request) throws Exception;
+	String updateSns(NewCodeDTO newCodeDTO, MultipartFile[] files, HttpServletRequest request) throws Exception;
 }

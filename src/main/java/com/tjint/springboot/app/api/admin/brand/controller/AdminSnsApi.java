@@ -4,11 +4,13 @@ import com.tjint.springboot.app.api.admin.brand.service.AdminCategoryApiService;
 import com.tjint.springboot.app.api.admin.brand.service.NewCodeDTO;
 import com.tjint.springboot.app.api.common.SearchCommon;
 import com.tjint.springboot.common.paging.Page;
+import com.tjint.springboot.common.utils.StringUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.multipart.MultipartFile;
@@ -100,14 +102,14 @@ public class AdminSnsApi {
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
-	@PostMapping
-	public String addSns(@RequestBody NewCodeDTO newCodeDTO,
-						 @RequestParam(value = "fileName") MultipartFile files, HttpServletRequest request) throws Exception {
+	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public String addSns(NewCodeDTO newCodeDTO,
+						 @RequestParam(value = "fileName", required = false) MultipartFile[] files, HttpServletRequest request) throws Exception {
 		String result = "";
 
 		searchcommon.giveAuth(request, newCodeDTO);
 
-		if(this.adminCategoryApiService.addSns(newCodeDTO, files, request) > 0) {
+		if("Y".equals(StringUtil.getString(this.adminCategoryApiService.addSns(newCodeDTO, files, request),""))) {
 			result = "Y";
 		} else {
 			result = "N";
@@ -122,14 +124,14 @@ public class AdminSnsApi {
 			@ApiResponse(code = 403, message = "접근거부", response = HttpClientErrorException.class),
 			@ApiResponse(code = 500, message = "서버 에러", response = ServerError.class)
 	})
-	@PostMapping("update-sns")
-	public String updateSns(@RequestBody NewCodeDTO newCodeDTO,
-							@RequestParam(value = "fileName") MultipartFile files, HttpServletRequest request) throws Exception {
+	@PostMapping(value="update-sns", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+	public String updateSns(NewCodeDTO newCodeDTO,
+							@RequestParam(value = "fileName") MultipartFile[] files, HttpServletRequest request) throws Exception {
 		String result = "";
 
 		searchcommon.giveAuth(request, newCodeDTO);
 
-		if(this.adminCategoryApiService.updateSns(newCodeDTO, files, request) > 0) {
+		if("Y".equals(StringUtil.getString(this.adminCategoryApiService.updateSns(newCodeDTO, files, request),""))) {
 			result = "Y";
 		} else {
 			result = "N";
