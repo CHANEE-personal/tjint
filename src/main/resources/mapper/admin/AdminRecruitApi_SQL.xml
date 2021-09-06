@@ -28,7 +28,13 @@
 		rt.create_time,
 		rt.updater,
 		rt.update_time,
-		GROUP_CONCAT(it.link_address) AS link_address
+		CASE
+		GROUP_CONCAT(it.link_address ORDER BY sort_order)
+		WHEN 'http://www.saramin.co.kr' THEN '0'
+		WHEN 'http://www.incruit.com' THEN '1'
+		WHEN 'http://www.saramin.co.kr,http://www.incruit.com' THEN '2'
+		ELSE ''
+		END AS link_address
 		FROM app_board_recruit_test rt, app_url_link_info_test it
 		<where>
 			AND rt.recruit_seq = it.board_seq
